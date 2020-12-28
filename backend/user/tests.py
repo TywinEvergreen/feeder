@@ -24,7 +24,7 @@ class AuthorizedAPITestCase(APITestCase):
         self.user = User.objects.last()
 
     def create_artist(self, spotify_id='1'):
-        artist = Artist.objects.create(name='test_artist', spotify_id=spotify_id, genres=['rock'])
+        artist = Artist.objects.create(name='test_artist', spotify_id=spotify_id)
         return artist
 
     def create_album(self, artist=None, spotify_id='1'):
@@ -84,8 +84,8 @@ class UserTest(AuthorizedAPITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['email'], self.user.email)
 
-    def test_update_user(self):
-        artist = Artist.objects.create(name='test_artist', spotify_id='1', genres=['rock'])
+    def test_add_artist(self):
+        artist = self.create_artist()
 
         response = self.client.patch(reverse('user', args=[self.user.pk]), {
             'artist': artist.pk
@@ -96,3 +96,17 @@ class UserTest(AuthorizedAPITestCase):
             'artist': artist.pk
         })
         self.assertEqual(self.user.followed_artists.last(), None)
+
+    def test_add_channel(self):
+        channel = self.create_channel()
+
+        response = self.client.patch(reverse('user', args=[self.user.pk]), {
+            'channel': channel.pk
+        })
+        self.assertEqual(self.user.followed_channels.last(), channel)
+
+        response = self.client.patch(reverse('user', args=[self.user.pk]), {
+            'channel': channel.pk
+        })
+        self.assertEqual(self.user.followed_channels.last(), None)
+

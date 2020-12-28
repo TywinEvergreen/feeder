@@ -9,11 +9,6 @@ from notification.models import Notification
 class Artist(models.Model):
     name = models.CharField(max_length=256)
     spotify_id = models.CharField(max_length=256, unique=True)
-    genres = ArrayField(
-        models.CharField(max_length=256),
-        blank=True,
-        null=True
-    )
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'

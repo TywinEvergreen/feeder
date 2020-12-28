@@ -64,8 +64,6 @@ INSTALLED_APPS = [
     'spotify',
     'youtube',
     'notification',
-
-    'django_unused_media',
 ]
 
 MIDDLEWARE = [
