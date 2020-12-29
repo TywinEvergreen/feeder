@@ -3,6 +3,7 @@ import os
 
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.urls import reverse
 from datetime import datetime
 from io import BytesIO
 
@@ -25,6 +26,22 @@ class ArtistTest(AuthorizedAPITestCase):
         img_file = InMemoryUploadedFile(img_output, 'ImageField', f'{name}.jpg', 'image/jpeg',
                                         sys.getsizeof(img_output), 'utf-8')
         return img_file
+
+    def test_create_artist(self):
+        response = self.client.post(reverse('artist'), {
+            'spotify_id': '123',
+            'name': 'test'
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['spotify_id'], '123')
+        self.assertEqual(response.data['name'], 'test')
+
+        response = self.client.post(reverse('artist'), {
+            'spotify_id': '123'
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['spotify_id'], '123')
+        self.assertEqual(response.data['name'], 'test')
 
     def test_related_names(self):
         artist = self.create_artist()

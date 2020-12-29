@@ -88,12 +88,12 @@ class UserTest(AuthorizedAPITestCase):
         artist = self.create_artist()
 
         response = self.client.patch(reverse('user', args=[self.user.pk]), {
-            'artist': artist.pk
+            'artist': artist.spotify_id
         })
         self.assertEqual(self.user.followed_artists.last(), artist)
 
         response = self.client.patch(reverse('user', args=[self.user.pk]), {
-            'artist': artist.pk
+            'artist': artist.spotify_id
         })
         self.assertEqual(self.user.followed_artists.last(), None)
 
@@ -101,12 +101,12 @@ class UserTest(AuthorizedAPITestCase):
         channel = self.create_channel()
 
         response = self.client.patch(reverse('user', args=[self.user.pk]), {
-            'channel': channel.pk
+            'channel': channel.youtube_id
         })
         self.assertEqual(self.user.followed_channels.last(), channel)
 
         response = self.client.patch(reverse('user', args=[self.user.pk]), {
-            'channel': channel.pk
+            'channel': channel.youtube_id
         })
         self.assertEqual(self.user.followed_channels.last(), None)
 

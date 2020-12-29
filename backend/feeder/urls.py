@@ -12,5 +12,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
 
     path('user/', include('user.urls')),
+    path('spotify/', include('spotify.urls')),
     path('notifications/', include('notification.urls')),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

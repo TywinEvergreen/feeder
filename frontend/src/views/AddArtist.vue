@@ -11,9 +11,16 @@
             <ul>
                 <li
                     v-for="artist in artists"
-                    :key="artist.id"
+                    :key="artist"
                 >
-                    {{artist}}
+                    <h5>{{artist.name}}</h5>
+                    <span
+                        v-for="genre in artist.genres"
+                        :key="genre"
+                    >
+                        {{genre}}
+                    </span>
+                    <a @click="addArtist">+</a>
                 </li>
             </ul>
         </v-col>
@@ -64,6 +71,9 @@ export default {
                         this.artists = response.artists.items
                     })
             }
+        },
+        addArtist() {
+
         }
     }
 }

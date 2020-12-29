@@ -1,0 +1,19 @@
+from rest_framework import serializers
+
+from spotify.models import Artist
+
+
+class ArtistSerializer(serializers.ModelSerializer):
+    """
+    Сериализует исполнителей
+    """
+    spotify_id = serializers.CharField()
+    name = serializers.CharField(required=False)
+
+    class Meta:
+        model = Artist
+        fields = '__all__'
+
+    def create(self, validated_data):
+        artist, _ = Artist.objects.get_or_create(**validated_data)
+        return artist
