@@ -1,6 +1,5 @@
 from rest_framework.generics import CreateAPIView
 
-from .models import Artist
 from .serializers import ArtistSerializer
 
 

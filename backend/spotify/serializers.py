@@ -15,5 +15,10 @@ class ArtistSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        artist, _ = Artist.objects.get_or_create(**validated_data)
+        artist, _ = Artist.objects.get_or_create(
+            spotify_id=validated_data.get('spotify_id'),
+            defaults={
+                'name': validated_data.get('name')
+            }
+        )
         return artist

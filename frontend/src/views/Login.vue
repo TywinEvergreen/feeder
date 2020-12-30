@@ -64,7 +64,6 @@ export default {
     methods: {
         ...mapActions(['go', 'set_authorization_header', 'set_user']),
         login() {
-            console.log(this.form);
             axios('auth/token/login/', {
                 method: 'POST',
                 data: qs.stringify({

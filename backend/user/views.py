@@ -1,14 +1,14 @@
-from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import UpdateAPIView
 
 from .models import User
 from .serializers import UserSerializer
-from .permissions import IsCurrentUserOrReadOnly
 
 
-class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
+class UserUpdateAPIView(UpdateAPIView):
     """
     Получает одного пользователя или обновляет его
     """
-    queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsCurrentUserOrReadOnly]
+
+    def get_object(self):
+        return self.request.user

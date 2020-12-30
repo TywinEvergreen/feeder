@@ -3,24 +3,27 @@
         <v-col cols="12">
             <v-text-field
                 v-model="search_query"
-                @keydown.enter="searchArtist"
+                label="Поиск исполнителей"
+                @keydown.enter="searchArtists"
             ></v-text-field>
-            <v-btn @click="searchArtist">Поиск</v-btn>
+            <v-btn @click="searchArtists">Поиск</v-btn>
         </v-col>
         <v-col cols="12">
             <ul>
                 <li
                     v-for="artist in artists"
-                    :key="artist"
+                    :key="artist.id"
                 >
-                    <h5>{{artist.name}}</h5>
+                    <h5>
+                        {{artist.name}}
+                        <a @click="addArtist(artist)">+</a>
+                    </h5>
                     <span
                         v-for="genre in artist.genres"
-                        :key="genre"
+                        :key="genre.id"
                     >
                         {{genre}}
                     </span>
-                    <a @click="addArtist">+</a>
                 </li>
             </ul>
         </v-col>
@@ -28,6 +31,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 import axios from 'axios'
 import qs from 'qs'
 import SpotifyWebApi from 'spotify-web-api-js'
@@ -59,12 +63,10 @@ export default {
             .then(response => {
                 this.SPOTIFY_CLIENT.setAccessToken(response.data.access_token);
             })
-            .catch(() => {
-                alert('Не удалось аутентифицировать клиент Spotify')
-            })
     },
     methods: {
-        searchArtist() {
+        ...mapActions(['go', 'set_user']),
+        searchArtists() {
             if (this.search_query) {
                 this.SPOTIFY_CLIENT.searchArtists(this.search_query)
                     .then(response => {
@@ -72,8 +74,25 @@ export default {
                     })
             }
         },
-        addArtist() {
-
+        addArtist(artist) {
+            axios('spotify/artist/', {
+                method: 'POST',
+                data: qs.stringify({
+                    'spotify_id': artist.id,
+                    'name': artist.name
+                })
+            })
+                .then(response => {
+                    axios('user/', {
+                        method: 'PATCH',
+                        data: qs.stringify({
+                            'artist': response.data.spotify_id
+                        })
+                    })
+                        .then(() => {
+                            this.set_user();
+                        })
+                })
         }
     }
 }

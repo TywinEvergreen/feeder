@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import UserRetrieveUpdateAPIView
+from .views import UserUpdateAPIView
 
 
 urlpatterns = [
-    path('<pk>', UserRetrieveUpdateAPIView.as_view(), name='user')
+    path('', UserUpdateAPIView.as_view(), name='user')
 ]

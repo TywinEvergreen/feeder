@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
+from spotify.serializers import ArtistSerializer
 from spotify.models import Artist
+from youtube.serializers import ChannelSerializer
 from youtube.models import Channel
 from .models import User
 
@@ -9,6 +11,9 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Сериализует пользователей
     """
+    followed_artists = ArtistSerializer(many=True)
+    followed_channels = ChannelSerializer(many=True)
+
     artist = serializers.CharField(required=False)
     channel = serializers.CharField(required=False)
 

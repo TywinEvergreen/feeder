@@ -79,20 +79,15 @@ class DjoserTest(AuthorizedAPITestCase):
 
 class UserTest(AuthorizedAPITestCase):
 
-    def test_get_user(self):
-        response = self.client.get(reverse('user', args=[self.user.pk]))
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['email'], self.user.email)
-
     def test_add_artist(self):
         artist = self.create_artist()
 
-        response = self.client.patch(reverse('user', args=[self.user.pk]), {
+        response = self.client.patch(reverse('user'), {
             'artist': artist.spotify_id
         })
         self.assertEqual(self.user.followed_artists.last(), artist)
 
-        response = self.client.patch(reverse('user', args=[self.user.pk]), {
+        response = self.client.patch(reverse('user'), {
             'artist': artist.spotify_id
         })
         self.assertEqual(self.user.followed_artists.last(), None)
@@ -100,12 +95,12 @@ class UserTest(AuthorizedAPITestCase):
     def test_add_channel(self):
         channel = self.create_channel()
 
-        response = self.client.patch(reverse('user', args=[self.user.pk]), {
+        response = self.client.patch(reverse('user'), {
             'channel': channel.youtube_id
         })
         self.assertEqual(self.user.followed_channels.last(), channel)
 
-        response = self.client.patch(reverse('user', args=[self.user.pk]), {
+        response = self.client.patch(reverse('user'), {
             'channel': channel.youtube_id
         })
         self.assertEqual(self.user.followed_channels.last(), None)

@@ -5,22 +5,25 @@
         </v-col>
         <v-col cols="12">
             <v-col cols="6">
-                <h3>
+                <h2>
                     Исполнители
                     <a @click="go('AddArtist')">+</a>
-                </h3>
+                </h2>
                 <span
                     v-for="artist in user.user.followed_artists"
                     :key="artist.id"
                 >
-                    {{artist}}
+                    <h5>
+                        {{artist.name}}
+                        <a @click="removeArtist(artist)">x</a>
+                    </h5>
                 </span>
             </v-col>
             <v-col cols="6">
-                <h3>
+                <h2>
                     Youtube каналы
                     <a @click="go('AddChannel')">+</a>
-                </h3>
+                </h2>
                 <span
                     v-for="channel in user.user.followed_channels"
                     :key="channel.id"
@@ -34,6 +37,8 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import axios from 'axios'
+import qs from 'qs'
 
 export default {
     name: "Profile",
@@ -41,7 +46,18 @@ export default {
         ...mapState(['user'])
     },
     methods: {
-        ...mapActions(['go'])
+        ...mapActions(['go', 'set_user']),
+        removeArtist(artist) {
+            axios('user/', {
+                method: 'PATCH',
+                data: qs.stringify({
+                    'artist': artist.spotify_id
+                })
+            })
+                .then(() => {
+                    this.set_user()
+                })
+        }
     }
 }
 </script>

@@ -13,5 +13,6 @@ urlpatterns = [
 
     path('user/', include('user.urls')),
     path('spotify/', include('spotify.urls')),
+    path('youtube/', include('youtube.urls')),
     path('notifications/', include('notification.urls')),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
