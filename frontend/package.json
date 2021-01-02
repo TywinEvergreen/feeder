@@ -17,7 +17,8 @@
     "vue-router": "^3.2.0",
     "vuetify": "^2.2.11",
     "vuex": "^3.6.0",
-    "youtube-sr": "^2.0.5"
+    "youtube-sr": "^2.0.5",
+    "ytsearcher": "^1.2.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -9,36 +9,35 @@
                     Исполнители
                     <a @click="go('AddArtist')">+</a>
                 </h2>
-                <span
+                <h5
                     v-for="artist in user.user.followed_artists"
                     :key="artist.id"
                 >
-                    <h5>
-                        {{artist.name}}
-                        <a @click="removeArtist(artist)">x</a>
-                    </h5>
-                </span>
+                    {{ artist.name }}
+                    <a @click="updateUser('artist', artist.spotify_id)">x</a>
+                </h5>
             </v-col>
             <v-col cols="6">
                 <h2>
                     Youtube каналы
                     <a @click="go('AddChannel')">+</a>
                 </h2>
-                <span
+                <h5
                     v-for="channel in user.user.followed_channels"
                     :key="channel.id"
                 >
-                    {{channel}}
-                </span>
+                    {{ channel.name }}
+                    <a @click="updateUser('channel', channel.youtube_id)">x</a>
+                </h5>
             </v-col>
         </v-col>
     </v-row>
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
 import axios from 'axios'
 import qs from 'qs'
+import {mapState, mapActions} from 'vuex'
 
 export default {
     name: "Profile",
@@ -47,11 +46,11 @@ export default {
     },
     methods: {
         ...mapActions(['go', 'set_user']),
-        removeArtist(artist) {
+        updateUser(key, value) {
             axios('user/', {
                 method: 'PATCH',
                 data: qs.stringify({
-                    'artist': artist.spotify_id
+                    [key]: value,
                 })
             })
                 .then(() => {

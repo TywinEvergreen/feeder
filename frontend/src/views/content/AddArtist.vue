@@ -15,14 +15,14 @@
                     :key="artist.id"
                 >
                     <h5>
-                        {{artist.name}}
+                        {{ artist.name }}
                         <a @click="addArtist(artist)">+</a>
                     </h5>
                     <span
                         v-for="genre in artist.genres"
                         :key="genre.id"
                     >
-                        {{genre}}
+                        {{ genre }}
                     </span>
                 </li>
             </ul>
@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
 import axios from 'axios'
 import qs from 'qs'
 import SpotifyWebApi from 'spotify-web-api-js'
+import {mapActions} from 'vuex'
 
 export default {
     name: "AddArtist",
@@ -47,25 +47,28 @@ export default {
         }
     },
     beforeCreate() {
-        let base64_token = btoa(
-            `${process.env.VUE_APP_SPOTIFY_CLIENT_ID}:${process.env.VUE_APP_SPOTIFY_CLIENT_SECRET}`
-        );
-
-        axios('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Basic ${base64_token}`
-            },
-            data: qs.stringify({
-                'grant_type': 'client_credentials'
-            })
-        })
-            .then(response => {
-                this.SPOTIFY_CLIENT.setAccessToken(response.data.access_token);
-            })
+        this.authorizeSpotify()
     },
     methods: {
         ...mapActions(['go', 'set_user']),
+        authorizeSpotify() {
+            let base64_token = btoa(
+                `${process.env.VUE_APP_SPOTIFY_CLIENT_ID}:${process.env.VUE_APP_SPOTIFY_CLIENT_SECRET}`
+            );
+
+            axios('https://accounts.spotify.com/api/token', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Basic ${base64_token}`
+                },
+                data: qs.stringify({
+                    'grant_type': 'client_credentials'
+                })
+            })
+                .then(response => {
+                    this.SPOTIFY_CLIENT.setAccessToken(response.data.access_token);
+                })
+        },
         searchArtists() {
             if (this.search_query) {
                 this.SPOTIFY_CLIENT.searchArtists(this.search_query)

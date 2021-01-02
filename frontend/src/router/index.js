@@ -8,32 +8,32 @@ const routes = [
     {
         path: '/',
         name: 'Feed',
-        component: () => import('../views/Feed.vue')
+        component: () => import('../views/user/Feed.vue')
     },
     {
         path: '/login',
         name: 'Login',
-        component: () => import('../views/Login.vue')
+        component: () => import('../views/user/authentication/Login.vue')
     },
     {
         path: '/register',
         name: 'Register',
-        component: () => import('../views/Register.vue')
+        component: () => import('../views/user/authentication/Register.vue')
     },
     {
         path: '/profile',
         name: 'Profile',
-        component: () => import('../views/Profile.vue')
+        component: () => import('../views/user/Profile.vue')
     },
     {
         path: '/add-artist',
         name: 'AddArtist',
-        component: () => import('../views/AddArtist.vue')
+        component: () => import('../views/content/AddArtist.vue')
     },
     {
         path: '/add-channel',
         name: 'AddChannel',
-        component: () => import('../views/AddChannel.vue')
+        component: () => import('../views/content/AddChannel.vue')
     },
 ]
 

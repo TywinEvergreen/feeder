@@ -20,10 +20,10 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'get-new-albums': {
         'task': 'spotify.tasks.get_new_albums',
-        'schedule': timezone.timedelta(days=1)
+        'schedule': timezone.timedelta(seconds=30) # Поставить 12 часов
     },
     'get-new-videos': {
         'task': 'youtube.tasks.get_new_videos',
-        'schedule': timezone.timedelta(seconds=10)
+        'schedule': timezone.timedelta(seconds=30) # Поставить 1 час
     }
 }

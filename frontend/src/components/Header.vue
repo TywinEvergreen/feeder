@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex"
 import Cookies from "js-cookie"
+import {mapActions, mapState} from "vuex"
 
 export default {
     name: "Header",
