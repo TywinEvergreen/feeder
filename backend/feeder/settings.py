@@ -159,6 +159,7 @@ DJOSER = {
 
 REST_FRAMEWORK = {
     'DATE_FORMAT': "%Y-%m-%d",
+    'DATETIME_FORMAT': "%Y-%m-%d %H:%M",
     'PAGE_SIZE': 9,
     'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
     'DEFAULT_PAGINATION_CLASS':

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from spotify.models import Artist
+from spotify.models import Artist, Album
 
 
 class ArtistSerializer(serializers.ModelSerializer):
@@ -22,3 +22,11 @@ class ArtistSerializer(serializers.ModelSerializer):
             }
         )
         return artist
+
+class AlbumSerializer(serializers.ModelSerializer):
+    artist = ArtistSerializer()
+
+    class Meta:
+        model = Album
+        fields = '__all__'
+

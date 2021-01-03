@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from youtube.models import Channel
+from youtube.models import Channel, Video
 
 
 class ChannelSerializer(serializers.ModelSerializer):
@@ -22,3 +22,12 @@ class ChannelSerializer(serializers.ModelSerializer):
             }
         )
         return channel
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    channel = ChannelSerializer()
+
+    class Meta:
+        model = Video
+        fields = '__all__'
+
