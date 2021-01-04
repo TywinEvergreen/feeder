@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'user',
     'spotify',
     'youtube',
+    'subscription',
     'notification',
 ]
 

@@ -1,4 +1,5 @@
 backend/.env
+backend/media
 .todo
 .idea
 

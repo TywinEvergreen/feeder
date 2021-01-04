@@ -3,12 +3,15 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.contenttypes.fields import GenericRelation
 
 from feeder.settings import UPLOAD_DIRECTORIES
+from subscription.models import Subscription
 from notification.models import Notification
 
 
 class Artist(models.Model):
     name = models.CharField(max_length=256)
     spotify_id = models.CharField(max_length=256, unique=True)
+
+    subscription = GenericRelation(Subscription, related_query_name='artist')
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'

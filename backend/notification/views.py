@@ -18,7 +18,8 @@ class NotificationListAPIView(ListAPIView):
         notifs_of_videos = queryset.filter(video__count__gte=1)
 
         notifs_of_albums_to_user = notifs_of_albums.filter(
-            album__artist__following_users=user
+            album__artist__following_users=user,
+            album__release_date__gt=user.subscriptions.get(author_object=album__artist).datetime_committed
         )
         notifs_of_videos_to_user = notifs_of_videos.filter(
             video__channel__following_users=user

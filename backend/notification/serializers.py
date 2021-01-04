@@ -22,7 +22,7 @@ class NotificationContentObjectSerializer(serializers.Field):
 
 class NotificationSerializer(serializers.ModelSerializer):
     """
-    Сериализует получение рекламы
+    Сериализует оповещения
     """
     content_type = serializers.SerializerMethodField('get_content_type_model')
     content_object = NotificationContentObjectSerializer()
