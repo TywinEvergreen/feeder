@@ -36,8 +36,6 @@ class User(AbstractUser):
     first_name = None
     last_name = None
     email = models.EmailField(unique=True)
-    followed_artists = models.ManyToManyField(Artist, related_name='following_users')
-    followed_channels = models.ManyToManyField(Channel, related_name='following_users')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
