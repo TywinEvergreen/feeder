@@ -6,7 +6,7 @@ from .serializers import SubscriptionSerializer
 
 class SubscriptionListCreateAPIView(ListCreateAPIView):
     """
-    Получает подписки пользователя или создает оную
+    Получает подписки пользователя или создает подписку
     """
     serializer_class = SubscriptionSerializer
 

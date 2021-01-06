@@ -43,12 +43,6 @@ class ArtistTest(AuthorizedAPITestCase):
         self.assertEqual(response.data['spotify_id'], '123')
         self.assertEqual(response.data['name'], 'test')
 
-    def test_related_names(self):
-        artist = self.create_artist()
-
-        self.user.followed_artists.add(artist)
-        self.assertEqual(artist.following_users.last(), self.user)
-
     def test_delete_related_files(self):
         album = self.create_album()
 

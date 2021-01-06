@@ -1,5 +1,6 @@
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.contenttypes.models import ContentType
 
 from rest_framework.test import APITestCase
 from dateutil.parser import parse
@@ -8,6 +9,7 @@ from feeder.settings import TEST_USER_PASSWORD
 from feeder.utils import delete_related_files
 from spotify.models import Artist, Album
 from youtube.models import Channel, Video
+from subscription.models import Subscription
 from .generators import generate_random_email
 from .models import User
 
@@ -45,6 +47,14 @@ class AuthorizedAPITestCase(APITestCase):
                                      channel=channel, release_date=timezone.now())
         return video
 
+    def create_subscription(self, author_type, author_id):
+        subscription = Subscription.objects.create(
+            author_type=ContentType.objects.get(model=author_type),
+            author_id=author_id,
+            subscriber=self.user
+        )
+        return subscription
+
     def create_api_user(self, email, password=TEST_USER_PASSWORD):
         response = self.client.post('/auth/users/', {
             'email': email,
@@ -75,33 +85,3 @@ class DjoserTest(AuthorizedAPITestCase):
         reg_response = self.create_api_user('e@gmail.com')
         response = self.authenticate(reg_response.data['email'], TEST_USER_PASSWORD)
         self.assertEqual(response.status_code, 200)
-
-
-class UserTest(AuthorizedAPITestCase):
-
-    def test_add_artist(self):
-        artist = self.create_artist()
-
-        response = self.client.patch(reverse('user'), {
-            'artist': artist.spotify_id
-        })
-        self.assertEqual(self.user.followed_artists.last(), artist)
-
-        response = self.client.patch(reverse('user'), {
-            'artist': artist.spotify_id
-        })
-        self.assertEqual(self.user.followed_artists.last(), None)
-
-    def test_add_channel(self):
-        channel = self.create_channel()
-
-        response = self.client.patch(reverse('user'), {
-            'channel': channel.youtube_id
-        })
-        self.assertEqual(self.user.followed_channels.last(), channel)
-
-        response = self.client.patch(reverse('user'), {
-            'channel': channel.youtube_id
-        })
-        self.assertEqual(self.user.followed_channels.last(), None)
-

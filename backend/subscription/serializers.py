@@ -2,9 +2,10 @@ from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import serializers
 
+from user.serializers import UserSerializer
 from spotify.serializers import ArtistSerializer
 from youtube.serializers import ChannelSerializer
-from user.serializers import UserSerializer
+from user.models import User
 from spotify.models import Artist
 from youtube.models import Channel
 from .models import Subscription
@@ -27,9 +28,9 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     """
     Сериализует подписки
     """
+
     author_type_str = serializers.CharField(required=False)
 
-    # author_type = serializers.CharField(source='content_type.model', required=False)
     author_type = serializers.SerializerMethodField('get_author_type_model')
     author_object = SubscriptionAuthorObjectSerializer(required=False)
     subscriber = UserSerializer(required=False)

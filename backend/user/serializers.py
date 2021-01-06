@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from subscription.serializers import SubscriptionSerializer
 from .models import User
 
 
@@ -8,7 +7,6 @@ class UserSerializer(serializers.ModelSerializer):
     """
     Сериализует пользователей
     """
-    subscriptions = SubscriptionSerializer(many=True)
 
     class Meta:
         model = User
