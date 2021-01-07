@@ -29,10 +29,10 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     Сериализует подписки
     """
 
-    author_type_str = serializers.CharField(required=False)
+    content_type_str = serializers.CharField(required=False)
 
-    author_type = serializers.SerializerMethodField('get_author_type_model')
-    author_object = SubscriptionAuthorObjectSerializer(required=False)
+    content_type = serializers.SerializerMethodField('get_author_type_model')
+    author = SubscriptionAuthorObjectSerializer(required=False)
     subscriber = UserSerializer(required=False)
 
     class Meta:
@@ -40,14 +40,14 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_author_type_model(self, obj):
-        return obj.author_type.model
+        return obj.content_type.model
 
     def create(self, validated_data):
         subscription, _ = Subscription.objects.get_or_create(
-            author_type=ContentType.objects.get(
-                model=validated_data['author_type_str']
+            content_type=ContentType.objects.get(
+                model=validated_data['content_type_str']
             ),
-            author_id=validated_data['author_id'],
+            object_id=validated_data['object_id'],
             subscriber=self.context.get('request').user
         )
         return subscription

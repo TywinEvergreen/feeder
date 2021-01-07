@@ -27,5 +27,4 @@ class NotificationTest(AuthorizedAPITestCase):
         )
 
         response = self.client.get(reverse('notifications'))
-        print(response.data)
         # self.assertEqual(response.data['count'], 1)

@@ -49,8 +49,8 @@ class AuthorizedAPITestCase(APITestCase):
 
     def create_subscription(self, author_type, author_id):
         subscription = Subscription.objects.create(
-            author_type=ContentType.objects.get(model=author_type),
-            author_id=author_id,
+            content_type=ContentType.objects.get(model=author_type),
+            object_id=author_id,
             subscriber=self.user
         )
         return subscription

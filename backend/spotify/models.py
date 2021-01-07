@@ -11,7 +11,7 @@ class Artist(models.Model):
     name = models.CharField(max_length=256)
     spotify_id = models.CharField(max_length=256, unique=True)
 
-    subscription = GenericRelation(Subscription, related_query_name='artist')
+    subscriptions = GenericRelation(Subscription, related_query_name='artist')
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'
@@ -29,7 +29,7 @@ class Album(models.Model):
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
     release_date = models.DateField()
 
-    notification = GenericRelation(Notification, related_query_name='album')
+    notifications = GenericRelation(Notification, related_query_name='album')
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'

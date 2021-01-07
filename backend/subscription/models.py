@@ -6,9 +6,9 @@ from feeder.settings import AUTH_USER_MODEL
 
 
 class Subscription(models.Model):
-    author_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    author_id = models.PositiveIntegerField()
-    author_object = GenericForeignKey('author_type', 'author_id')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    author = GenericForeignKey('content_type', 'object_id')
 
     subscriber = models.ForeignKey(AUTH_USER_MODEL, related_name='subscriptions',
                                    on_delete=models.CASCADE)

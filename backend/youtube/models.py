@@ -10,7 +10,7 @@ class Channel(models.Model):
     name = models.CharField(max_length=256)
     youtube_id = models.CharField(max_length=256, unique=True)
 
-    subscription = GenericRelation(Subscription, related_query_name='channel')
+    subscriptions = GenericRelation(Subscription, related_query_name='channel')
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'
@@ -23,7 +23,7 @@ class Video(models.Model):
     channel = models.OneToOneField(Channel, on_delete=models.CASCADE)
     release_date = models.DateTimeField()
 
-    notification = GenericRelation(Notification, related_query_name='video')
+    notifications = GenericRelation(Notification, related_query_name='video')
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'
