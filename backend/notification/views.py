@@ -3,6 +3,7 @@ from rest_framework.generics import ListAPIView
 
 from spotify.models import Artist
 from youtube.models import Channel
+from subscription.models import Subscription
 from .serializers import NotificationSerializer
 from .models import Notification
 
@@ -20,21 +21,26 @@ class NotificationListAPIView(ListAPIView):
         notifs_of_albums = queryset.filter(album__count__gte=1)
         notifs_of_videos = queryset.filter(video__count__gte=1)
 
-        subscribed_aritsts = Artist.objects.filter(subscriptions__subscriber=user)
-        subscribed_channels = Artist.objects.filter(subscriptions__subscriber=user)
-        print(subscribed_aritsts)
-        print(subscribed_channels)
-
+        # Вместо .get использован .filter().first(), чтобы не вызывалось исключение
         notifs_of_albums_to_user = notifs_of_albums.filter(
             album__artist__in=Artist.objects.filter(subscriptions__subscriber=user),
-            # album__release_date__gt=user.subscriptions.get(author_object=album__artist).datetime_committed
+            # Не стоит забывать, что здесь сравниваются DateField и
+            # DateTimeField, поэтому результаты могуть быть неточными
+            album__release_date__gte=user.subscriptions.filter(
+                artist__in=Artist.objects.filter(
+                    subscriptions__subscriber=user
+                )
+            ).first().datetime_committed
         )
-        print(notifs_of_albums_to_user)
         notifs_of_videos_to_user = notifs_of_videos.filter(
             video__channel__in=Channel.objects.filter(subscriptions__subscriber=user),
+            video__release_datetime__gt=user.subscriptions.filter(
+                channel__in=Channel.objects.filter(
+                    subscriptions__subscriber=user
+                )
+            ).first().datetime_committed
         )
-        print(notifs_of_videos_to_user)
 
-        all_notifs_to_user = notifs_of_albums_to_user | notifs_of_videos_to_user
+        all_notifs_to_user = notifs_of_albums_to_user.union(notifs_of_videos_to_user)
 
         return all_notifs_to_user.order_by('-creation_date_time')

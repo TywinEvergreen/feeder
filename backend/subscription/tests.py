@@ -19,7 +19,6 @@ class SubscriptionTest(AuthorizedAPITestCase):
             'content_type_str': 'artist',
             'object_id': artist.id
         })
-        print(response.data)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data['content_type'], 'artist')
         self.assertEqual(response.data['author']['id'], artist.id)

@@ -10,21 +10,31 @@ class NotificationTest(AuthorizedAPITestCase):
     def test_get_notification(self):
         artist = self.create_artist()
         channel = self.create_channel()
-        album = self.create_album(artist)
-        video = self.create_video(channel)
 
+        video = self.create_video(channel)
         Notification.objects.create(
-            content_type=ContentType.objects.get_for_model(album),
-            object_id=album.pk
+            content_type=ContentType.objects.get(model='video'),
+            object_id=video.pk
         )
 
         self.create_subscription('artist', artist.id)
         self.create_subscription('channel', channel.id)
 
+        album = self.create_album(artist)
         Notification.objects.create(
-            content_type=ContentType.objects.get_for_model(video),
-            object_id=video.pk
+            content_type=ContentType.objects.get(model='album'),
+            object_id=album.pk
         )
 
         response = self.client.get(reverse('notifications'))
-        # self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 1)
+
+        video2 = self.create_video(channel, '2')
+        Notification.objects.create(
+            content_type=ContentType.objects.get(model='video'),
+            object_id=video2.pk
+        )
+
+        response = self.client.get(reverse('notifications'))
+        self.assertEqual(response.data['count'], 1)
+

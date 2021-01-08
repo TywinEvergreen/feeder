@@ -41,12 +41,12 @@ class Youtube(AuthorizedAPITestCase):
         self.assertTrue(hasattr(channel, 'video'))
         self.assertTrue(channel.video.cover)
 
-        channel.video.release_date = pytz.utc.localize(parse('1/1/1500 00:00'))
+        channel.video.release_datetime = pytz.utc.localize(parse('1/1/1500 00:00'))
         channel.video.save()
 
         get_new_videos()
         channel.refresh_from_db()
-        self.assertNotEqual(channel.video.release_date,
+        self.assertNotEqual(channel.video.release_datetime,
                             pytz.utc.localize(parse('1/1/1500 00:00')))
 
 

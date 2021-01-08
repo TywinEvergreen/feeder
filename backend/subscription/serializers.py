@@ -45,9 +45,9 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         subscription, _ = Subscription.objects.get_or_create(
             content_type=ContentType.objects.get(
-                model=validated_data['content_type_str']
+                model=validated_data.get('content_type_str')
             ),
-            object_id=validated_data['object_id'],
+            object_id=validated_data.get('object_id'),
             subscriber=self.context.get('request').user
         )
         return subscription

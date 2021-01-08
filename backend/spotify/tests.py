@@ -9,6 +9,7 @@ from io import BytesIO
 
 from PIL import Image
 from dateutil.parser import parse
+import pytz
 
 from feeder.settings import SPOTIFY
 from feeder.utils import delete_related_files
@@ -75,9 +76,9 @@ class TestTasks(AuthorizedAPITestCase):
         self.assertTrue(hasattr(artist, 'album'))
         self.assertTrue(artist.album.cover)
 
-        artist.album.release_date = parse('1/1/1500')
+        artist.album.release_date = pytz.utc.localize(parse('1/1/1500'))
         artist.album.save()
 
         get_new_albums()
         artist.refresh_from_db()
-        self.assertNotEqual(artist.album.release_date, parse('1/1/1500'))
+        self.assertNotEqual(artist.album.release_date, pytz.utc.localize(parse('1/1/1500')))

@@ -26,7 +26,7 @@ def get_new_videos():
         ).execute()['items'][0]['snippet']
 
         if not hasattr(channel, 'video') or \
-           channel.video.release_date < parse(newest['publishedAt']):
+           channel.video.release_datetime < parse(newest['publishedAt']):
 
             if hasattr(channel, 'video'):
                 delete_related_files(channel.video)
@@ -36,7 +36,7 @@ def get_new_videos():
                 name=newest['title'],
                 youtube_id=newest['channelId'],
                 channel=channel,
-                release_date=parse(newest['publishedAt'])
+                release_datetime=parse(newest['publishedAt'])
             )
 
             cover_url = newest['thumbnails']['high']['url']

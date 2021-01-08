@@ -21,7 +21,7 @@ class Video(models.Model):
     youtube_id = models.CharField(max_length=256, unique=True)
     cover = models.ImageField(upload_to=UPLOAD_DIRECTORIES['VIDEO_COVERS'], blank=True, null=True)
     channel = models.OneToOneField(Channel, on_delete=models.CASCADE)
-    release_date = models.DateTimeField()
+    release_datetime = models.DateTimeField()
 
     notifications = GenericRelation(Notification, related_query_name='video')
 
@@ -29,4 +29,4 @@ class Video(models.Model):
         return f'{self.name}, #{self.pk}'
 
     class Meta:
-        ordering = ['-release_date']
+        ordering = ['-release_datetime']

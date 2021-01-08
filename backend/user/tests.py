@@ -33,7 +33,7 @@ class AuthorizedAPITestCase(APITestCase):
         assert not artist or type(artist) is Artist, 'Укажите подходящего исполнителя'
         artist = artist or self.create_artist()
         album = Album.objects.create(name='test_album', spotify_id=spotify_id,
-                                     artist=artist, release_date=parse('2010'))
+                                     artist=artist, release_date=timezone.now().date())
         return album
 
     def create_channel(self, youtube_id='1'):
@@ -44,7 +44,7 @@ class AuthorizedAPITestCase(APITestCase):
         assert not channel or type(channel) is Channel, 'Укажите подходящего ютубера'
         channel = channel or self.create_channel()
         video = Video.objects.create(name='test_video', youtube_id=youtube_id,
-                                     channel=channel, release_date=timezone.now())
+                                     channel=channel, release_datetime=timezone.now())
         return video
 
     def create_subscription(self, author_type, author_id):
