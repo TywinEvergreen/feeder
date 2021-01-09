@@ -46,7 +46,7 @@ export default {
             artists: []
         }
     },
-    beforeCreate() {
+    created() {
         this.authorizeSpotify()
     },
     methods: {

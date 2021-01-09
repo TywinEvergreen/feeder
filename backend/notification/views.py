@@ -22,24 +22,31 @@ class NotificationListAPIView(ListAPIView):
         notifs_of_videos = queryset.filter(video__count__gte=1)
 
         # Вместо .get использован .filter().first(), чтобы не вызывалось исключение
-        notifs_of_albums_to_user = notifs_of_albums.filter(
-            album__artist__in=Artist.objects.filter(subscriptions__subscriber=user),
-            # Не стоит забывать, что здесь сравниваются DateField и
-            # DateTimeField, поэтому результаты могуть быть неточными
-            album__release_date__gte=user.subscriptions.filter(
-                artist__in=Artist.objects.filter(
-                    subscriptions__subscriber=user
-                )
-            ).first().datetime_committed
-        )
-        notifs_of_videos_to_user = notifs_of_videos.filter(
-            video__channel__in=Channel.objects.filter(subscriptions__subscriber=user),
-            video__release_datetime__gt=user.subscriptions.filter(
-                channel__in=Channel.objects.filter(
-                    subscriptions__subscriber=user
-                )
-            ).first().datetime_committed
-        )
+        try:
+            notifs_of_albums_to_user = notifs_of_albums.filter(
+                album__artist__in=Artist.objects.filter(subscriptions__subscriber=user),
+                # Не стоит забывать, что здесь сравниваются DateField и
+                # DateTimeField, поэтому результаты могуть быть неточными
+                album__release_date__gte=user.subscriptions.filter(
+                    artist__in=Artist.objects.filter(
+                        subscriptions__subscriber=user
+                    )
+                ).first().datetime_committed
+            )
+        except AttributeError:
+            notifs_of_albums_to_user = notifs_of_albums.none()
+
+        try:
+            notifs_of_videos_to_user = notifs_of_videos.filter(
+                video__channel__in=Channel.objects.filter(subscriptions__subscriber=user),
+                video__release_datetime__gte=user.subscriptions.filter(
+                    channel__in=Channel.objects.filter(
+                        subscriptions__subscriber=user
+                    )
+                ).first().datetime_committed
+            )
+        except AttributeError:
+            notifs_of_videos_to_user = notifs_of_videos.none()
 
         all_notifs_to_user = notifs_of_albums_to_user.union(notifs_of_videos_to_user)
 

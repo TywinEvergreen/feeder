@@ -8,6 +8,9 @@ from .models import Notification
 class NotificationTest(AuthorizedAPITestCase):
 
     def test_get_notification(self):
+        response = self.client.get(reverse('notifications'))
+        self.assertEqual(response.data['count'], 0)
+
         artist = self.create_artist()
         channel = self.create_channel()
 
@@ -29,6 +32,7 @@ class NotificationTest(AuthorizedAPITestCase):
         response = self.client.get(reverse('notifications'))
         self.assertEqual(response.data['count'], 1)
 
+        video.delete()
         video2 = self.create_video(channel, '2')
         Notification.objects.create(
             content_type=ContentType.objects.get(model='video'),
@@ -36,5 +40,5 @@ class NotificationTest(AuthorizedAPITestCase):
         )
 
         response = self.client.get(reverse('notifications'))
-        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 2)
 

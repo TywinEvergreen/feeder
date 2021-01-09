@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Subscription
+
+
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('content_type', 'object_id',
+                    'author', 'datetime_committed')
+
+
+admin.site.register(Subscription, SubscriptionAdmin)
