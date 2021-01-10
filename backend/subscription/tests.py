@@ -44,3 +44,11 @@ class SubscriptionTest(AuthorizedAPITestCase):
         self.assertEqual(response.data['results'][1]['content_type'], 'artist')
         self.assertEqual(response.data['results'][1]['id'], subscription1.id)
 
+    def test_delete_subscription(self):
+        artist = self.create_artist()
+        subscription = self.create_subscription('artist', artist.id)
+
+        response = self.client.delete(reverse('subscription', args=[subscription.pk]))
+        self.assertEqual(response.status_code, 204)
+
+

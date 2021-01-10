@@ -1,5 +1,6 @@
 <template>
     <v-container>
+        {{notifications}}
 <!--        <span-->
 <!--            v-for="notif in notifications"-->
 <!--            :key="notif.id"-->

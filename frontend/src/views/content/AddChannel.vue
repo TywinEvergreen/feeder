@@ -15,10 +15,10 @@
                     :key="channel.id"
                 >
                     <h5>
-                        {{channel.title}}
+                        {{ channel.title }}
                         <a @click="addChannel(channel)">+</a><br>
                     </h5>
-                    <span>{{channel.description}}</span>
+                    <span>{{ channel.description }}</span>
                 </li>
             </ul>
         </v-col>
@@ -60,10 +60,11 @@ export default {
                 })
             })
                 .then(response => {
-                    axios('user/', {
-                        method: 'PATCH',
+                    axios('subscriptions/', {
+                        method: 'POST',
                         data: qs.stringify({
-                            'channel': response.data.youtube_id
+                            'content_type_str': 'channel',
+                            'object_id': response.data.id
                         })
                     })
                         .then(() => {

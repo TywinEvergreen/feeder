@@ -12,6 +12,9 @@ from .models import Subscription
 
 
 class SubscriptionAuthorObjectSerializer(serializers.Field):
+    """
+    Сериализует возможных авторов
+    """
 
     def to_representation(self, value):
         if isinstance(value, Artist):

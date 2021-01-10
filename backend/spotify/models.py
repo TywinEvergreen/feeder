@@ -26,6 +26,8 @@ class Album(models.Model):
     spotify_id = models.CharField(max_length=256, unique=True)
     cover = models.ImageField(upload_to=UPLOAD_DIRECTORIES['ALBUM_COVERS'], blank=True, null=True)
     type = models.CharField(choices=album_types, max_length=6)
+    # Обратите внимание, что с исполнителем может быть
+    # связан только один альбом, т.е. самый новый
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
     release_date = models.DateField()
 

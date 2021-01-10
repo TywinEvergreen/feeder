@@ -86,10 +86,11 @@ export default {
                 })
             })
                 .then(response => {
-                    axios('user/', {
-                        method: 'PATCH',
+                    axios('subscriptions/', {
+                        method: 'POST',
                         data: qs.stringify({
-                            'artist': response.data.spotify_id
+                            'content_type_str': 'artist',
+                            'object_id': response.data.id
                         })
                     })
                         .then(() => {

@@ -1,7 +1,8 @@
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, DestroyAPIView
 
-from .models import Subscription
+from .permissions import OnlyCurrentUserSubscriptions
 from .serializers import SubscriptionSerializer
+from .models import Subscription
 
 
 class SubscriptionListCreateAPIView(ListCreateAPIView):
@@ -11,7 +12,15 @@ class SubscriptionListCreateAPIView(ListCreateAPIView):
     serializer_class = SubscriptionSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        queryset = Subscription.objects.filter(subscriber=user)
-        return queryset
+        return self.request.user.subscriptions.all()
+
+
+class SubscriptionDestroyAPIView(DestroyAPIView):
+    """
+    Удаляет подписки пользователя
+    """
+    serializer_class = SubscriptionSerializer
+
+    def get_queryset(self):
+        return self.request.user.subscriptions.all()
 
