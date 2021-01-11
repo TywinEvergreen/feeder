@@ -8,17 +8,16 @@ from .models import Notification
 class NotificationTest(AuthorizedAPITestCase):
 
     def test_get_notification(self):
-        response = self.client.get(reverse('notifications'))
-        self.assertEqual(response.data['count'], 0)
-
         artist = self.create_artist()
         channel = self.create_channel()
-
         video = self.create_video(channel)
         Notification.objects.create(
             content_type=ContentType.objects.get(model='video'),
             object_id=video.pk
         )
+
+        response = self.client.get(reverse('notifications'))
+        self.assertEqual(response.data['count'], 0)
 
         self.create_subscription('artist', artist.id)
         self.create_subscription('channel', channel.id)
