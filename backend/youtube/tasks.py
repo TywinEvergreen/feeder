@@ -10,8 +10,7 @@ from dateutil.parser import parse
 from feeder.settings import YOUTUBE
 from feeder.celery import app
 from feeder.utils import delete_related_files
-from notification.models import Notification
-from .models import Channel, Video
+from .models import Channel, Video, VideoNotification
 
 
 @app.task
@@ -43,7 +42,4 @@ def get_new_videos():
             cover_file = ContentFile(requests.get(cover_url).content)
             new_video.cover.save(f'{newest["publishedAt"]}_{new_video.name}_cover.jpg', cover_file)
 
-            Notification.objects.create(
-                content_type=ContentType.objects.get_for_model(new_video),
-                object_id=new_video.pk
-            )
+            VideoNotification.objects.create(video=new_video)

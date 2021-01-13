@@ -2,19 +2,26 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.contenttypes.fields import GenericRelation
 
-from feeder.settings import UPLOAD_DIRECTORIES
-from subscription.models import Subscription
-from notification.models import Notification
+from feeder.settings import AUTH_USER_MODEL, UPLOAD_DIRECTORIES
+from notification.models import DefaultNotification
+from subscription.models import DefaultSubscription
 
 
 class Artist(models.Model):
     name = models.CharField(max_length=256)
     spotify_id = models.CharField(max_length=256, unique=True)
 
-    subscriptions = GenericRelation(Subscription, related_query_name='artist')
-
     def __str__(self):
         return f'{self.name}, #{self.pk}'
+
+
+class ArtistSubscription(DefaultSubscription):
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    subscriber = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE,
+                                   related_name='artist_subscriptions')
+
+    def __str__(self):
+        return f'Подписка {subscriber.email} на исполнителя {artist.name}'
 
 
 class Album(models.Model):
@@ -31,10 +38,15 @@ class Album(models.Model):
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
     release_date = models.DateField()
 
-    notifications = GenericRelation(Notification, related_query_name='album')
-
     def __str__(self):
         return f'{self.name}, #{self.pk}'
 
     class Meta:
         ordering = ['-release_date']
+        
+
+class AlbumNotification(DefaultNotification):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'Оповещение о новом альбоме {album.name} от исполнителя {album.artist.name}'

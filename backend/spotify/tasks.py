@@ -10,8 +10,7 @@ from dateutil.parser import parse
 from feeder.settings import SPOTIFY
 from feeder.celery import app
 from feeder.utils import delete_related_files
-from notification.models import Notification
-from .models import Artist, Album
+from .models import Artist, Album, AlbumNotification
 
 
 @app.task
@@ -40,7 +39,4 @@ def get_new_albums():
             cover_file = ContentFile(requests.get(cover_url).content)
             new_album.cover.save(f'{newest["release_date"]}_{new_album.name}_cover.jpg', cover_file)
 
-            Notification.objects.create(
-                content_type=ContentType.objects.get_for_model(new_album),
-                object_id=new_album.pk
-            )
+            AlbumNotification.objects.create(album=new_album)

@@ -1,7 +1,8 @@
 <template>
-    <div>
-        {{notification}}
-    </div>
+    <v-card>
+        {{notification.content_object}}
+        <h3>{{}}</h3>
+    </v-card>
 </template>
 
 <script>

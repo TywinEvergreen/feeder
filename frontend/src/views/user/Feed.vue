@@ -1,29 +1,37 @@
 <template>
     <v-container>
-        {{notifications}}
-<!--        <span-->
-<!--            v-for="notif in notifications"-->
-<!--            :key="notif.id"-->
-<!--        >-->
-<!--                {{ notif }}-->
-<!--                <v-card v-if="notif.content_type === 'album'">-->
+        <span
+            v-for="notif in notifications"
+            :key="notif.id"
+        >
+                <AlbumNotificationCard
+                    v-if="notif.content_type === 'album'"
+                    :notification="notif"
+                />
+                <VideoNotificationCard
+                    v-else-if="notif.content_type === 'video'"
+                    :notification="notif"
+                />
+
 <!--                    <h5>{{ notif.content_object.artist.name }}</h5>-->
 <!--                    <h4>{{ notif.content_object.name }}</h4>-->
 <!--                    {{notif.content_object.cover}}-->
 <!--                    <img :src="notif.content_object.cover">-->
-<!--                </v-card>-->
-<!--                <v-card v-else-if="notif.content_type === 'video'">-->
-<!--                    pizda-->
-<!--                </v-card>-->
-<!--        </span>-->
+        </span>
     </v-container>
 </template>
 
 <script>
 import axios from "axios";
+import AlbumNotificationCard from "@/components/cards/AlbumNotificationCard";
+import VideoNotificationCard from "@/components/cards/VideoNotificationCard";
 
 export default {
     name: "Feed",
+    components: {
+        AlbumNotificationCard,
+        VideoNotificationCard,
+    },
     data() {
         return {
             notifications: []

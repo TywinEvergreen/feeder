@@ -55,6 +55,35 @@ class ArtistTest(AuthorizedAPITestCase):
         self.assertFalse(default_storage.exists('testing/img1.jpg'))
 
 
+class TestArtistSubscription(AuthorizedAPITestCase):
+
+    def test_create_artist_subscription(self):
+        artist = self.create_artist()
+        response = self.client.post(reverse('artist-subscriptions'), {
+            'artist': artist.pk
+        })
+        self.assertEqual(response.status_code, 201)
+
+
+class TestAlbumNotification(AuthorizedAPITestCase):
+
+    def test_get_album_notifications(self):
+        artist1 = self.create_artist()
+        artist2 = self.create_artist('2')
+        album1 = self.create_album(artist1)
+        self.create_album_notification(album1)
+
+        self.create_artist_subscription(artist1)
+        self.create_artist_subscription(artist2)
+
+        album2 = self.create_album(artist2, '2')
+        self.create_album_notification(album2)
+
+        response = self.client.get(reverse('album-notifications'))
+        print(response.data)
+
+
+
 class TestSpotify(AuthorizedAPITestCase):
 
     def test_connection(self):
