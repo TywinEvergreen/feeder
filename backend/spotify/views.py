@@ -4,7 +4,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView
 
 from .serializers import ArtistSerializer, ArtistSubscriptionSerializer, \
     AlbumNotificationSerializer
-from .models import AlbumNotification
+from .models import AlbumNotification, Artist
 
 
 class ArtistCreateAPIView(CreateAPIView):
@@ -29,10 +29,13 @@ class AlbumNotificationListAPIView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
+        u = user.artist_subscriptions.filter(
+            artist=OuterRef('sa')
+        )
         queryset = AlbumNotification.objects.filter(
             album__artist__in=user.artist_subscriptions.all().values('artist'),
-            album__release_date__gte=user.artist_subscriptions.get(
-                artist=print(OuterRef('album__artist'))
+            album__release_date__gte=user.artist_subscriptions.filter(
+                artist__album=OuterRef('album')
             ).values('datetime_committed')
         )
         return queryset

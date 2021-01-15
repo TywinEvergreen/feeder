@@ -21,7 +21,7 @@ class ArtistSubscription(DefaultSubscription):
                                    related_name='artist_subscriptions')
 
     def __str__(self):
-        return f'Подписка {subscriber.email} на исполнителя {artist.name}'
+        return f'Подписка {self.subscriber.email} на исполнителя {self.artist.name}'
 
 
 class Album(models.Model):
@@ -49,4 +49,4 @@ class AlbumNotification(DefaultNotification):
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Оповещение о новом альбоме {album.name} от исполнителя {album.artist.name}'
+        return f'Оповещение о новом альбоме {self.album.name} от исполнителя {self.album.artist.name}'

@@ -4,7 +4,7 @@ import os
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
-from datetime import datetime
+from datetime import datetime, timedelta
 from io import BytesIO
 
 from PIL import Image
@@ -15,7 +15,7 @@ from feeder.settings import SPOTIFY
 from feeder.utils import delete_related_files
 from user.tests import AuthorizedAPITestCase
 from .tasks import get_new_albums
-from .models import Artist, Album
+from .models import Artist, Album, AlbumNotification
 
 
 class ArtistTest(AuthorizedAPITestCase):
@@ -68,19 +68,35 @@ class TestArtistSubscription(AuthorizedAPITestCase):
 class TestAlbumNotification(AuthorizedAPITestCase):
 
     def test_get_album_notifications(self):
-        artist1 = self.create_artist()
-        artist2 = self.create_artist('2')
-        album1 = self.create_album(artist1)
-        self.create_album_notification(album1)
+        user = self.user
+        artist = self.create_artist()
+        self.create_artist_subscription(artist)
+        album = self.create_album(artist)
+        notif = AlbumNotification.objects.create(album=album)
+        print(notif)
 
-        self.create_artist_subscription(artist1)
-        self.create_artist_subscription(artist2)
+        q = AlbumNotification.objects.filter(
+            album__artist__in=user.artist_subscriptions.all().values('artist')
+        )
+        print(q)
 
-        album2 = self.create_album(artist2, '2')
-        self.create_album_notification(album2)
 
-        response = self.client.get(reverse('album-notifications'))
-        print(response.data)
+
+
+        # artist1 = self.create_artist()
+        # artist2 = self.create_artist('2')
+        #
+        # album1 = self.create_album(artist1)
+        # self.create_album_notification(album1)
+        #
+        # self.create_artist_subscription(artist1)
+        # self.create_artist_subscription(artist2)
+        #
+        # album2 = self.create_album(artist2, '2')
+        # self.create_album_notification(album2)
+        #
+        # response = self.client.get(reverse('album-notifications'))
+        # print(response.data)
 
 
 

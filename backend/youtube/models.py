@@ -19,7 +19,7 @@ class ChannelSubscription(DefaultSubscription):
                                    related_name='channel_subscriptions')
 
     def __str__(self):
-        return f'Подписка {subscriber.email} на канал {channel.name}'
+        return f'Подписка {self.subscriber.email} на канал {self.channel.name}'
 
 
 class Video(models.Model):
@@ -40,4 +40,4 @@ class VideoNotification(DefaultNotification):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'Оповещение о новом видео {video.name} на канале {video.channel.name}'
+        return f'Оповещение о новом видео {self.video.name} на канале {self.video.channel.name}'
