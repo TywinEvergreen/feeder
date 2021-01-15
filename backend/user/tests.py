@@ -1,6 +1,7 @@
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
+from datetime import timedelta
 
 from rest_framework.test import APITestCase
 from rest_framework.response import Response
@@ -31,8 +32,8 @@ class AuthorizedAPITestCase(APITestCase):
 
     def create_album(self, artist=None, spotify_id='1') -> Album:
         artist = artist or self.create_artist()
-        album = Album.objects.create(name='test_album', spotify_id=spotify_id,
-                                     artist=artist, release_date=timezone.now().date())
+        album = Album.objects.create(name='test_album', spotify_id=spotify_id, artist=artist,
+                                     release_date=timezone.now().date() + timedelta(days=1))
         return album
 
     def create_channel(self, youtube_id='1') -> Channel:

@@ -1,11 +1,11 @@
 import sys
 import os
+from io import BytesIO
 
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
 from datetime import datetime, timedelta
-from io import BytesIO
 
 from PIL import Image
 from dateutil.parser import parse
@@ -68,35 +68,15 @@ class TestArtistSubscription(AuthorizedAPITestCase):
 class TestAlbumNotification(AuthorizedAPITestCase):
 
     def test_get_album_notifications(self):
-        user = self.user
         artist = self.create_artist()
         self.create_artist_subscription(artist)
         album = self.create_album(artist)
-        notif = AlbumNotification.objects.create(album=album)
-        print(notif)
+        self.create_album_notification(album)
 
-        q = AlbumNotification.objects.filter(
-            album__artist__in=user.artist_subscriptions.all().values('artist')
-        )
-        print(q)
-
-
-
-
-        # artist1 = self.create_artist()
-        # artist2 = self.create_artist('2')
-        #
-        # album1 = self.create_album(artist1)
-        # self.create_album_notification(album1)
-        #
-        # self.create_artist_subscription(artist1)
-        # self.create_artist_subscription(artist2)
-        #
-        # album2 = self.create_album(artist2, '2')
-        # self.create_album_notification(album2)
-        #
-        # response = self.client.get(reverse('album-notifications'))
-        # print(response.data)
+        response = self.client.get(reverse('album-notifications'))
+        print(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['count'], 1)
 
 
 

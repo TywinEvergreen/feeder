@@ -29,11 +29,10 @@ class AlbumNotificationListAPIView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        u = user.artist_subscriptions.filter(
-            artist=OuterRef('sa')
-        )
         queryset = AlbumNotification.objects.filter(
             album__artist__in=user.artist_subscriptions.all().values('artist'),
+            # Результаты могут быть неточными, т.к.
+            # сравниваются DateField и DateTimeField
             album__release_date__gte=user.artist_subscriptions.filter(
                 artist__album=OuterRef('album')
             ).values('datetime_committed')
