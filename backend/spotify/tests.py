@@ -18,7 +18,7 @@ from .tasks import get_new_albums
 from .models import Artist, Album, AlbumNotification
 
 
-class ArtistTest(AuthorizedAPITestCase):
+class TestArtist(AuthorizedAPITestCase):
 
     def create_image(self, name, x=50, y=50):
         img_output = BytesIO()
@@ -74,7 +74,7 @@ class TestAlbumNotification(AuthorizedAPITestCase):
         self.create_album_notification(album)
 
         response = self.client.get(reverse('album-notifications'))
-        print(response.data)
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['count'], 1)
 
