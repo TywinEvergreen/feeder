@@ -1,10 +1,6 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
-from django.contrib.contenttypes.fields import GenericRelation
 
-from feeder.settings import AUTH_USER_MODEL, UPLOAD_DIRECTORIES
-from notification.models import DefaultNotification
-from subscription.models import DefaultSubscription
+from feeder.settings import UPLOAD_DIRECTORIES
 
 
 class Artist(models.Model):
@@ -13,15 +9,6 @@ class Artist(models.Model):
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'
-
-
-class ArtistSubscription(DefaultSubscription):
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    subscriber = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE,
-                                   related_name='artist_subscriptions')
-
-    def __str__(self):
-        return f'Подписка {self.subscriber.email} на исполнителя {self.artist.name}'
 
 
 class Album(models.Model):
@@ -43,10 +30,3 @@ class Album(models.Model):
 
     class Meta:
         ordering = ['-release_date']
-        
-
-class AlbumNotification(DefaultNotification):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'Оповещение о новом альбоме {self.album.name} от исполнителя {self.album.artist.name}'

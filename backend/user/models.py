@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 
-from spotify.models import Artist, AlbumNotification
-from youtube.models import Channel, VideoNotification
-
 
 class CustomUserManager(BaseUserManager):
     """

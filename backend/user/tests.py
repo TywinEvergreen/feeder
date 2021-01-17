@@ -1,16 +1,14 @@
-from django.urls import reverse
 from django.utils import timezone
-from django.contrib.contenttypes.models import ContentType
 from datetime import timedelta
 
 from rest_framework.test import APITestCase
 from rest_framework.response import Response
-from dateutil.parser import parse
 
 from feeder.settings import TEST_USER_PASSWORD
-from feeder.utils import delete_related_files
-from spotify.models import Artist, Album, ArtistSubscription, AlbumNotification
-from youtube.models import Channel, Video, ChannelSubscription, VideoNotification
+from spotify.models import Artist, Album
+from youtube.models import Channel, Video
+from subscription.models import ArtistSubscription, ChannelSubscription
+from notification.models import AlbumNotification, VideoNotification
 from .generators import generate_random_email
 from .models import User
 

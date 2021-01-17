@@ -8,7 +8,7 @@ class ChannelAdmin(admin.ModelAdmin):
 
 
 class VideoAdmin(admin.ModelAdmin):
-    list_diplay = ('name', 'youtube_id', 'youtuber')
+    list_diplay = ('name', 'youtube_id', 'channel')
 
 
 admin.site.register(Channel, ChannelAdmin)

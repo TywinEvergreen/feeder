@@ -78,7 +78,7 @@ export default {
             }
         },
         addArtist(artist) {
-            axios('spotify/artist/', {
+            axios('spotify/artist', {
                 method: 'POST',
                 data: qs.stringify({
                     'spotify_id': artist.id,
@@ -86,11 +86,10 @@ export default {
                 })
             })
                 .then(response => {
-                    axios('subscriptions/', {
+                    axios('spotify/subscribe', {
                         method: 'POST',
                         data: qs.stringify({
-                            'content_type_str': 'artist',
-                            'object_id': response.data.id
+                            'artist': response.data.id
                         })
                     })
                         .then(() => {

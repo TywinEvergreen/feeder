@@ -10,29 +10,31 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('youtube', '0001_initial'),
+        ('spotify', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ArtistSubscription',
+            name='VideoNotification',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime_committed', models.DateTimeField(auto_now_add=True)),
+                ('creation_datetime', models.DateTimeField(auto_now_add=True)),
+                ('video', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='youtube.video')),
             ],
             options={
-                'ordering': ['-datetime_committed'],
+                'ordering': ['-creation_datetime'],
                 'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name='ChannelSubscription',
+            name='AlbumNotification',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime_committed', models.DateTimeField(auto_now_add=True)),
-                ('channel', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='youtube.channel')),
+                ('creation_datetime', models.DateTimeField(auto_now_add=True)),
+                ('album', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='spotify.album')),
             ],
             options={
-                'ordering': ['-datetime_committed'],
+                'ordering': ['-creation_datetime'],
                 'abstract': False,
             },
         ),
