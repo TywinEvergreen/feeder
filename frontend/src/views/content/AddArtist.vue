@@ -86,7 +86,8 @@ export default {
                 })
             })
                 .then(response => {
-                    axios('spotify/subscribe', {
+                    console.log(response.data.id);
+                    axios('subscriptions/artist', {
                         method: 'POST',
                         data: qs.stringify({
                             'artist': response.data.id

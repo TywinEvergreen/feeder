@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
 from user.models import User
+from spotify.serializers import ArtistSerializer
+from youtube.serializers import ChannelSerializer
 from .models import ArtistSubscription, ChannelSubscription
 
 
@@ -19,6 +21,10 @@ class ArtistSubscriptionSerializer(serializers.ModelSerializer):
         subscription = ArtistSubscription.objects.create(**validated_data, subscriber=user)
         return subscription
 
+    def to_representation(self, instance):
+        self.fields['artist'] = ArtistSerializer()
+        return super().to_representation(instance)
+
 
 class ChannelSubscriptionSerializer(serializers.ModelSerializer):
     """
@@ -34,3 +40,7 @@ class ChannelSubscriptionSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         subscription = ChannelSubscription.objects.create(**validated_data, subscriber=user)
         return subscription
+
+    def to_representation(self, instance):
+        self.fields['channel'] = ChannelSerializer()
+        return super().to_representation(instance)
