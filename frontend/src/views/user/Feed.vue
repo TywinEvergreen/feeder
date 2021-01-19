@@ -1,36 +1,33 @@
 <template>
     <v-container>
-        <span
-            v-for="notif in notifications"
-            :key="notif.id"
-        >
-                <AlbumNotificationCard
-                    v-if="notif.content_type === 'album'"
-                    :notification="notif"
-                />
-                <VideoNotificationCard
-                    v-else-if="notif.content_type === 'video'"
-                    :notification="notif"
-                />
+        {{notifications}}
+<!--        <span-->
+<!--            v-for="notif in notifications"-->
+<!--            :key="notif.id"-->
+<!--        >-->
+<!--                <AlbumNotificationCard-->
+<!--                    v-if="notif.content_type === 'album'"-->
+<!--                    :notification="notif"-->
+<!--                />-->
+<!--                <VideoNotificationCard-->
+<!--                    v-else-if="notif.content_type === 'video'"-->
+<!--                    :notification="notif"-->
+<!--                />-->
 
-<!--                    <h5>{{ notif.content_object.artist.name }}</h5>-->
-<!--                    <h4>{{ notif.content_object.name }}</h4>-->
-<!--                    {{notif.content_object.cover}}-->
-<!--                    <img :src="notif.content_object.cover">-->
-        </span>
+<!--&lt;!&ndash;                    <h5>{{ notif.content_object.artist.name }}</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <h4>{{ notif.content_object.name }}</h4>&ndash;&gt;-->
+<!--&lt;!&ndash;                    {{notif.content_object.cover}}&ndash;&gt;-->
+<!--&lt;!&ndash;                    <img :src="notif.content_object.cover">&ndash;&gt;-->
+<!--        </span>-->
     </v-container>
 </template>
 
 <script>
 import axios from "axios";
-import AlbumNotificationCard from "@/components/cards/AlbumNotificationCard";
-import VideoNotificationCard from "@/components/cards/VideoNotificationCard";
 
 export default {
     name: "Feed",
     components: {
-        AlbumNotificationCard,
-        VideoNotificationCard,
     },
     data() {
         return {
@@ -38,13 +35,14 @@ export default {
         }
     },
     created() {
-        this.getNotifications()
+        this.getNotifications('album');
+        this.getNotifications('video');
     },
     methods: {
-        getNotifications() {
-            axios.get('notifications/')
+        getNotifications(type) {
+            axios.get(`notifications/${type}`)
                 .then(response => {
-                    this.notifications = response.data.results
+                    this.notifications.concat(response.data.results)
                 })
         }
     }

@@ -19,10 +19,18 @@ def get_new_albums():
     Обновляет альбомы в базе данных на новейшие из Spotify
     '''
     for artist in Artist.objects.all():
-        sp_albums = SPOTIFY.artist_albums(artist.spotify_id, limit=50,
-                                          album_type='album,single')['items']
-        # Узнаем самый новый альбом
-        newest = min(sp_albums, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
+        newest_album = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
+                                             album_type='album')['items']
+        newest_single = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
+                                              album_type='single')['items']
+        newest_releases_list = newest_album + newest_single
+
+        # print(newest_album['name'], newest_album['release_date'])
+        # print(newest_single['name'], newest_single['release_date'])
+
+        # Узнаем самый новый релиз
+        # newest = min(parse(x['release_date']).date() for x in newest_releases_list)
+        # newest = min(newest_releases_list, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
 
         if not hasattr(artist, 'album') or \
            artist.album.release_date < parse(newest['release_date']).date():
@@ -60,12 +68,8 @@ def get_new_videos():
                 delete_related_files(channel.video)
                 channel.video.delete()
 
-            new_video = Video.objects.create(
-                name=newest['title'],
-                youtube_id=newest['channelId'],
-                channel=channel,
-                release_datetime=parse(newest['publishedAt'])
-            )
+            new_video = Video.objects.create(name=newest['title'], youtube_id=newest['channelId'],
+                                             channel=channel, release_datetime=parse(newest['publishedAt']))
 
             cover_url = newest['thumbnails']['high']['url']
             cover_file = ContentFile(requests.get(cover_url).content)

@@ -5,7 +5,7 @@ from user.tests import AuthorizedAPITestCase
 
 class TestChannel(AuthorizedAPITestCase):
 
-    def test_create_artist(self):
+    def test_create_channel(self):
         response = self.client.post(reverse('channel'), {
             'youtube_id': '123',
             'name': 'test'

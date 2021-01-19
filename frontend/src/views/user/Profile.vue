@@ -15,7 +15,7 @@
                     :key="subscription.id"
                 >
                     {{ subscription.artist.name }}
-                    <a @click="deleteSubscription(subscription.id)">x</a>
+                    <a @click="deleteSubscription('artist', subscription.id)">x</a>
                 </h5>
             </v-col>
             <v-col cols="6">
@@ -28,7 +28,7 @@
                     :key="subscription.id"
                 >
                     {{ subscription.channel.name }}
-                    <a @click="deleteSubscription(subscription.id)">x</a>
+                    <a @click="deleteSubscription('channel', subscription.id)">x</a>
                 </h5>
             </v-col>
         </v-col>
@@ -36,50 +36,22 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import {mapState, mapActions} from 'vuex'
 
 export default {
     name: "Profile",
-    // data() {
-    //     return {
-    //         artist_subscriptions: [],
-    //         channel_subscriptions: []
-    //     }
-    // },
-    // created() {
-    //     this.getSubscriptions()
-    // },
     computed: {
         ...mapState(['user'])
     },
     methods: {
-        ...mapActions(['go']),
-        // getArtistSubscriptions() {
-        //     axios.get('subscriptions/artist')
-        //         .then(response => {
-        //             let subscriptions_to_artists = [];
-        //             let subscriptions_to_channels = [];
-        //
-        //             response.data.results.forEach(subscription => {
-        //                 if (subscription.content_type == 'artist') {
-        //                     subscriptions_to_artists.push(subscription)
-        //                 }
-        //                 else if (subscription.content_type == 'channel') {
-        //                     subscriptions_to_channels.push(subscription)
-        //                 }
-        //             })
-        //
-        //             this.subscriptions_to_artists = subscriptions_to_artists;
-        //             this.subscriptions_to_channels = subscriptions_to_channels
-        //         })
-        // },
-        // deleteSubscription(subscription_id) {
-        //     axios.delete(`subscriptions/${subscription_id}`)
-        //         .then(() => {
-        //             this.getSubscriptions()
-        //         })
-        // },
+        ...mapActions(['go', 'set_user']),
+        deleteSubscription(type, id) {
+            axios.delete(`subscriptions/${type}/${id}`)
+                .then(() => {
+                    this.set_user()
+                })
+        }
     }
 }
 </script>
