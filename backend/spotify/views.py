@@ -1,6 +1,9 @@
-from rest_framework.generics import CreateAPIView
+from django.db.models import OuterRef
 
-from .serializers import ArtistSerializer
+from rest_framework.generics import CreateAPIView, ListAPIView
+
+from .serializers import ArtistSerializer, AlbumSerializer
+from .models import Album
 
 
 class ArtistCreateAPIView(CreateAPIView):
@@ -10,5 +13,23 @@ class ArtistCreateAPIView(CreateAPIView):
     serializer_class = ArtistSerializer
 
 
+class NewAlubmsListAPIView(ListAPIView):
+    """
+    Возвращает список альбомов, на исполнителей которых подписан
+    пользователь и которые вышли после подписки на исполнителя
+    """
+    serializer_class = AlbumSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Album.objects.filter(
+            artist__in=user.artist_subscriptions.all().values('artist'),
+            # Результаты могут быть неточными, т.к.
+            # сравниваются DateField и DateTimeField
+            release_date__gte=user.artist_subscriptions.filter(
+                artist=OuterRef('artist')
+            ).values('datetime_committed')
+        )
+        return queryset
 
 

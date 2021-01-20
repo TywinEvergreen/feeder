@@ -5,12 +5,10 @@ import datetime
 
 from dateutil.parser import parse
 
-from feeder.settings import SPOTIFY, YOUTUBE
+from feeder.settings import SPOTIFY
 from feeder.celery import app
 from feeder.utils import delete_related_files
-from spotify.models import Artist, Album
-from youtube.models import Channel, Video
-from .models import AlbumNotification, VideoNotification
+from .models import Artist, Album
 
 
 @app.task
@@ -42,33 +40,3 @@ def get_new_albums():
             cover_url = newest['images'][0]['url']
             cover_file = ContentFile(requests.get(cover_url).content)
             new_album.cover.save(f'{newest["release_date"]}_{new_album.name}_cover.jpg', cover_file)
-
-            AlbumNotification.objects.create(album=new_album)
-
-
-@app.task
-def get_new_videos():
-    """
-    Обновляет youtube видео в базе данных на новейшие из Youtube API
-    """
-    for channel in Channel.objects.all():
-        newest = YOUTUBE.search().list(
-            channelId=channel.youtube_id, maxResults=1,
-            part='snippet', order='date'
-        ).execute()['items'][0]['snippet']
-
-        if not hasattr(channel, 'video') or \
-           channel.video.release_datetime < parse(newest['publishedAt']):
-
-            if hasattr(channel, 'video'):
-                delete_related_files(channel.video)
-                channel.video.delete()
-
-            new_video = Video.objects.create(name=newest['title'], youtube_id=newest['channelId'],
-                                             channel=channel, release_datetime=parse(newest['publishedAt']))
-
-            cover_url = newest['thumbnails']['high']['url']
-            cover_file = ContentFile(requests.get(cover_url).content)
-            new_video.cover.save(f'{newest["publishedAt"]}_{new_video.name}_cover.jpg', cover_file)
-
-            VideoNotification.objects.create(video=new_video)

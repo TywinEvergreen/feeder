@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'spotify',
     'youtube',
     'subscription',
-    'notification',
+    # 'notification',
 ]
 
 MIDDLEWARE = [

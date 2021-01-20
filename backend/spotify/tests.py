@@ -7,10 +7,13 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
 
 from PIL import Image
+import pytz
+from dateutil.parser import parse
 
 from user.tests import AuthorizedAPITestCase
 from feeder.utils import delete_related_files
 from .models import Artist, Album
+from .tasks import get_new_albums
 
 
 class TestArtist(AuthorizedAPITestCase):
@@ -48,3 +51,35 @@ class TestArtist(AuthorizedAPITestCase):
 
         delete_related_files(album)
         self.assertFalse(default_storage.exists('testing/img1.jpg'))
+
+    def test_get_new_albums(self):
+        artist = self.create_artist()
+        self.create_artist_subscription(artist)
+        album = self.create_album(artist)
+
+        response = self.client.get(reverse('new-albums'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['count'], 1)
+
+
+class TestTasks(AuthorizedAPITestCase):
+
+    def tearDown(self):
+        for album in Album.objects.all():
+            delete_related_files(album)
+
+    def test_get_new_albums(self):
+        artist = self.create_artist(spotify_id='3o2dn2O0FCVsWDFSh8qxgG')
+
+        get_new_albums()
+        artist.refresh_from_db()
+        self.assertTrue(hasattr(artist, 'album'))
+        self.assertTrue(artist.album.cover)
+
+        artist.album.release_date = pytz.utc.localize(parse('1/1/1500'))
+        artist.album.save()
+
+        get_new_albums()
+        artist.refresh_from_db()
+        self.assertNotEqual(artist.album.release_date, pytz.utc.localize(parse('1/1/1500')))
