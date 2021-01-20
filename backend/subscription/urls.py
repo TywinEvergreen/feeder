@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import ArtistSubscriptionCreateAPIView, ChannelSubscriptionCreateAPIView, \
-ArtistSubscriptionDestroyAPIView, ChannelSubscriptionDestroyAPIView
+    ArtistSubscriptionDestroyAPIView, ChannelSubscriptionDestroyAPIView
 
 
 urlpatterns = [

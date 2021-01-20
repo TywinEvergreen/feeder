@@ -7,7 +7,6 @@ from googleapiclient.discovery import build
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -41,8 +40,7 @@ SPOTIFY = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
 # Youtube settings
 
 YOUTUBE = build('youtube', 'v3',
-   developerKey=config('YOUTUBE_API_KEY')
-)
+                developerKey=config('YOUTUBE_API_KEY', None))
 
 # Application definition
 
@@ -98,11 +96,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'feeder.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = { # БД PostgreSQL
+DATABASES = {  # БД PostgreSQL
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': config('DB_NAME'),
@@ -112,7 +109,6 @@ DATABASES = { # БД PostgreSQL
         'PORT': config('DB_PORT', default='5432'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -132,7 +128,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -145,7 +140,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -195,7 +189,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CELERY_BROKER_URL  = config('CELERY_BROKER_URL', default='redis://localhost:6379')
+CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://localhost:6379')
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'

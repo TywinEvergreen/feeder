@@ -19,18 +19,17 @@ def get_new_albums():
     Обновляет альбомы в базе данных на новейшие из Spotify
     '''
     for artist in Artist.objects.all():
-        newest_album = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
-                                             album_type='album')['items']
-        newest_single = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
-                                              album_type='single')['items']
-        newest_releases_list = newest_album + newest_single
+        latest_album = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
+                                             album_type='album')['items'][0]
+        latest_single = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
+                                              album_type='single')['items'][0]
 
         # print(newest_album['name'], newest_album['release_date'])
         # print(newest_single['name'], newest_single['release_date'])
 
         # Узнаем самый новый релиз
-        # newest = min(parse(x['release_date']).date() for x in newest_releases_list)
-        # newest = min(newest_releases_list, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
+        newest_releases = [latest_album, latest_single]
+        newest = min(newest_releases, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
 
         if not hasattr(artist, 'album') or \
            artist.album.release_date < parse(newest['release_date']).date():
