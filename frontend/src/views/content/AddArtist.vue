@@ -86,7 +86,6 @@ export default {
                 })
             })
                 .then(response => {
-                    console.log(response.data.id);
                     axios('subscriptions/artist', {
                         method: 'POST',
                         data: qs.stringify({

@@ -9,7 +9,6 @@ from feeder.settings import TEST_USER_PASSWORD
 from spotify.models import Artist, Album
 from youtube.models import Channel, Video
 from subscription.models import ArtistSubscription, ChannelSubscription
-from notification.models import AlbumNotification, VideoNotification
 from .generators import generate_random_email
 from .models import User
 
@@ -58,14 +57,6 @@ class AuthorizedAPITestCase(APITestCase):
             subscriber=self.user
         )
         return subscription
-
-    def create_album_notification(self, album:Album) -> AlbumNotification:
-        notification = AlbumNotification.objects.create(album=album)
-        return notification
-
-    def create_video_notification(self, video:Video) -> VideoNotification:
-        notification = VideoNotification.objects.create(video=video)
-        return notification
 
     def create_superuser(self, email:str, password=TEST_USER_PASSWORD) -> User:
         superuser = User.objects.create_superuser(email, password)

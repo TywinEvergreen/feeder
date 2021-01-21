@@ -3,7 +3,10 @@ from django.urls import reverse
 import pytz
 from dateutil.parser import parse
 
+from feeder.utils import delete_related_files
 from user.tests import AuthorizedAPITestCase
+from .tasks import get_new_videos
+from .models import Video
 
 
 class TestChannel(AuthorizedAPITestCase):

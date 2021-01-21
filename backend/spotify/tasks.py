@@ -18,13 +18,13 @@ def get_new_albums():
     '''
     for artist in Artist.objects.all():
         latest_album = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
-                                             album_type='album')['items'][0]
+                                             album_type='album')['items']
         latest_single = SPOTIFY.artist_albums(artist.spotify_id, limit=1,
-                                              album_type='single')['items'][0]
+                                              album_type='single')['items']
 
         # Узнаем самый новый релиз
-        newest_releases = [latest_album, latest_single]
-        newest = min(newest_releases, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
+        releases = latest_album + latest_single
+        newest = min(releases, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
 
         if not hasattr(artist, 'album') or \
            artist.album.release_date < parse(newest['release_date']).date():

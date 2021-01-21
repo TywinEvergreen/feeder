@@ -1,6 +1,8 @@
 <template>
     <v-container>
-        {{notifications}}
+        <h3>{{all_releases}}</h3>
+        <h4>{{new_albums}}</h4>
+        <h5>{{new_videos}}</h5>
 <!--        <span-->
 <!--            v-for="notif in notifications"-->
 <!--            :key="notif.id"-->
@@ -31,20 +33,36 @@ export default {
     },
     data() {
         return {
-            notifications: []
+            all_releases: [],
+
+            new_albums: [],
+            new_videos: []
         }
     },
     created() {
-        this.getNotifications('album');
-        this.getNotifications('video');
+        this.getNewAlbums();
+        this.getNewVideos();
+        this.setAllReleases(this.new_albums, this.new_videos);
     },
     methods: {
-        getNotifications(type) {
-            axios.get(`notifications/${type}`)
+        async getNewAlbums() {
+            await axios.get(`spotify/new-albums`)
                 .then(response => {
-                    this.notifications.concat(response.data.results)
+                    this.new_albums = response.data.results
                 })
-        }
+        },
+        async getNewVideos() {
+            await axios.get(`youtube/new-videos`)
+                .then(response => {
+                    this.new_videos = response.data.results
+                })
+        },
+        setAllReleases() {
+            console.log(this.new_videos, this.new_albums);
+            let releases = [];
+            releases.push(...this.new_albums, ...this.new_videos);
+            this.all_releases = releases
+        },
     }
 }
 </script>

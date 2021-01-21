@@ -1,3 +1,14 @@
+from __future__ import absolute_import, unicode_literals
+from django.core.files.base import ContentFile
+import requests
+import datetime
+
+from dateutil.parser import parse
+
+from feeder.settings import YOUTUBE
+from feeder.celery import app
+from feeder.utils import delete_related_files
+from .models import Channel, Video
 
 
 @app.task
