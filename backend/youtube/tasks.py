@@ -7,7 +7,6 @@ from dateutil.parser import parse
 
 from feeder.settings import YOUTUBE
 from feeder.celery import app
-from feeder.utils import delete_related_files
 from .models import Channel, Video
 
 
@@ -26,7 +25,6 @@ def get_new_videos():
            channel.video.release_datetime < parse(newest['publishedAt']):
 
             if hasattr(channel, 'video'):
-                delete_related_files(channel.video)
                 channel.video.delete()
 
             new_video = Video.objects.create(name=newest['title'], youtube_id=newest['channelId'],

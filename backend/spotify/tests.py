@@ -11,7 +11,6 @@ import pytz
 from dateutil.parser import parse
 
 from user.tests import AuthorizedAPITestCase
-from feeder.utils import delete_related_files
 from .models import Artist, Album
 from .tasks import get_new_albums
 
@@ -49,7 +48,7 @@ class TestArtist(AuthorizedAPITestCase):
         album.save()
         self.assertTrue(default_storage.exists('testing/img1.jpg'))
 
-        delete_related_files(album)
+        album.delete()
         self.assertFalse(default_storage.exists('testing/img1.jpg'))
 
     def test_get_new_albums(self):
@@ -65,10 +64,6 @@ class TestArtist(AuthorizedAPITestCase):
 
 class TestTasks(AuthorizedAPITestCase):
 
-    def tearDown(self):
-        for album in Album.objects.all():
-            delete_related_files(album)
-
     def test_get_new_albums(self):
         artist = self.create_artist(spotify_id='3o2dn2O0FCVsWDFSh8qxgG')
 
@@ -77,9 +72,9 @@ class TestTasks(AuthorizedAPITestCase):
         self.assertTrue(hasattr(artist, 'album'))
         self.assertTrue(artist.album.cover)
 
-        artist.album.release_date = pytz.utc.localize(parse('1/1/1500'))
+        artist.album.release_datetime = pytz.utc.localize(parse('1/1/1500'))
         artist.album.save()
 
         get_new_albums()
         artist.refresh_from_db()
-        self.assertNotEqual(artist.album.release_date, pytz.utc.localize(parse('1/1/1500')))
+        self.assertNotEqual(artist.album.release_datetime, pytz.utc.localize(parse('1/1/1500')))

@@ -2,7 +2,6 @@
     <v-row>
         <v-col cols="12">
             <h2>{{ user.user.email }}</h2>
-            {{user.user}}
         </v-col>
         <v-col cols="12">
             <v-col cols="6">

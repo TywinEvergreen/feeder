@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import conf from './modules/conf'
 import user from './modules/user'
 import utils from './modules/utils'
 
@@ -10,6 +11,7 @@ export default new Vuex.Store({
     mutations: {},
     actions: {},
     modules: {
+        conf,
         user,
         utils
     }

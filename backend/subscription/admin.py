@@ -4,11 +4,11 @@ from .models import ArtistSubscription, ChannelSubscription
 
 
 class ArtistSubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('artist', 'subscriber')
+    list_display = ('artist', 'subscriber', 'datetime_committed')
 
 
 class ChannelSubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('channel', 'subscriber')
+    list_display = ('channel', 'subscriber', 'datetime_committed')
 
 
 admin.site.register(ArtistSubscription, ArtistSubscriptionAdmin)

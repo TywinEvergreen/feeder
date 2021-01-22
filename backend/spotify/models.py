@@ -20,13 +20,15 @@ class Album(models.Model):
     spotify_id = models.CharField(max_length=256, unique=True)
     cover = models.ImageField(upload_to=UPLOAD_DIRECTORIES['ALBUM_COVERS'], blank=True, null=True)
     type = models.CharField(choices=album_types, max_length=6)
-    # Обратите внимание, что с исполнителем может быть
-    # связан только один альбом, т.е. самый новый
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
-    release_date = models.DateField()
+    # Это поле помечено как DateTimeField, хотя из API Spotify
+    # приходит DateField. Сделано это для упрощения сортировки
+    release_datetime = models.DateTimeField()
 
     def __str__(self):
         return f'{self.name}, #{self.pk}'
 
     class Meta:
-        ordering = ['-release_date']
+        ordering = ['-release_datetime']
+
+

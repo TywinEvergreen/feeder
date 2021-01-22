@@ -1,8 +1,11 @@
 <template>
     <v-container>
-        <h3>{{all_releases}}</h3>
-        <h4>{{new_albums}}</h4>
-        <h5>{{new_videos}}</h5>
+        <h4
+                v-for="(release, index) in all_releases"
+                :key="index"
+        >
+            {{release.name}} - {{release.release_datetime}}
+        </h4>
 <!--        <span-->
 <!--            v-for="notif in notifications"-->
 <!--            :key="notif.id"-->
@@ -25,6 +28,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
+import {parse} from 'date-format-parse'
 import axios from "axios";
 
 export default {
@@ -33,8 +38,6 @@ export default {
     },
     data() {
         return {
-            all_releases: [],
-
             new_albums: [],
             new_videos: []
         }
@@ -42,26 +45,37 @@ export default {
     created() {
         this.getNewAlbums();
         this.getNewVideos();
-        this.setAllReleases(this.new_albums, this.new_videos);
+    },
+    computed: {
+        ...mapState(['conf']),
+        all_releases() {
+            let releases = [];
+
+            releases.push(...this.new_albums);
+            releases.push(...this.new_videos);
+
+            const dt_format = this.conf.default_datetime_format
+            let ordered_releases = releases.sort((a, b) => {
+                return parse(b.release_datetime, dt_format) - parse(a.release_datetime, dt_format)
+            })
+            return ordered_releases
+        },
+
     },
     methods: {
-        async getNewAlbums() {
-            await axios.get(`spotify/new-albums`)
+        getNewAlbums() {
+            axios.get(`spotify/new-albums`)
                 .then(response => {
-                    this.new_albums = response.data.results
+                    this.new_albums = response.data.results;
+                    // this.all_releases.push(...response.data.results);
                 })
         },
-        async getNewVideos() {
-            await axios.get(`youtube/new-videos`)
+        getNewVideos() {
+            axios.get(`youtube/new-videos`)
                 .then(response => {
-                    this.new_videos = response.data.results
+                    this.new_videos = response.data.results;
+                    // this.all_releases.push(...response.data.results);
                 })
-        },
-        setAllReleases() {
-            console.log(this.new_videos, this.new_albums);
-            let releases = [];
-            releases.push(...this.new_albums, ...this.new_videos);
-            this.all_releases = releases
         },
     }
 }

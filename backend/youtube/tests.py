@@ -3,7 +3,6 @@ from django.urls import reverse
 import pytz
 from dateutil.parser import parse
 
-from feeder.utils import delete_related_files
 from user.tests import AuthorizedAPITestCase
 from .tasks import get_new_videos
 from .models import Video
@@ -48,12 +47,18 @@ class TestChannel(AuthorizedAPITestCase):
         response = self.client.get(reverse('new-videos'))
         self.assertEqual(response.data['count'], 2)
 
+    def test_delete_related_files(self):
+        video = self.create_video()
+
+        video.cover = self.create_image('img1')
+        video.save()
+        self.assertTrue(default_storage.exists('testing/img1.jpg'))
+
+        video.delete()
+        self.assertFalse(default_storage.exists('testing/img1.jpg'))
+
 
 class TestTasks(AuthorizedAPITestCase):
-
-    def tearDown(self):
-        for video in Video.objects.all():
-            delete_related_files(video)
 
     def test_get_new_videos(self):
         channel = self.create_channel(youtube_id='UC6bTF68IAV1okfRfwXIP1Cg')

@@ -6,7 +6,7 @@ from youtube.models import Channel
 
 
 class DefaultSubscription(models.Model):
-    datetime_committed = models.DateTimeField(auto_now_add=True)
+    datetime_committed = models.DateTimeField(auto_now_add=True, )
 
     class Meta:
         abstract = True
@@ -21,6 +21,9 @@ class ArtistSubscription(DefaultSubscription):
     def __str__(self):
         return f'Подписка {self.subscriber.email} на исполнителя {self.artist.name}'
 
+    class Meta:
+        unique_together = ('artist', 'subscriber')
+
 
 class ChannelSubscription(DefaultSubscription):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
@@ -29,3 +32,6 @@ class ChannelSubscription(DefaultSubscription):
 
     def __str__(self):
         return f'Подписка {self.subscriber.email} на канал {self.channel.name}'
+
+    class Meta:
+        unique_together = ('channel', 'subscriber')

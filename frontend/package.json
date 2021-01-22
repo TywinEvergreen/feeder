@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "date-format-parse": "^0.2.6",
     "js-cookie": "^2.2.1",
     "qs": "^6.9.4",
     "spotify-web-api-js": "^1.5.1",

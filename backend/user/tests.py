@@ -30,8 +30,8 @@ class AuthorizedAPITestCase(APITestCase):
 
     def create_album(self, artist=None, spotify_id='1') -> Album:
         artist = artist or self.create_artist()
-        album = Album.objects.create(name='test_album', spotify_id=spotify_id, artist=artist,
-                                     release_date=timezone.now().date() + timedelta(days=1))
+        album = Album.objects.create(name='test_album', spotify_id=spotify_id,
+                                     artist=artist, release_datetime=timezone.now())
         return album
 
     def create_channel(self, youtube_id='1') -> Channel:

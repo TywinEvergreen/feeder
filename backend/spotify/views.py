@@ -26,7 +26,7 @@ class NewAlubmsListAPIView(ListAPIView):
             artist__in=user.artist_subscriptions.all().values('artist'),
             # Результаты могут быть неточными, т.к.
             # сравниваются DateField и DateTimeField
-            release_date__gte=user.artist_subscriptions.filter(
+            release_datetime__gte=user.artist_subscriptions.filter(
                 artist=OuterRef('artist')
             ).values('datetime_committed')
         )

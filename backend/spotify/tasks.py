@@ -4,10 +4,10 @@ import requests
 import datetime
 
 from dateutil.parser import parse
+from pytz import utc
 
 from feeder.settings import SPOTIFY
 from feeder.celery import app
-from feeder.utils import delete_related_files
 from .models import Artist, Album
 
 
@@ -24,19 +24,20 @@ def get_new_albums():
 
         # Узнаем самый новый релиз
         releases = latest_album + latest_single
-        newest = min(releases, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
 
-        if not hasattr(artist, 'album') or \
-           artist.album.release_date < parse(newest['release_date']).date():
+        if releases:
+            newest = min(releases, key=lambda x: datetime.datetime.now().date() - parse(x['release_date']).date())
 
-            if hasattr(artist, 'album'):
-                delete_related_files(artist.album)
-                artist.album.delete()
+            if not hasattr(artist, 'album') or \
+                    artist.album.release_datetime.date() < parse(newest['release_date']).date():
 
-            new_album = Album.objects.create(name=newest['name'], spotify_id=newest['id'],
-                                             type=newest['type'], artist=artist,
-                                             release_date=parse(newest['release_date']))
+                if hasattr(artist, 'album'):
+                    artist.album.delete()
 
-            cover_url = newest['images'][0]['url']
-            cover_file = ContentFile(requests.get(cover_url).content)
-            new_album.cover.save(f'{newest["release_date"]}_{new_album.name}_cover.jpg', cover_file)
+                new_album = Album.objects.create(name=newest['name'], spotify_id=newest['id'],
+                                                 type=newest['type'], artist=artist,
+                                                 release_datetime=utc.localize(parse(newest['release_date'])))
+
+                cover_url = newest['images'][0]['url']
+                cover_file = ContentFile(requests.get(cover_url).content)
+                new_album.cover.save(f'{newest["release_date"]}_{new_album.name}_cover.jpg', cover_file)

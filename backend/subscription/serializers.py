@@ -18,7 +18,7 @@ class ArtistSubscriptionSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context.get('request').user
-        subscription = ArtistSubscription.objects.create(**validated_data, subscriber=user)
+        subscription, _ = ArtistSubscription.objects.get_or_create(**validated_data, subscriber=user)
         return subscription
 
     def to_representation(self, instance):
@@ -38,7 +38,7 @@ class ChannelSubscriptionSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context.get('request').user
-        subscription = ChannelSubscription.objects.create(**validated_data, subscriber=user)
+        subscription, _ = ArtistSubscription.objects.get_or_create(**validated_data, subscriber=user)
         return subscription
 
     def to_representation(self, instance):
