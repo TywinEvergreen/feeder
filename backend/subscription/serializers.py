@@ -10,7 +10,7 @@ class ArtistSubscriptionSerializer(serializers.ModelSerializer):
     """
     Сериализует подписки на исполнителей
     """
-    subscriber = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+    subscriber = serializers.StringRelatedField()
 
     class Meta:
         model = ArtistSubscription
@@ -30,12 +30,12 @@ class ChannelSubscriptionSerializer(serializers.ModelSerializer):
     """
     Сериализует подписки на каналы
     """
-    subscriber = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+    subscriber = serializers.StringRelatedField()
 
     class Meta:
         model = ChannelSubscription
         fields = '__all__'
-
+#
     def create(self, validated_data):
         user = self.context.get('request').user
         subscription, _ = ArtistSubscription.objects.get_or_create(**validated_data, subscriber=user)

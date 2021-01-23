@@ -6,6 +6,7 @@ from rest_framework.test import APITestCase
 from rest_framework.response import Response
 
 from feeder.settings import TEST_USER_PASSWORD
+from utils.tasks import cleanup_unused_files
 from spotify.models import Artist, Album
 from youtube.models import Channel, Video
 from subscription.models import ArtistSubscription, ChannelSubscription
@@ -17,6 +18,9 @@ class AuthorizedAPITestCase(APITestCase):
     """
     TestCase для авторизованных запросов
     """
+
+    # def tearDownClass(cls) -> None:
+    #     cleanup_unused_files()
 
     def setUp(self):
         user = self.create_superuser(generate_random_email())
@@ -70,11 +74,11 @@ class AuthorizedAPITestCase(APITestCase):
         return auth_response
 
 
-class TestUser(AuthorizedAPITestCase):
-
-    def test_user_update(self):
-        response = self.client.patch(reverse('user'), {
-            'email': 'nope@gmail.com'
-        })
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['email'], 'nope@gmail.com')
+# class TestUser(AuthorizedAPITestCase):
+#
+#     def test_user_update(self):
+#         response = self.client.patch(reverse('user'), {
+#             'email': 'nope@gmail.com'
+#         })
+#         self.assertEqual(response.status_code, 200)
+#         self.assertEqual(response.data['email'], 'nope@gmail.com')

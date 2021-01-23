@@ -62,8 +62,9 @@ INSTALLED_APPS = [
     'spotify',
     'youtube',
     'subscription',
+    'utils',
 
-    'django_cleanup.apps.CleanupConfig',
+    'django_unused_media',
 ]
 
 MIDDLEWARE = [

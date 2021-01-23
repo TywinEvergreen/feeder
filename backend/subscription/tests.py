@@ -29,6 +29,7 @@ class TestChannelSubscription(AuthorizedAPITestCase):
         response = self.client.post(reverse('subscribe-channel'), {
             'channel': channel.pk
         })
+        print(response.data)
         self.assertEqual(response.status_code, 201)
 
     def test_delete_artist_subscription(self):

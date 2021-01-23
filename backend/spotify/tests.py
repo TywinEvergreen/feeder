@@ -1,12 +1,5 @@
-import sys
-import os
-from io import BytesIO
-
-from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
 
-from PIL import Image
 import pytz
 from dateutil.parser import parse
 
@@ -16,14 +9,6 @@ from .tasks import get_new_albums
 
 
 class TestArtist(AuthorizedAPITestCase):
-
-    def create_image(self, name, x=50, y=50):
-        img_output = BytesIO()
-        image = Image.new('RGB', (x, y), color='white')
-        image.save(img_output, format='JPEG', quality=100)
-        img_file = InMemoryUploadedFile(img_output, 'ImageField', f'{name}.jpg', 'image/jpeg',
-                                        sys.getsizeof(img_output), 'utf-8')
-        return img_file
 
     def test_create_artist(self):
         response = self.client.post(reverse('artist'), {
@@ -40,16 +25,6 @@ class TestArtist(AuthorizedAPITestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data['spotify_id'], '123')
         self.assertEqual(response.data['name'], 'test')
-
-    def test_delete_related_files(self):
-        album = self.create_album()
-
-        album.cover = self.create_image('img1')
-        album.save()
-        self.assertTrue(default_storage.exists('testing/img1.jpg'))
-
-        album.delete()
-        self.assertFalse(default_storage.exists('testing/img1.jpg'))
 
     def test_get_new_albums(self):
         artist = self.create_artist()

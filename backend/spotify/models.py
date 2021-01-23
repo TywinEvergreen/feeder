@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.signals import post_delete
 
 from feeder.settings import UPLOAD_DIRECTORIES
 
@@ -21,8 +22,8 @@ class Album(models.Model):
     cover = models.ImageField(upload_to=UPLOAD_DIRECTORIES['ALBUM_COVERS'], blank=True, null=True)
     type = models.CharField(choices=album_types, max_length=6)
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
-    # Это поле помечено как DateTimeField, хотя из API Spotify
-    # приходит DateField. Сделано это для упрощения сортировки
+    # Это поле помечено как DateTimeField, но из API Spotify
+    # приходит DateField, сделано это для упрощения сортировки
     release_datetime = models.DateTimeField()
 
     def __str__(self):
@@ -30,5 +31,3 @@ class Album(models.Model):
 
     class Meta:
         ordering = ['-release_datetime']
-
-
