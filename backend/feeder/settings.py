@@ -197,7 +197,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 # Testing settings
-
+TEST_RUNNER = 'utils.tests.CustomTestRunner'
 TEST_USER_PASSWORD = 'test_password'
 
 TESTING = 'test' in sys.argv

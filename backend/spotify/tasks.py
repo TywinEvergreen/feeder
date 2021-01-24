@@ -1,12 +1,13 @@
 from __future__ import absolute_import, unicode_literals
-from django.core.files.base import ContentFile
 import requests
 import datetime
+
+from django.core.files.base import ContentFile
 
 from dateutil.parser import parse
 from pytz import utc
 
-from feeder.settings import SPOTIFY
+from feeder.settings import SPOTIFY, TESTING
 from feeder.celery import app
 from .models import Artist, Album
 

@@ -3,7 +3,7 @@ from django.urls import reverse
 import pytz
 from dateutil.parser import parse
 
-from user.tests import AuthorizedAPITestCase
+from utils.tests import AuthorizedAPITestCase
 from .models import Artist, Album
 from .tasks import get_new_albums
 

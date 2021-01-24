@@ -8,7 +8,4 @@ def cleanup_unused_files():
     """
     Очищает неисползуемые файлы
     """
-    try:
-        management.call_command('cleanup_unused_media', '--noinput')
-    except:
-        print(e)
+    management.call_command('cleanup_unused_media', '--noinput')
