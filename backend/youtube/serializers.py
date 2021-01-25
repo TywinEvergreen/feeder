@@ -16,7 +16,7 @@ class ChannelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> Channel:
         channel, _ = Channel.objects.get_or_create(
             youtube_id=validated_data.get('youtube_id'),
             defaults={

@@ -1,6 +1,7 @@
 from rest_framework.generics import UpdateAPIView
 
 from .serializers import UserSerializer
+from .models import User
 
 
 class UserUpdateAPIView(UpdateAPIView):
@@ -9,5 +10,5 @@ class UserUpdateAPIView(UpdateAPIView):
     """
     serializer_class = UserSerializer
 
-    def get_object(self):
+    def get_object(self) -> 'User':
         return self.request.user

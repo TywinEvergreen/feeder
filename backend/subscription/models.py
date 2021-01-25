@@ -6,7 +6,7 @@ from youtube.models import Channel
 
 
 class DefaultSubscription(models.Model):
-    datetime_committed = models.DateTimeField(auto_now_add=True, )
+    datetime_committed = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True

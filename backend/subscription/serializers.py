@@ -16,7 +16,7 @@ class ArtistSubscriptionSerializer(serializers.ModelSerializer):
         model = ArtistSubscription
         fields = '__all__'
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> ArtistSubscription:
         user = self.context.get('request').user
         subscription, _ = ArtistSubscription.objects.get_or_create(**validated_data, subscriber=user)
         return subscription
@@ -36,7 +36,7 @@ class ChannelSubscriptionSerializer(serializers.ModelSerializer):
         model = ChannelSubscription
         fields = '__all__'
 #
-    def create(self, validated_data):
+    def create(self, validated_data) -> ChannelSubscription:
         user = self.context.get('request').user
         subscription, _ = ChannelSubscription.objects.get_or_create(**validated_data, subscriber=user)
         return subscription

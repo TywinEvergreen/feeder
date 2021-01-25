@@ -21,7 +21,7 @@ SECRET_KEY = 'TywinEvergreen_ltehteuwshdorliennkight'
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -31,14 +31,12 @@ UPLOAD_DIRECTORIES = {
 }
 
 # Spotify settings
-
 SPOTIFY = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
     client_id=config('SPOTIFY_CLIENT_ID'),
     client_secret=config('SPOTIFY_CLIENT_SECRET'))
 )
 
 # Youtube settings
-
 YOUTUBE = build('youtube', 'v3',
                 developerKey=config('YOUTUBE_API_KEY', None))
 
@@ -143,17 +141,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-DJOSER = {
-    'LOGIN_FIELD': 'email',
-    'SERIALIZERS': {
-        'current_user': 'user.serializers.UserSerializer'
-    }
-}
-
+# Django Rest Framework
 REST_FRAMEWORK = {
     'DATE_FORMAT': "%Y-%m-%d",
     'DATETIME_FORMAT': "%H:%M %d/%m/%Y",
@@ -181,22 +169,31 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT': 'multipart',
 }
 
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'current_user': 'user.serializers.UserSerializer'
+    }
+}
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# Celery
 CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://localhost:6379')
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
-# Testing settings
+# Testing
 TEST_RUNNER = 'utils.tests.CustomTestRunner'
 TEST_USER_PASSWORD = 'test_password'
 

@@ -30,6 +30,6 @@ def get_new_videos():
             new_video = Video.objects.create(name=newest['title'], youtube_id=newest['channelId'],
                                              channel=channel, release_datetime=parse(newest['publishedAt']))
 
-            cover_url = newest['thumbnails']['high']['url']
+            cover_url = newest['thumbnails']['medium']['url']
             cover_file = ContentFile(requests.get(cover_url).content)
             new_video.cover.save(f'{newest["publishedAt"]}_{new_video.name}_cover.jpg', cover_file)

@@ -1,4 +1,5 @@
 from django.db.models import OuterRef
+from django.db.models.query import QuerySet
 
 from rest_framework.generics import CreateAPIView, ListAPIView
 
@@ -20,7 +21,7 @@ class NewAlubmsListAPIView(ListAPIView):
     """
     serializer_class = AlbumSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Album]:
         user = self.request.user
         queryset = Album.objects.filter(
             artist__in=user.artist_subscriptions.all().values('artist'),

@@ -25,5 +25,9 @@ app.conf.beat_schedule = {
     'get-new-videos': {
         'task': 'youtube.tasks.get_new_videos',
         'schedule': timezone.timedelta(seconds=30) # Поставить 1 час
+    },
+    'cleanup-unused-media': {
+        'task': 'utils.tasks.cleanup_unused_media',
+        'schedule': timezone.timedelta(seconds=30)  # Поставить 1 час
     }
 }

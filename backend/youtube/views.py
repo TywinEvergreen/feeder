@@ -1,3 +1,5 @@
+from django.db.models.query import QuerySet
+
 from django.db.models import OuterRef
 from rest_framework.generics import CreateAPIView, ListAPIView
 
@@ -19,7 +21,7 @@ class NewVideosListAPIView(ListAPIView):
     """
     serializer_class = VideoSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[Video]:
         user = self.request.user
         queryset = Video.objects.filter(
             channel__in=user.channel_subscriptions.all().values('channel'),

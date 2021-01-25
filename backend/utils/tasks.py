@@ -4,7 +4,7 @@ from feeder.celery import app
 
 
 @app.task
-def cleanup_unused_files():
+def cleanup_unused_media():
     """
     Очищает неисползуемые файлы
     """

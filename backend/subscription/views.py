@@ -1,6 +1,9 @@
+from django.db.models.query import QuerySet
+
 from rest_framework.generics import CreateAPIView, DestroyAPIView
 
 from .serializers import ArtistSubscriptionSerializer, ChannelSubscriptionSerializer
+from .models import ArtistSubscription, ChannelSubscription
 
 
 class ArtistSubscriptionCreateAPIView(CreateAPIView):
@@ -15,7 +18,7 @@ class ArtistSubscriptionDestroyAPIView(DestroyAPIView):
     Удаляет подписку на исполнителя
     """
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[ArtistSubscription]:
         return self.request.user.artist_subscriptions
 
 
@@ -31,5 +34,5 @@ class ChannelSubscriptionDestroyAPIView(DestroyAPIView):
     Удаляет подписку на канал
     """
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet[ChannelSubscription]:
         return self.request.user.channel_subscriptions
