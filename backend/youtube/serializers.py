@@ -3,7 +3,6 @@ from rest_framework import serializers
 from user.models import User
 from .models import Channel, Video
 
-
 class ChannelSerializer(serializers.ModelSerializer):
     """
     Сериализует каналы

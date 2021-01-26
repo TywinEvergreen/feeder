@@ -5,6 +5,8 @@
                 :key="index"
         >
             {{release.name}} - {{release.release_datetime}}
+<!--            <h5>{{release.cover}}</h5>-->
+            <img :src="release.cover" alt="">
         </h4>
 <!--        <span-->
 <!--            v-for="notif in notifications"-->
