@@ -32,7 +32,6 @@ import {mapActions} from 'vuex'
 import {YTSearcher} from 'ytsearcher'
 
 export default {
-    name: "AddChannel",
     data() {
         return {
             YOUTUBE_CLIENT: new YTSearcher(process.env.VUE_APP_YOUTUBE_CLIENT_SECRET),

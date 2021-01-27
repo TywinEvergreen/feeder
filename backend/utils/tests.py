@@ -17,8 +17,8 @@ from .generators import generate_random_email
 
 class CustomTestRunner(DiscoverRunner):
     """
-    Этот тестировщик удаляет директорию media/testing после
-    выполнения тестов, дабы не засорять директорию ненужными файлами
+    Это тестировщик удаляет директорию
+    media/testing после выполнения тестов
     """
 
     def teardown_test_environment(self, *args, **kwargs):
@@ -73,7 +73,7 @@ class AuthorizedAPITestCase(APITestCase):
         return subscription
 
     def create_superuser(self, email:str, password=TEST_USER_PASSWORD) -> User:
-        superuser = User.objects.create_superuser(email, password)
+        superuser = User.objects.create_superuser(email, password) # type: ignore
         return superuser
 
     def authenticate(self, email:str, password=TEST_USER_PASSWORD) -> Response:

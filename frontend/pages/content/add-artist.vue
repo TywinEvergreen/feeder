@@ -37,7 +37,6 @@ import SpotifyWebApi from 'spotify-web-api-js'
 import {mapActions} from 'vuex'
 
 export default {
-    name: "AddArtist",
     data() {
         return {
             SPOTIFY_CLIENT: new SpotifyWebApi(),

@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-row
-            v-if="user.authenticated"
+            v-if="authenticated"
             justify="center"
         >
             <v-col cols="3">
@@ -18,7 +18,7 @@
                 </v-row>
             </v-col>
         </v-row>
-        <slot></slot>
+        <Nuxt />
     </v-container>
 </template>
 
@@ -27,9 +27,8 @@ import Cookies from "js-cookie"
 import {mapActions, mapState} from "vuex"
 
 export default {
-    name: "Header",
     computed: {
-        ...mapState(['user'])
+        ...mapState(['authenticated'])
     },
     methods: {
         ...mapActions(['go', 'set_authorization_header', 'set_user']),
@@ -42,7 +41,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

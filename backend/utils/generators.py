@@ -1,5 +1,6 @@
 from django.utils.crypto import get_random_string
-from django.contrib.auth import get_user_model
+
+from user.models import User
 
 allowed_chars = 'abcdefghjkmnpqrstuvwxyzBCDEFGHJKLMNPQRSTUVWXYZ23456789'
 
@@ -13,5 +14,5 @@ def generate_random_email() -> str:
     """
     while True:
         generated_email = primary_generator() + '@gmail.com'
-        if not get_user_model().objects.filter(email=generated_email).exists():
+        if not User.objects.filter(email=generated_email).exists(): # type: ignore
             return generated_email
