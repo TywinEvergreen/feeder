@@ -77,8 +77,8 @@
                     })
                     .catch(error => {
                         let login_errors = []
-                        Object.entries(error.response.data).forEach(error => {
-                            login_errors.push(`${error[0]}: ${error[1][0]}`)
+                        Object.entries(error.response.data).forEach(err => {
+                            login_errors.push(`${err[0]}: ${err[1][0]}`)
                         });
                         this.errors = login_errors
                     });

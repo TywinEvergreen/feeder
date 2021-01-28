@@ -3,16 +3,14 @@ import Cookies from 'js-cookie';
 
 export const state = () => ({
     user: null,
-    authenticated: false
+    isAuthenticated: false
 });
 
-export const getters = () => ({
-    auth_token_in_cookies: () => {
-        return !!Cookies.get('auth_token');
-    }
-});
+export const getters = {
+    auth_token_in_cookies: () => !!Cookies.get('auth_token'),
+};
 
-export const mutations = () => ({
+export const mutations = {
     user: (payload) => {
         state.user = payload;
     },
@@ -25,9 +23,9 @@ export const mutations = () => ({
     authorization_header: (context, payload) => {
         Axios.defaults.headers.common['Authorization'] = 'Token ' + payload;
     },
-});
+};
 
-export const actions = () => ({
+export const actions = {
     set_user: async ({commit}) => {
         await Axios.get('auth/users/me/')
             .then(response => {
@@ -46,4 +44,4 @@ export const actions = () => ({
         let auth_token = Cookies.get('auth_token');
         commit('authorization_header', auth_token);
     },
-});
+};

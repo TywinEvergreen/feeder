@@ -1,8 +1,8 @@
 <template>
     <v-container>
         <v-row
-            v-if="authenticated"
-            justify="center"
+                v-if="isAuthenticated"
+                justify="center"
         >
             <v-col cols="3">
                 <v-row>
@@ -18,26 +18,29 @@
                 </v-row>
             </v-col>
         </v-row>
-        <Nuxt />
+        <Nuxt/>
     </v-container>
 </template>
 
 <script>
-import Cookies from "js-cookie"
-import {mapActions, mapState} from "vuex"
+    import Cookies from "js-cookie"
+    import {mapActions, mapState} from "vuex"
 
-export default {
-    computed: {
-        ...mapState(['authenticated'])
-    },
-    methods: {
-        ...mapActions(['go', 'set_authorization_header', 'set_user']),
-        signOut() {
-            Cookies.remove('auth_token');
-            this.set_authorization_header();
-            this.set_user();
-            this.go('Login')
+    export default {
+        middleware: ['checkAuth'],
+        computed: {
+            ...mapState({
+                isAuthenticated: state => state.user.isAuthenticated
+            })
+        },
+        methods: {
+            ...mapActions(['go', 'set_authorization_header', 'set_user']),
+            signOut() {
+                Cookies.remove('auth_token');
+                this.set_authorization_header();
+                this.set_user();
+                this.go('Login')
+            }
         }
     }
-}
 </script>

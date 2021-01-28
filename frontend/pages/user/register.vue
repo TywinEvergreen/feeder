@@ -31,7 +31,7 @@
                 <v-btn
                     @click="register"
                     color="black white--text"
-                >
+              210  >
                     регистрация
                 </v-btn>
             </v-col>
