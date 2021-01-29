@@ -26,8 +26,8 @@ export const mutations = {
 };
 
 export const actions = {
-    set_user: async ({commit}) => {
-        await Axios.get('auth/users/me/')
+    set_user: async ({commit, $axios}) => {
+        await $axios.get('auth/users/me/')
             .then(response => {
                 commit('user', response.data);
                 commit('authenticated', true)

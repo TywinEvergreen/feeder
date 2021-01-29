@@ -44,7 +44,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import qs from 'qs'
     import Cookies from 'js-cookie'
     import {mapActions} from 'vuex'
@@ -60,9 +59,13 @@
             }
         },
         methods: {
-            ...mapActions(['go', 'set_authorization_header', 'set_user']),
+            ...mapActions({
+                'go': 'utils/go',
+                'set_authorization_header': 'user/set_authorization_header',
+                'set_user': 'user/set_user'
+            }),
             login() {
-                axios('auth/token/login/', {
+                this.$axios('auth/token/login/', {
                     method: 'POST',
                     data: qs.stringify({
                         email: this.form.email,
@@ -73,7 +76,7 @@
                         Cookies.set('auth_token', response.data.auth_token);
                         this.set_authorization_header();
                         this.set_user();
-                        this.go('Profile');
+                        // this.$nuxt.$router.push({name: 'content-feed'});
                     })
                     .catch(error => {
                         let login_errors = []

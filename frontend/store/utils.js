@@ -1,5 +1,7 @@
 export const actions = {
-    go: async ({ app }, name) => {
-        app.router.push({name: name})
+    go: async (context, name) => {
+        console.log('goi');
+        console.log(this.app);
+        // router.push({name: name})
     },
 };
