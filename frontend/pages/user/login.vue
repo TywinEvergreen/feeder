@@ -46,7 +46,6 @@
 <script>
     import qs from 'qs'
     import Cookies from 'js-cookie'
-    import {mapActions} from 'vuex'
 
     export default {
         data() {
@@ -59,11 +58,6 @@
             }
         },
         methods: {
-            ...mapActions({
-                'go': 'utils/go',
-                'set_authorization_header': 'user/set_authorization_header',
-                'set_user': 'user/set_user'
-            }),
             login() {
                 this.$axios('auth/token/login/', {
                     method: 'POST',
@@ -74,8 +68,8 @@
                 })
                     .then(response => {
                         Cookies.set('auth_token', response.data.auth_token);
-                        this.set_authorization_header();
-                        this.set_user();
+                        this.$store.dispatch('user/set_authorization_header');
+                        this.$store.dispatch('user/set_user');
                         // this.$nuxt.$router.push({name: 'content-feed'});
                     })
                     .catch(error => {
