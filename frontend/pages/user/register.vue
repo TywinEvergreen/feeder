@@ -31,7 +31,7 @@
                 <v-btn
                     @click="register"
                     color="black white--text"
-              210  >
+                >
                     регистрация
                 </v-btn>
             </v-col>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import qs from 'qs'
 
 export default {
@@ -55,7 +54,7 @@ export default {
     },
     methods: {
         register() {
-            axios('auth/users/', {
+            this.$axios('auth/users/', {
                 method: 'POST',
                 data: qs.stringify({
                     email: this.form.email,
@@ -63,7 +62,7 @@ export default {
                 })
             })
                 .then(() => {
-                    this.$router.push({name: 'Login'});
+                    this.$store.dispatch('utils/go', 'user-login')
                 })
                 .catch(error => {
                     let register_errors = []

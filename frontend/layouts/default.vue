@@ -7,10 +7,10 @@
             <v-col cols="3">
                 <v-row>
                     <v-col cols="3">
-                        <a @click="go('Feed')">Новинки</a>
+                        <a @click="go('feed')">Новинки</a>
                     </v-col>
                     <v-col cols="3">
-                        <a @click="go('Profile')">Профиль</a>
+                        <a @click="go('user-profile')">Профиль</a>
                     </v-col>
                     <v-col cols="3">
                         <a @click="signOut">Выйти</a>
@@ -27,19 +27,24 @@
     import {mapActions, mapState} from "vuex"
 
     export default {
-        middleware: ['checkAuth'],
+        middleware: [
+            'authenticate',
+            'checkAuth'
+        ],
         computed: {
             ...mapState({
                 isAuthenticated: state => state.user.isAuthenticated
             })
         },
         methods: {
-            ...mapActions(['go', 'set_authorization_header', 'set_user']),
+            ...mapActions({
+                'go': 'utils/go',
+            }),
             signOut() {
                 Cookies.remove('auth_token');
-                this.set_authorization_header();
-                this.set_user();
-                this.go('Login')
+                this.$store.dispatch('user/set_authorization_header');
+                this.$store.dispatch('user/set_user');
+                this.go('user-login')
             }
         }
     }

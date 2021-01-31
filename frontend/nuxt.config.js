@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
     // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-    ssr: false,
+    ssr: true,
 
     // Target: https://go.nuxtjs.dev/config-target
     target: 'static',
@@ -22,6 +22,16 @@ export default {
         link: [
             {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
         ]
+    },
+
+    router: {
+        // extendRoutes(routes, resolve) {
+        //     routes.push({
+        //         name: 'feed',
+        //         path: '/',
+        //         component: resolve(__dirname, 'pages/feed.vue')
+        //     })
+        // }
     },
 
     // Global CSS: https://go.nuxtjs.dev/config-css

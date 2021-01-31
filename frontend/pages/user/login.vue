@@ -36,7 +36,7 @@
             >
                 вход
             </v-btn>
-            <a @click="go('Register')">
+            <a @click="go('user-register')">
                 регистрация ->
             </a>
         </v-col>
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex'
     import qs from 'qs'
     import Cookies from 'js-cookie'
 
@@ -58,6 +59,9 @@
             }
         },
         methods: {
+            ...mapActions({
+                'go': 'utils/go'
+            }),
             login() {
                 this.$axios('auth/token/login/', {
                     method: 'POST',
@@ -70,7 +74,7 @@
                         Cookies.set('auth_token', response.data.auth_token);
                         this.$store.dispatch('user/set_authorization_header');
                         this.$store.dispatch('user/set_user');
-                        // this.$nuxt.$router.push({name: 'content-feed'});
+                        this.$store.dispatch('utils/go', 'feed')
                     })
                     .catch(error => {
                         let login_errors = []
