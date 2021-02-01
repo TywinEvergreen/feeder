@@ -46,12 +46,11 @@ export default {
     methods: {
         ...mapActions({
             'go': 'utils/go',
-            'set_user': 'user/set_user',
         }),
         deleteSubscription(type, id) {
             axios.delete(`subscriptions/${type}/${id}`)
                 .then(() => {
-                    this.set_user()
+                    this.$store.dispatch('user/set_user')
                 })
         }
     }

@@ -72,6 +72,7 @@
                 })
                     .then(response => {
                         Cookies.set('auth_token', response.data.auth_token);
+                        console.log(Cookies.get('auth_token'));
                         this.$store.dispatch('user/set_authorization_header');
                         this.$store.dispatch('user/set_user');
                         this.$store.dispatch('utils/go', 'feed')

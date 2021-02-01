@@ -49,8 +49,8 @@ export default {
         this.authorizeSpotify()
     },
     methods: {
-        ...mapActions(['go', 'set_user']),
         authorizeSpotify() {
+            console.log(process.env);
             let base64_token = btoa(
                 `${process.env.VUE_APP_SPOTIFY_CLIENT_ID}:${process.env.VUE_APP_SPOTIFY_CLIENT_SECRET}`
             );
@@ -92,7 +92,7 @@ export default {
                         })
                     })
                         .then(() => {
-                            this.set_user();
+                            this.$store.dispatch('user/set_user');
                         })
                 })
         }

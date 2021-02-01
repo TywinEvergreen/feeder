@@ -28,12 +28,12 @@
 
     export default {
         middleware: [
-            // По всей видимости, эта логика неправильна. Как минимум мне кажется, что она должна располагаться
-            // не в этом месте. Скорее всего это и является причиной многих выскакивающих ошибок.
-            // Также нужно разобраться с env переменными. На ответ дается 30 секунд.
-            'authenticate',
             'checkAuth'
         ],
+        created() {
+            this.$store.dispatch('user/set_authorization_header');
+            this.$store.dispatch('user/set_user');
+        },
         computed: {
             ...mapState({
                 isAuthenticated: state => state.user.isAuthenticated

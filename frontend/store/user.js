@@ -7,7 +7,9 @@ export const state = () => ({
 })
 
 export const getters = {
-    auth_token_in_cookies: () => !!Cookies.get('auth_token'),
+    auth_token_in_cookies: () => {
+        return !!Cookies.get('auth_token')
+    },
 }
 
 export const mutations = {
@@ -24,7 +26,7 @@ export const actions = {
         await this.$axios.$get('auth/users/me/')
             .then(response => {
                 commit('user', response);
-                commit('isAuthenticated', true)
+                commit('isAuthenticated', true);
             })
             .catch(error => {
                 if (error.response.data.detail === 'Недопустимый токен.') {
