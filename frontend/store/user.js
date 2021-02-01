@@ -12,7 +12,7 @@ export const getters = {
 
 export const mutations = {
     user(state, payload) {
-        state.user = payload;
+        state.user = payload
     },
     isAuthenticated(state, payload) {
         state.isAuthenticated = payload
@@ -20,10 +20,10 @@ export const mutations = {
 }
 
 export const actions = {
-    async set_user({commit}) {
+    async set_user({ commit }) {
         await this.$axios.$get('auth/users/me/')
             .then(response => {
-                commit('user', response.data);
+                commit('user', response);
                 commit('isAuthenticated', true)
             })
             .catch(error => {

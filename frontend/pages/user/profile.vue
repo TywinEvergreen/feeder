@@ -7,7 +7,7 @@
             <v-col cols="6">
                 <h2>
                     Исполнители
-                    <a @click="go('AddArtist')">+</a>
+                    <a @click="go('content-add-artist')">+</a>
                 </h2>
                 <h5
                     v-for="subscription in user.user.artist_subscriptions"
@@ -20,7 +20,7 @@
             <v-col cols="6">
                 <h2>
                     Youtube каналы
-                    <a @click="go('AddChannel')">+</a>
+                    <a @click="go('content-add-channel')">+</a>
                 </h2>
                 <h5
                     v-for="subscription in user.user.channel_subscriptions"
@@ -44,7 +44,10 @@ export default {
         ...mapState(['user'])
     },
     methods: {
-        ...mapActions(['go', 'set_user']),
+        ...mapActions({
+            'go': 'utils/go',
+            'set_user': 'user/set_user',
+        }),
         deleteSubscription(type, id) {
             axios.delete(`subscriptions/${type}/${id}`)
                 .then(() => {
