@@ -31,10 +31,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import qs from 'qs'
 import SpotifyWebApi from 'spotify-web-api-js'
-import {mapActions} from 'vuex'
 
 export default {
     data() {
@@ -55,7 +53,7 @@ export default {
                 `${process.env.VUE_APP_SPOTIFY_CLIENT_ID}:${process.env.VUE_APP_SPOTIFY_CLIENT_SECRET}`
             );
 
-            axios('https://accounts.spotify.com/api/token', {
+            this.$axios('https://accounts.spotify.com/api/token', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Basic ${base64_token}`
@@ -77,7 +75,7 @@ export default {
             }
         },
         addArtist(artist) {
-            axios('spotify/artist', {
+            this.$axios('spotify/artist', {
                 method: 'POST',
                 data: qs.stringify({
                     'spotify_id': artist.id,

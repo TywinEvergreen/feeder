@@ -27,13 +27,10 @@
     import {mapActions, mapState} from "vuex"
 
     export default {
-        middleware: [
-            'checkAuth'
-        ],
-        created() {
-            this.$store.dispatch('user/set_authorization_header');
-            this.$store.dispatch('user/set_user');
-        },
+        // created() {
+        //     this.$store.dispatch('user/set_authorization_header');
+        //     this.$store.dispatch('user/set_user');
+        // },
         computed: {
             ...mapState({
                 isAuthenticated: state => state.user.isAuthenticated

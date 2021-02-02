@@ -24,16 +24,6 @@ export default {
         ]
     },
 
-    router: {
-        // extendRoutes(routes, resolve) {
-        //     routes.push({
-        //         name: 'feed',
-        //         path: '/',
-        //         component: resolve(__dirname, 'pages/feed.vue')
-        //     })
-        // }
-    },
-
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
         '~assets/global.css'
@@ -54,11 +44,13 @@ export default {
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
+        '@nuxtjs/auth',
         '@nuxtjs/dotenv',
         ['@nuxtjs/axios', {
             baseURL: 'http://127.0.0.1:8000/'
         }]
     ],
+
 
     // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
     vuetify: {
@@ -77,6 +69,33 @@ export default {
                 }
             }
         }
+    },
+
+    auth: {
+
+        strategies: {
+            local: {
+                endpoints: {
+                    login: {url: '/auth/token/login', method: 'post', propertyName: 'auth_token'},
+                    logout: {url: '/auth/token/logout', method: 'post'},
+                    user: {url: '/auth/users/me', method: 'get', propertyName: false}
+                },
+                tokenRequired: true,
+                tokenType: 'Token',
+                tokenName: 'Authorization'
+            }
+        },
+        rewriteRedirects: false,
+
+        redirect: {
+            login: "/user/login",
+            logout: "/user/login",
+            home: "/feed",
+        },
+    },
+
+    router: {
+        middleware: ['auth', 'setUser'],
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build

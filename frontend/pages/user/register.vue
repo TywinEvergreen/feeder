@@ -43,6 +43,7 @@
 import qs from 'qs'
 
 export default {
+    auth: false,
     data() {
         return {
             form: {

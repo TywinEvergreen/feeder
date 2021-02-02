@@ -13,11 +13,8 @@
 <script>
 import {mapState} from 'vuex';
 import {parse} from 'date-format-parse'
-import axios from "axios";
 
 export default {
-    components: {
-    },
     data() {
         return {
             new_albums: [],

@@ -36,7 +36,7 @@ export const actions = {
             });
     },
     async set_authorization_header() {
-        let auth_token = Cookies.get('auth_token');
-        this.$axios.defaults.headers.common['Authorization'] = 'Token ' + auth_token;
+        let auth_token = localStorage.getItem('auth._token.local');
+        this.$axios.defaults.headers.common['Authorization'] = auth_token;
     },
 }
