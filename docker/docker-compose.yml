@@ -7,7 +7,7 @@ version: '3'
 services:
   db:
     image: postgres:12.0
-    environment:
+    environment: # Сделать, чтобы всё это получалось из .env файла
         POSTGRES_DB: event_manager_prod_db
         POSTGRES_USER: jornojovana
         POSTGRES_PASSWORD: jornojovana
@@ -18,7 +18,7 @@ services:
   web:
     build: ..
     env_file:
-      - event-manager.env
+      - feeder.env
     command: gunicorn event_manager.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code
@@ -26,7 +26,6 @@ services:
       - 8000
     depends_on:
       - db
-      - redis
 
   nginx:
     build: ./nginx
@@ -43,7 +42,7 @@ services:
     volumes:
       - .:/code
     env_file:
-      - event-manager.env
+      - feeder.env
     depends_on:
       - db
       - redis
