@@ -51,7 +51,7 @@ export default {
             }
         },
         addChannel(channel) {
-            axios('youtube/channel', {
+            this.$axios('youtube/channel', {
                 method: 'POST',
                 data: qs.stringify({
                     'youtube_id': channel.id,
@@ -59,8 +59,7 @@ export default {
                 })
             })
                 .then(response => {
-                    console.log(response);
-                    axios('subscriptions/channel', {
+                    this.$axios('subscriptions/channel', {
                         method: 'POST',
                         data: qs.stringify({
                             'channel': response.data.id

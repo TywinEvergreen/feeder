@@ -72,29 +72,6 @@
                     this.errors = login_errors
                 }
             },
-
-            // login() {
-            //     this.$axios('auth/token/login/', {
-            //         method: 'POST',
-            //         data: qs.stringify({
-            //             email: this.form.email,
-            //             password: this.form.password,
-            //         })
-            //     })
-            //         .then(response => {
-            //             Cookies.set('auth_token', response.data.auth_token);
-            //             console.log(Cookies.get('auth_token'));
-            //             this.$store.dispatch('user/set_authorization_header');
-            //             this.$store.dispatch('utils/go', 'feed')
-            //         })
-            //         .catch(error => {
-            //             let login_errors = []
-            //             Object.entries(error.response.data).forEach(err => {
-            //                 login_errors.push(`${err[0]}: ${err[1][0]}`)
-            //             });
-            //             this.errors = login_errors
-            //         });
-            // }
         }
     }
 </script>

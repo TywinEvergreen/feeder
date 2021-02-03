@@ -48,7 +48,6 @@ export default {
     },
     methods: {
         authorizeSpotify() {
-            console.log(process.env);
             let base64_token = btoa(
                 `${process.env.VUE_APP_SPOTIFY_CLIENT_ID}:${process.env.VUE_APP_SPOTIFY_CLIENT_SECRET}`
             );
@@ -83,7 +82,7 @@ export default {
                 })
             })
                 .then(response => {
-                    axios('subscriptions/artist', {
+                    this.$axios('subscriptions/artist', {
                         method: 'POST',
                         data: qs.stringify({
                             'artist': response.data.id

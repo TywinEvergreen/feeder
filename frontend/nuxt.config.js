@@ -90,12 +90,12 @@ export default {
         redirect: {
             login: "/user/login",
             logout: "/user/login",
-            home: "/feed",
+            home: "/",
         },
     },
 
     router: {
-        middleware: ['auth', 'setUser'],
+        middleware: ['auth'],
     },
 
     // Build Configuration: https://go.nuxtjs.dev/config-build

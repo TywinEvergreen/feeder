@@ -48,7 +48,7 @@ export default {
             'go': 'utils/go',
         }),
         deleteSubscription(type, id) {
-            axios.delete(`subscriptions/${type}/${id}`)
+            this.$axios.delete(`subscriptions/${type}/${id}`)
                 .then(() => {
                     this.$store.dispatch('user/set_user')
                 })

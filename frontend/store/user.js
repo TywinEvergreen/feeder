@@ -29,14 +29,15 @@ export const actions = {
                 commit('isAuthenticated', true);
             })
             .catch(error => {
-                if (error.response.data.detail === 'Недопустимый токен.') {
+                console.log(error);
+                if (error.response.detail === 'Недопустимый токен.') {
                     delete this.$axios.defaults.headers.common['Authorization'];
                 }
                 commit('isAuthenticated', false);
             });
     },
     async set_authorization_header() {
-        let auth_token = localStorage.getItem('auth._token.local');
+        let auth_token = await Cookies.get('auth._token.local');
         this.$axios.defaults.headers.common['Authorization'] = auth_token;
     },
 }
