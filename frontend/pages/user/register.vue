@@ -1,6 +1,6 @@
 <template>
     <v-row justify="center">
-        <v-col cols="4">
+        <v-col cols="12">
             <v-col cols="12">
                 <h1>Feeder</h1>
                 <h5>пройдите регистрацию</h5>

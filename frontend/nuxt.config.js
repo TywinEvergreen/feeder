@@ -42,6 +42,10 @@ export default {
         '@nuxtjs/vuetify',
     ],
 
+    vuetify: {
+        icons: 'fa',
+    },
+
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
         '@nuxtjs/auth',
