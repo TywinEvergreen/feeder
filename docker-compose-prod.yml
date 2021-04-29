@@ -1,0 +1,57 @@
+# $ sudo docker-compose build
+# $ sudo docker-compose up
+# $ sudo docker-compose run web <command>
+
+version: '3'
+
+#services:
+#  db:
+#    image: postgres:12
+#    hostname: db
+#    environment:
+#        POSTGRES_PASSWORD: example
+#    volumes:
+#      - ./ci/db:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+#
+#  web:
+#    build: ..
+#    env_file:
+#      - ../.env
+#    command: gunicorn event_manager.wsgi:application --bind 0.0.0.0:8000
+#    volumes:
+#      - .:/code
+#    expose:
+#      - 8000
+#    depends_on:
+#      - db
+#
+#  nginx:
+#    build: ./nginx
+#    ports:
+#      - 80:80
+#    depends_on:
+#      - web
+#
+#  redis:
+#    image: redis:alpine
+#
+#  celery:
+#    build: ..
+#    command: celery -A event_manager.celery worker -B -l info
+#    volumes:
+#      - .:/code
+#    env_file:
+#      - ../.env
+#    depends_on:
+#      - db
+#      - redis
+#
+#volumes:
+#  postgres_data:

@@ -90,8 +90,8 @@ celerybeat-schedule
 
 # dotenv
 .env
-feeder.env
-docker/feeder.env
+.env
+.env
 
 # virtualenv
 backend/venv

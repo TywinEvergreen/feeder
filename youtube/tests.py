@@ -1,11 +1,9 @@
 from django.urls import reverse
-
-import pytz
 from dateutil.parser import parse
+import pytz
 
 from utils.tests import AuthorizedAPITestCase
-from .tasks import get_new_videos
-from .models import Video
+from youtube.tasks import get_new_videos
 
 
 class TestChannel(AuthorizedAPITestCase):

@@ -6,4 +6,4 @@ WORKDIR /code
 ADD requirements.txt /code/
 RUN apt-get -y update && apt-get install -y libzbar-dev
 RUN pip install -r requirements.txt
-ADD .. /code/
+ADD . /code/
