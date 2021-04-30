@@ -2,10 +2,13 @@ from pathlib import Path
 import os
 import sys
 
+from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
 
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -164,7 +167,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Celery
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379')
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'

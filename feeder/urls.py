@@ -6,7 +6,7 @@ from .settings import MEDIA_URL, MEDIA_ROOT
 
 
 urlpatterns = [
-    path('admin-panel/', admin.site.urls),
+    path('feederadmin/', admin.site.urls),
 
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
