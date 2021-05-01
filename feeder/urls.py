@@ -11,8 +11,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
 
-    path('user/', include('user.urls')),
-    path('spotify/', include('spotify.urls')),
-    path('youtube/', include('youtube.urls')),
-    path('subscriptions/', include('subscription.urls'))
+    path('user/', include('user.urls'), name='user'),
+    path('spotify/', include('spotify.urls'), name='spotify'),
+    path('youtube/', include('youtube.urls'), name='youtube'),
+    path('subscription/', include('subscription.urls'), name='subscription'),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)

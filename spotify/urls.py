@@ -1,9 +1,15 @@
-from django.urls import path
+from django.conf.urls import url
+from django.urls import include
+from rest_framework import routers
 
-from .views import ArtistCreateAPIView, NewAlubmsListAPIView
+from spotify.views import ArtistViewSet, NewAlbumsViewSet
 
+
+router = routers.DefaultRouter()
+
+router.register('artist', ArtistViewSet, basename='artist')
+router.register('new-albums', NewAlbumsViewSet, basename='new-albums')
 
 urlpatterns = [
-    path('artist', ArtistCreateAPIView.as_view(), name='artist'),
-    path('new-albums', NewAlubmsListAPIView.as_view(), name='new-albums')
+    url('', include(router.urls))
 ]

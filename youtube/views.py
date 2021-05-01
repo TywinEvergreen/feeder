@@ -1,20 +1,21 @@
-from django.db.models.query import QuerySet
-
 from django.db.models import OuterRef
-from rest_framework.generics import CreateAPIView, ListAPIView
+from django.db.models.query import QuerySet
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
-from .serializers import ChannelSerializer, VideoSerializer
-from .models import Video
+from youtube.serializers import ChannelSerializer, VideoSerializer
+from youtube.models import Channel, Video
 
 
-class ChannelCreateAPIView(CreateAPIView):
+class ChannelViewSet(mixins.CreateModelMixin, GenericViewSet):
     """
     Создаёт канал
     """
+    queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
 
 
-class NewVideosListAPIView(ListAPIView):
+class NewVideosViewSet(mixins.ListModelMixin, GenericViewSet):
     """
     Возвращает список видео с каналов, на которые подписан
     пользователь и которые вышли после подписки на канал

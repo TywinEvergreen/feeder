@@ -1,20 +1,21 @@
 from django.db.models import OuterRef
 from django.db.models.query import QuerySet
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
-from rest_framework.generics import CreateAPIView, ListAPIView
-
-from .serializers import ArtistSerializer, AlbumSerializer
-from .models import Album
+from spotify.serializers import ArtistSerializer, AlbumSerializer
+from spotify.models import Album, Artist
 
 
-class ArtistCreateAPIView(CreateAPIView):
+class ArtistViewSet(mixins.CreateModelMixin, GenericViewSet):
     """
     Создаёт исполнителя
     """
+    queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
 
-class NewAlubmsListAPIView(ListAPIView):
+class NewAlbumsViewSet(mixins.ListModelMixin, GenericViewSet):
     """
     Возвращает список альбомов, на исполнителей которых подписан
     пользователь и которые вышли после подписки на исполнителя

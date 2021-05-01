@@ -10,14 +10,18 @@ class Artist(models.Model):
 
 
 class Album(models.Model):
-    album_types = (
-        ('album', 'album'),
-        ('single', 'single')
+    ALBUM = 'album'
+    SINGLE = 'single'
+
+    TYPE_CHOICES = (
+        (ALBUM, 'Альбом'),
+        (SINGLE, 'Сингл')
     )
+
     name = models.CharField(max_length=256)
     spotify_id = models.CharField(max_length=256, unique=True)
     cover = models.ImageField(upload_to='album_covers', blank=True, null=True)
-    type = models.CharField(choices=album_types, max_length=6)
+    type = models.CharField(choices=TYPE_CHOICES, max_length=6)
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
 
     release_datetime = models.DateTimeField()

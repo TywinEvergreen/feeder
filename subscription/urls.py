@@ -1,12 +1,15 @@
-from django.urls import path
+from django.conf.urls import url
+from django.urls import include
+from rest_framework import routers
 
-from .views import ArtistSubscriptionCreateAPIView, ChannelSubscriptionCreateAPIView, \
-    ArtistSubscriptionDestroyAPIView, ChannelSubscriptionDestroyAPIView
+from subscription.views import ArtistSubscriptionViewSet, ChannelSubscriptionViewSet
 
+
+router = routers.DefaultRouter()
+
+router.register('artist-subscription', ArtistSubscriptionViewSet, basename='artist-subscription')
+router.register('channel-subscription', ChannelSubscriptionViewSet, basename='channel-subscription')
 
 urlpatterns = [
-    path('artist', ArtistSubscriptionCreateAPIView.as_view(), name='subscribe-artist'),
-    path('artist/<pk>', ArtistSubscriptionDestroyAPIView.as_view(), name='destroy-artist-subscription'),
-    path('channel', ChannelSubscriptionCreateAPIView.as_view(), name='subscribe-channel'),
-    path('channel/<pk>', ChannelSubscriptionDestroyAPIView.as_view(), name='destroy-channel-subscription'),
+    url('', include(router.urls)),
 ]

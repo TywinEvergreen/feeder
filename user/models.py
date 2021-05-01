@@ -27,6 +27,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Суперпользователь должен иметь is_superuser=True.')
         return self.create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     username = None
     first_name = None

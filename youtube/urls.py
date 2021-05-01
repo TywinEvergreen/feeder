@@ -1,9 +1,15 @@
-from django.urls import path
+from django.conf.urls import url
+from django.urls import include
+from rest_framework import routers
 
-from .views import ChannelCreateAPIView, NewVideosListAPIView
+from youtube.views import ChannelViewSet, NewVideosViewSet
 
+
+router = routers.DefaultRouter()
+
+router.register('channel', ChannelViewSet, basename='channel')
+router.register('new-videos', NewVideosViewSet, basename='new-videos')
 
 urlpatterns = [
-    path('channel', ChannelCreateAPIView.as_view(), name='channel'),
-    path('new-videos', NewVideosListAPIView.as_view(), name='new-videos')
+    url('', include(router.urls))
 ]

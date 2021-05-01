@@ -1,37 +1,34 @@
 from django.db.models.query import QuerySet
+from rest_framework import mixins
+from rest_framework.viewsets import GenericViewSet
 
-from rest_framework.generics import CreateAPIView, DestroyAPIView
-
-from .serializers import ArtistSubscriptionSerializer, ChannelSubscriptionSerializer
-from .models import ArtistSubscription, ChannelSubscription
+from subscription.serializers import ArtistSubscriptionSerializer, ChannelSubscriptionSerializer
+from subscription.models import ArtistSubscription, ChannelSubscription
 
 
-class ArtistSubscriptionCreateAPIView(CreateAPIView):
+class ArtistSubscriptionViewSet(
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet,
+):
     """
-    Создаёт подписку на исполнителя
+    Создает или удаляет подписку на исполнителя
     """
     serializer_class = ArtistSubscriptionSerializer
 
-
-class ArtistSubscriptionDestroyAPIView(DestroyAPIView):
-    """
-    Удаляет подписку на исполнителя
-    """
     def get_queryset(self) -> QuerySet[ArtistSubscription]:
         return self.request.user.artist_subscriptions
 
 
-class ChannelSubscriptionCreateAPIView(CreateAPIView):
+class ChannelSubscriptionViewSet(
+    mixins.CreateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericViewSet,
+):
     """
-    Создаёт подписку на канал
+    Создает или удаляет подписку на канал
     """
     serializer_class = ChannelSubscriptionSerializer
-
-
-class ChannelSubscriptionDestroyAPIView(DestroyAPIView):
-    """
-    Удаляет подписку на канал
-    """
 
     def get_queryset(self) -> QuerySet[ChannelSubscription]:
         return self.request.user.channel_subscriptions

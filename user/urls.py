@@ -1,8 +1,14 @@
-from django.urls import path
+from django.conf.urls import url
+from django.urls import include
+from rest_framework import routers
 
-from .views import UserUpdateAPIView
+from user.views import UserViewSet
 
+
+router = routers.DefaultRouter()
+
+router.register('user', UserViewSet, basename='user')
 
 urlpatterns = [
-    path('', UserUpdateAPIView.as_view(), name='user')
+    url('', include(router.urls))
 ]
