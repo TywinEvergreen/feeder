@@ -1,24 +1,19 @@
 from django.urls import reverse
 from rest_framework.test import APITestCase
 
-import pytz
-from dateutil.parser import parse
-
 from subscription.tests.factories import ChannelSubscriptionFactory
 from user.tests.factories import UserFactory
 from youtube.tests.factories import ChannelFactory, VideoFactory
-from youtube.models import Channel, Video
-from spotify.tasks import get_new_albums
+from youtube.models import Channel
 
 
 class ChannelViewSetTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
-        self.channel = ChannelFactory()
 
     def test_create_channel(self):
-        self.client.force_login(self.user)
-        url = reverse('youtube:channel-detail')
+        self.client.force_login(user=self.user)
+        url = reverse('youtube:channel-list')
         response = self.client.post(url, {
             'youtube_id': '123',
             'name': 'test',
@@ -30,12 +25,34 @@ class ChannelViewSetTest(APITestCase):
         )
 
     def test_get_new_videos(self):
-        VideoFactory(channel=self.channel)
-        ChannelSubscriptionFactory(channel=self.channel, subscriber=self.user)
-        VideoFactory(channel=self.channel)
+        channel1 = ChannelFactory()
+        VideoFactory(channel=channel1)
 
-        self.client.force_login(self.user)
+        channel2 = ChannelFactory()
+        ChannelSubscriptionFactory(channel=channel2, subscriber=self.user)
+        VideoFactory(channel=channel2)
+
+        self.client.force_login(user=self.user)
         url = reverse('youtube:new-videos-list')
         response = self.client.get(url)
 
         self.assertEqual(response.data['count'], 1)
+
+
+class TestTasks(AuthorizedAPITestCase):
+
+    def test_get_new_videos(self):
+        channel = self.create_channel(youtube_id='UC6bTF68IAV1okfRfwXIP1Cg')
+
+        get_new_videos()
+        channel.refresh_from_db()
+        self.assertTrue(hasattr(channel, 'video'))
+        self.assertTrue(channel.video.cover)
+
+        channel.video.release_datetime = pytz.utc.localize(parse('1/1/1500 00:00'))
+        channel.video.save()
+
+        get_new_videos()
+        channel.refresh_from_db()
+        self.assertNotEqual(channel.video.release_datetime,
+                            pytz.utc.localize(parse('1/1/1500 00:00')))
