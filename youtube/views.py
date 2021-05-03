@@ -23,6 +23,8 @@ class NewVideosViewSet(mixins.ListModelMixin, GenericViewSet):
     serializer_class = VideoSerializer
 
     def get_queryset(self) -> QuerySet[Video]:
+        print(self.request)
+        print(self.request.user)
         user = self.request.user
         queryset = Video.objects.filter(
             channel__in=user.channel_subscriptions.all().values('channel'),
