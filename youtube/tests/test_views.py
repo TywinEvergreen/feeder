@@ -24,35 +24,21 @@ class ChannelViewSetTest(APITestCase):
             Channel.objects.filter(youtube_id='123', name='test').exists()
         )
 
+
+class NewVideosViewSetTest(APITestCase):
+    def setUp(self) -> None:
+        self.user = UserFactory()
+        self.channel1 = ChannelFactory()
+        self.channel2 = ChannelFactory()
+
     def test_get_new_videos(self):
-        channel1 = ChannelFactory()
-        VideoFactory(channel=channel1)
+        VideoFactory(channel=self.channel1)
+        ChannelSubscriptionFactory(channel=self.channel2, subscriber=self.user)
+        VideoFactory(channel=self.channel2)
 
-        channel2 = ChannelFactory()
-        ChannelSubscriptionFactory(channel=channel2, subscriber=self.user)
-        VideoFactory(channel=channel2)
-
-        self.client.force_login(user=self.user)
+        self.client.force_login(self.user)
         url = reverse('youtube:new-videos-list')
         response = self.client.get(url)
 
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['count'], 1)
-
-
-class TestTasks(AuthorizedAPITestCase):
-
-    def test_get_new_videos(self):
-        channel = self.create_channel(youtube_id='UC6bTF68IAV1okfRfwXIP1Cg')
-
-        get_new_videos()
-        channel.refresh_from_db()
-        self.assertTrue(hasattr(channel, 'video'))
-        self.assertTrue(channel.video.cover)
-
-        channel.video.release_datetime = pytz.utc.localize(parse('1/1/1500 00:00'))
-        channel.video.save()
-
-        get_new_videos()
-        channel.refresh_from_db()
-        self.assertNotEqual(channel.video.release_datetime,
-                            pytz.utc.localize(parse('1/1/1500 00:00')))

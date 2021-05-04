@@ -1,16 +1,11 @@
 from django.db.models.query import QuerySet
-from rest_framework import mixins
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins, generics
 
 from user.serializers import UserSerializer
 from user.models import User
 
 
-class UserViewSet(
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    GenericViewSet,
-):
+class UserRetrieveUpdateAPIView(generics.RetrieveAPIView, generics.UpdateAPIView):
     """
     Получает одного пользователя или обновляет его
     """

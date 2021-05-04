@@ -1,4 +1,5 @@
 import factory
+from django.utils import timezone
 
 from spotify.models import Artist, Album
 
@@ -20,7 +21,11 @@ class AlbumFactory(factory.django.DjangoModelFactory):
         "random_element", elements=[x[0] for x in Album.TYPE_CHOICES]
     )
 
-    release_datetime = factory.Faker("date_time_this_decade", before_now=True, after_now=True)
+    release_datetime = factory.Faker(
+        "date_time_this_decade",
+        tzinfo=timezone.get_current_timezone(),
+        after_now=True
+    )
 
     class Meta:
         model = Album
