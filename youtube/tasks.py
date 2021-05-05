@@ -1,13 +1,13 @@
 from __future__ import absolute_import, unicode_literals
 from django.core.files.base import ContentFile
 import requests
-import datetime
 
 from dateutil.parser import parse
 
 from feeder.settings import YOUTUBE
 from feeder.celery import app
-from .models import Channel, Video
+from subscription.models import ChannelSubscription
+from youtube.models import Channel, Video, VideoNotification
 
 
 @app.task
@@ -17,8 +17,10 @@ def get_new_videos():
     """
     for channel in Channel.objects.all():
         newest = YOUTUBE.search().list(
-            channelId=channel.youtube_id, maxResults=1,
-            part='snippet', order='date'
+            channelId=channel.youtube_id,
+            maxResults=1,
+            part='snippet',
+            order='date'
         ).execute()['items'][0]['snippet']
 
         if not hasattr(channel, 'video') or \
@@ -27,9 +29,20 @@ def get_new_videos():
             if hasattr(channel, 'video'):
                 channel.video.delete()
 
-            new_video = Video.objects.create(name=newest['title'], youtube_id=newest['channelId'],
-                                             channel=channel, release_datetime=parse(newest['publishedAt']))
+            new_video = Video.objects.create(
+                name=newest['title'],
+                youtube_id=newest['channelId'],
+                channel=channel,
+                release_datetime=parse(newest['publishedAt'])
+            )
 
             cover_url = newest['thumbnails']['medium']['url']
             cover_file = ContentFile(requests.get(cover_url).content)
             new_video.cover.save(f'{newest["publishedAt"]}_{new_video.name}_cover.jpg', cover_file)
+
+            subscribers = channel.subscriptions.values_list('subscriber', flat=True)
+            video_notification = VideoNotification.objects.create(
+                video=new_video,
+                release_date=new_video.release_datetime
+            )
+            video_notification.subscribers.set(subscribers)

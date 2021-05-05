@@ -14,9 +14,16 @@ class DefaultSubscription(models.Model):
 
 
 class ArtistSubscription(DefaultSubscription):
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    subscriber = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE,
-                                   related_name='artist_subscriptions')
+    artist = models.ForeignKey(
+        Artist,
+        on_delete=models.CASCADE,
+        related_name='subscriptions'
+    )
+    subscriber = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='artist_subscriptions'
+    )
 
     def __str__(self):
         return f'Подписка {self.subscriber.email} на исполнителя {self.artist.name}'
@@ -26,9 +33,16 @@ class ArtistSubscription(DefaultSubscription):
 
 
 class ChannelSubscription(DefaultSubscription):
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
-    subscriber = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE,
-                                   related_name='channel_subscriptions')
+    channel = models.ForeignKey(
+        Channel,
+        on_delete=models.CASCADE,
+        related_name='subscriptions'
+    )
+    subscriber = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='channel_subscriptions'
+    )
 
     def __str__(self):
         return f'Подписка {self.subscriber.email} на канал {self.channel.name}'

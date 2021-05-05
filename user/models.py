@@ -43,4 +43,5 @@ class User(AbstractUser):
         return f'{self.email}, #{self.id}'
 
     class Meta:
-        ordering = ['-id']
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'

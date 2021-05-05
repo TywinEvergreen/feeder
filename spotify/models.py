@@ -1,5 +1,7 @@
 from django.db import models
 
+from user.models import User
+
 
 class Artist(models.Model):
     name = models.CharField(max_length=256)
@@ -31,3 +33,13 @@ class Album(models.Model):
 
     class Meta:
         ordering = ['-release_datetime']
+
+
+class AlbumNotification(models.Model):
+    subscribers = models.ManyToManyField(User, verbose_name='Пользователи')
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, verbose_name='Альбом')
+
+    release_date = models.DateField(verbose_name='Дата релиза')
+
+    class Meta:
+        verbose_name_plural = 'Оповещения об альбомах'

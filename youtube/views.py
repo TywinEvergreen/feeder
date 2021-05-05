@@ -22,6 +22,7 @@ class NewVideosViewSet(mixins.ListModelMixin, GenericViewSet):
     """
     serializer_class = VideoSerializer
 
+    # TODO: Переделать под VideoNotification
     def get_queryset(self) -> QuerySet[Video]:
         user = self.request.user
         queryset = Video.objects.filter(
