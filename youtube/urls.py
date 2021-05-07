@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.urls import include
 from rest_framework import routers
 
-from youtube.views import ChannelViewSet, NewVideosViewSet
+from youtube.views import ChannelViewSet, VideoNotificationViewSet
 
 
 app_name = 'youtube'
@@ -10,7 +10,7 @@ app_name = 'youtube'
 router = routers.DefaultRouter()
 
 router.register('channel', ChannelViewSet, basename='channel')
-router.register('new-videos', NewVideosViewSet, basename='new-videos')
+router.register('new-videos', VideoNotificationViewSet, basename='video-notifications')
 
 urlpatterns = [
     url('', include(router.urls))

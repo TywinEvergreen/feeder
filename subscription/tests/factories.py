@@ -8,7 +8,14 @@ from youtube.tests.factories import ChannelFactory
 
 class ArtistSubscriptionFactory(factory.django.DjangoModelFactory):
     artist = factory.SubFactory(ArtistFactory)
-    subscriber = factory.SubFactory(UserFactory)
+
+    @factory.post_generation
+    def subscribers(self, create, extracted, **kwargs):
+        if not create:
+            return
+        if extracted:
+            for subscribers in extracted:
+                self.subscribers.add(subscribers)
 
     class Meta:
         model = ArtistSubscription
@@ -16,7 +23,7 @@ class ArtistSubscriptionFactory(factory.django.DjangoModelFactory):
 
 class ChannelSubscriptionFactory(factory.django.DjangoModelFactory):
     channel = factory.SubFactory(ChannelFactory)
-    subscriber = factory.SubFactory(UserFactory)
+    subscribers = factory.SubFactory(UserFactory, many=True)
 
     class Meta:
         model = ChannelSubscription
