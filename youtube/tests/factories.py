@@ -18,7 +18,8 @@ class VideoFactory(factory.django.DjangoModelFactory):
     channel = factory.SubFactory(ChannelFactory)
     release_datetime = factory.Faker(
         "date_time_this_decade",
-        tzinfo=timezone.get_current_timezone(),
+        before_now=True,
+        # tzinfo=timezone.get_current_timezone(),
         after_now=True
     )
 
