@@ -8,7 +8,7 @@ class Channel(models.Model):
     youtube_id = models.CharField(max_length=256, unique=True)
 
     def __str__(self):
-        return f'{self.name}, #{self.pk}'
+        return f'Channel, {self.name}, #{self.pk}'
 
 
 class Video(models.Model):
@@ -19,7 +19,7 @@ class Video(models.Model):
     release_datetime = models.DateTimeField()
 
     def __str__(self):
-        return f'{self.name}, #{self.pk}'
+        return f'Video, {self.name}, #{self.pk}'
 
     class Meta:
         ordering = ['-release_datetime']
@@ -28,8 +28,6 @@ class Video(models.Model):
 class VideoNotification(models.Model):
     subscribers = models.ManyToManyField(User, verbose_name='Подписчики')
     video = models.ForeignKey(Video, on_delete=models.CASCADE, verbose_name='Видео')
-
-    release_datetime = models.DateField(verbose_name='Дата релиза')
 
     class Meta:
         verbose_name_plural = 'Оповещения о видео'

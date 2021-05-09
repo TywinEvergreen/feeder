@@ -8,7 +8,7 @@ class Artist(models.Model):
     spotify_id = models.CharField(max_length=256, unique=True)
 
     def __str__(self):
-        return f'{self.name}, #{self.pk}'
+        return f'Artist, {self.name}, #{self.pk}'
 
 
 class Album(models.Model):
@@ -29,7 +29,7 @@ class Album(models.Model):
     release_datetime = models.DateTimeField()
 
     def __str__(self):
-        return f'{self.name}, #{self.pk}'
+        return f'Album, {self.name}, #{self.pk}'
 
     class Meta:
         ordering = ['-release_datetime']
@@ -38,8 +38,6 @@ class Album(models.Model):
 class AlbumNotification(models.Model):
     subscribers = models.ManyToManyField(User, verbose_name='Пользователи')
     album = models.ForeignKey(Album, on_delete=models.CASCADE, verbose_name='Альбом')
-
-    release_date = models.DateField(verbose_name='Дата релиза')
 
     class Meta:
         verbose_name_plural = 'Оповещения об альбомах'

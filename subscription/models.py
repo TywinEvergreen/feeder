@@ -26,7 +26,7 @@ class ArtistSubscription(DefaultSubscription):
     )
 
     def __str__(self):
-        return f'Подписка {self.subscriber.email} на исполнителя {self.artist.name}'
+        return f'Subscription from {self.subscriber} to {self.artist}'
 
     class Meta:
         unique_together = ('artist', 'subscriber')
@@ -45,7 +45,7 @@ class ChannelSubscription(DefaultSubscription):
     )
 
     def __str__(self):
-        return f'Подписка {self.subscriber.email} на канал {self.channel.name}'
+        return f'Subscription from {self.subscriber} to {self.channel}'
 
     class Meta:
         unique_together = ('channel', 'subscriber')
