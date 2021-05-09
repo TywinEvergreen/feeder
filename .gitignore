@@ -118,3 +118,5 @@ media/
 *.pyc
 *.db
 *.pid
+
+ci/db/
