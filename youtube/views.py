@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
-from youtube.serializers import ChannelSerializer, VideoSerializer
+from youtube.serializers import ChannelSerializer, VideoNotificationSerializer
 from youtube.models import Channel, VideoNotification
 
 
@@ -20,7 +20,7 @@ class VideoNotificationViewSet(mixins.ListModelMixin, GenericViewSet):
     Возвращает список видео с каналов, на которые подписан
     пользователь и которые вышли после подписки на канал
     """
-    serializer_class = VideoSerializer
+    serializer_class = VideoNotificationSerializer
 
     # TODO: Переделать под VideoNotification
     def get_queryset(self) -> QuerySet[VideoNotification]:
@@ -28,7 +28,7 @@ class VideoNotificationViewSet(mixins.ListModelMixin, GenericViewSet):
         subscribed_channels = user.channel_subscriptions.all().values('channel')
         queryset = VideoNotification.objects.filter(
             video__channel__in=subscribed_channels,
-            release_datetime__gte=user.channel_subscriptions.filter(
+            created_datetime__gte=user.channel_subscriptions.filter(
                 channel=OuterRef('video__channel')
             ).values('datetime_committed')
         )

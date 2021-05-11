@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from user.models import User
-from .models import Channel, Video
+from youtube.models import Channel, Video, VideoNotification
+
 
 class ChannelSerializer(serializers.ModelSerializer):
     """
@@ -13,7 +14,6 @@ class ChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Channel
         fields = '__all__'
-
 
     def create(self, validated_data) -> Channel:
         channel, _ = Channel.objects.get_or_create(
@@ -31,3 +31,10 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
+
+
+class VideoNotificationSerializer(serializers.ModelSerializer):
+    video = VideoSerializer()
+
+    class Meta:
+        model = VideoNotification

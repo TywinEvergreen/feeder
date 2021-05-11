@@ -3,7 +3,7 @@ from rest_framework.test import APITestCase
 
 from subscription.tests.factories import ChannelSubscriptionFactory
 from user.tests.factories import UserFactory
-from youtube.tests.factories import ChannelFactory, VideoFactory
+from youtube.tests.factories import ChannelFactory, VideoFactory, VideoNotificationFactory
 from youtube.models import Channel
 
 
@@ -28,13 +28,12 @@ class ChannelViewSetTest(APITestCase):
 class NewVideosViewSetTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
-        self.channel1 = ChannelFactory()
-        self.channel2 = ChannelFactory()
 
     def test_get_new_videos(self):
-        VideoFactory(channel=self.channel1)
-        ChannelSubscriptionFactory(channel=self.channel2, subscriber=self.user)
-        VideoFactory(channel=self.channel2)
+        channel = ChannelFactory()
+        ChannelSubscriptionFactory(channel=channel, subscriber=self.user)
+        video = VideoFactory(channel=channel)
+        VideoNotificationFactory(video=video)
 
         self.client.force_login(self.user)
         url = reverse('youtube:video-notifications-list')
@@ -42,5 +41,5 @@ class NewVideosViewSetTest(APITestCase):
         print(response)
         print(response.data)
 
-        # self.assertEqual(response.status_code, 200)
-        # self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['count'], 1)

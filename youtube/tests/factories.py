@@ -1,7 +1,7 @@
 import factory
 from django.utils import timezone
 
-from youtube.models import Channel, Video
+from youtube.models import Channel, Video, VideoNotification
 
 
 class ChannelFactory(factory.django.DjangoModelFactory):
@@ -24,3 +24,10 @@ class VideoFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Video
+
+
+class VideoNotificationFactory(factory.django.DjangoModelFactory):
+    video = factory.SubFactory(VideoFactory)
+
+    class Meta:
+        model = VideoNotification
