@@ -36,8 +36,8 @@ class Album(models.Model):
 
 
 class AlbumNotification(models.Model):
-    subscribers = models.ManyToManyField(User, verbose_name='Пользователи')
     album = models.ForeignKey(Album, on_delete=models.CASCADE, verbose_name='Альбом')
+    created_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Оповещения об альбомах'

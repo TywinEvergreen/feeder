@@ -26,8 +26,8 @@ class Video(models.Model):
 
 
 class VideoNotification(models.Model):
-    subscribers = models.ManyToManyField(User, verbose_name='Подписчики')
     video = models.ForeignKey(Video, on_delete=models.CASCADE, verbose_name='Видео')
+    created_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name_plural = 'Оповещения о видео'
