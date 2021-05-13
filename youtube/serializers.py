@@ -38,3 +38,4 @@ class VideoNotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VideoNotification
+        fields = '__all__'

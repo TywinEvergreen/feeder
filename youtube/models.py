@@ -27,6 +27,19 @@ class Video(models.Model):
 
 class VideoNotification(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, verbose_name='Видео')
+    received_by = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='received_video_notifications',
+        verbose_name='Получатели'
+    )
+    discarded_by = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='discard_video_notifications',
+        verbose_name='Получатели, отказавшиеся от уведомления'
+    )
+
     created_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:

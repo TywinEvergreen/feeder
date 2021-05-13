@@ -31,3 +31,16 @@ class VideoNotificationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = VideoNotification
+
+    @factory.post_generation
+    def received_by(self, create, extracted, **kwargs):
+        if extracted:
+            for user in extracted:
+                self.received_by.add(user)
+
+    @factory.post_generation
+    def discarded_by(self, create, extracted, **kwargs):
+        if extracted:
+            for user in extracted:
+                self.discarded_by.add(user)
+
