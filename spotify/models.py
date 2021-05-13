@@ -37,6 +37,19 @@ class Album(models.Model):
 
 class AlbumNotification(models.Model):
     album = models.ForeignKey(Album, on_delete=models.CASCADE, verbose_name='Альбом')
+    received_by = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='received_album_notifications',
+        verbose_name='Получатели'
+    )
+    discarded_by = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='discarded_album_notifications',
+        verbose_name='Отказавшиеся от уведомления'
+    )
+
     created_datetime = models.DateTimeField(auto_now_add=True)
 
     class Meta:

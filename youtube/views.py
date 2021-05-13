@@ -22,14 +22,9 @@ class VideoNotificationViewSet(mixins.ListModelMixin, GenericViewSet):
     """
     serializer_class = VideoNotificationSerializer
 
-    # TODO: Переделать под VideoNotification
     def get_queryset(self) -> QuerySet[VideoNotification]:
         user = self.request.user
-        subscribed_channels = user.channel_subscriptions.all().values('channel')
-        queryset = VideoNotification.objects.filter(
-            video__channel__in=subscribed_channels,
-            created_datetime__gte=user.channel_subscriptions.filter(
-                channel=OuterRef('video__channel')
-            ).values('datetime_committed')
-        )
+
+        queryset = VideoNotification.objects.filter(received_by=user).exclude(discarded_by=user)
+
         return queryset

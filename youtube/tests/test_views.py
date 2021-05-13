@@ -27,19 +27,31 @@ class ChannelViewSetTest(APITestCase):
 
 class NewVideosViewSetTest(APITestCase):
     def setUp(self) -> None:
-        self.user = UserFactory()
+        self.user1 = UserFactory()
+        self.user2 = UserFactory()
+        self.channel = ChannelFactory()
+        self.video = VideoFactory(channel=self.channel)
 
-    def test_get_new_videos(self):
-        channel = ChannelFactory()
-        ChannelSubscriptionFactory(channel=channel, subscriber=self.user)
-        video = VideoFactory(channel=channel)
-        VideoNotificationFactory(video=video)
+    def test_get_video_notifications(self):
+        video = VideoNotificationFactory(
+            video=self.video,
+            received_by=[self.user1, self.user2],
+            discarded_by=[self.user2]
+        )
+        print(video.received_by.all())
+        print(video.discarded_by.all())
 
-        self.client.force_login(self.user)
         url = reverse('youtube:video-notifications-list')
-        response = self.client.get(url)
-        print(response)
-        print(response.data)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['count'], 1)
+        self.client.force_login(self.user1)
+        response1 = self.client.get(url)
+
+        self.client.force_login(self.user2)
+        response2 = self.client.get(url)
+        print(response1.data)
+        print(response2.data)
+
+        self.assertEqual(response1.status_code, 200)
+        self.assertEqual(response1.data['count'], 1)
+        self.assertEqual(response2.status_code, 200)
+        self.assertEqual(response2.data['count'], 0)

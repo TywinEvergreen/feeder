@@ -40,4 +40,7 @@ def get_new_videos():
             cover_file = ContentFile(requests.get(cover_url).content)
             new_video.cover.save(f'{newest["publishedAt"]}_{new_video.name}_cover.jpg', cover_file)
 
-            VideoNotification.objects.create(video=new_video)
+            subscribers = channel.subscriptions.values_list('subscriber', flat=True)
+            if subscribers:
+                notification = VideoNotification.objects.create(video=instance)
+                notification.to.set(subscribers)

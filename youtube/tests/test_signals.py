@@ -16,5 +16,6 @@ class SignalTest(TestCase):
     @signal_decorator('youtube.signals.create_video_notifications')
     def test_notification_is_created_after_video_creation(self):
         VideoFactory(channel=self.channel)
-        self.assertTrue(VideoNotification.objects.exists())
-        self.assertEqual(VideoNotification.objects.count(), 1)
+        notifications = VideoNotification.objects.filter(to=self.user)
+
+        self.assertEqual(notifications.count(), 1)
