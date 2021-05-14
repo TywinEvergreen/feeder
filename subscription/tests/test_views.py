@@ -43,6 +43,7 @@ class ChannelSubscriptionViewSetTest(APITestCase):
         response = self.client.post(url, {
             'channel': self.channel.pk
         })
+
         self.assertEqual(response.status_code, 201)
 
     def test_delete_artist_subscription(self):

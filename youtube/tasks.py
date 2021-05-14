@@ -6,8 +6,7 @@ from dateutil.parser import parse
 
 from feeder.settings import YOUTUBE
 from feeder.celery import app
-from subscription.models import ChannelSubscription
-from youtube.models import Channel, Video, VideoNotification
+from youtube.models import Channel, Video
 
 
 @app.task
@@ -39,8 +38,3 @@ def get_new_videos():
             cover_url = newest['thumbnails']['medium']['url']
             cover_file = ContentFile(requests.get(cover_url).content)
             new_video.cover.save(f'{newest["publishedAt"]}_{new_video.name}_cover.jpg', cover_file)
-
-            subscribers = channel.subscriptions.values_list('subscriber', flat=True)
-            if subscribers:
-                notification = VideoNotification.objects.create(video=instance)
-                notification.to.set(subscribers)

@@ -1,7 +1,7 @@
 import factory
 from django.utils import timezone
 
-from spotify.models import Artist, Album
+from spotify.models import Artist, Album, AlbumNotification
 
 
 class ArtistFactory(factory.django.DjangoModelFactory):
@@ -29,3 +29,24 @@ class AlbumFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Album
+
+
+class AlbumNotificationFactory(factory.django.DjangoModelFactory):
+    album = factory.SubFactory(AlbumFactory)
+
+    class Meta:
+        model = AlbumNotification
+
+    @factory.post_generation
+    def received_by(self, create, extracted, **kwargs):
+        if extracted:
+            for user in extracted:
+                self.received_by.add(user)
+
+    @factory.post_generation
+    def discarded_by(self, create, extracted, **kwargs):
+        if extracted:
+            for user in extracted:
+                self.discarded_by.add(user)
+
+

@@ -11,4 +11,4 @@ def create_video_notifications(sender, instance, created, **kwargs):
         subscribers = ChannelSubscription.objects.filter(channel=instance.channel).values_list('subscriber', flat=True)
         if subscribers:
             notification = VideoNotification.objects.create(video=instance)
-            notification.to.set(subscribers)
+            notification.received_by.set(subscribers)

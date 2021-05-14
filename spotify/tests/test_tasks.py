@@ -1,27 +1,19 @@
 from django.test import TestCase
-from dateutil.parser import parse
-import pytz
 
-from spotify.models import AlbumNotification
+from subscription.tests.factories import ArtistSubscriptionFactory
+from user.tests.factories import UserFactory
 from spotify.tests.factories import ArtistFactory
 from spotify.tasks import get_new_albums
 
 
-class SpotifyTasksTest(TestCase):
-    def setUp(self) -> None:
+class TestTasks(TestCase):
+    def setUp(self):
         self.artist = ArtistFactory(spotify_id='3o2dn2O0FCVsWDFSh8qxgG')
+        self.subscriber = UserFactory()
+        ArtistSubscriptionFactory(artist=self.artist, subscriber=self.subscriber)
 
-    def test_get_new_albums(self):
-        self.artist.album.release_datetime = pytz.utc.localize(parse('1/1/1500'))
-        self.artist.album.save()
-
+    def test_get_new_videos(self):
         get_new_albums()
         self.artist.refresh_from_db()
 
-        self.assertTrue(
-            AlbumNotification.objects.filter(album=self.artist.album).exists()
-        )
-        self.assertNotEqual(
-            self.artist.album.release_datetime,
-            pytz.utc.localize(parse('1/1/1500'))
-        )
+        self.assertTrue(hasattr(self.artist, 'album'))

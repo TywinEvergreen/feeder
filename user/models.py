@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUserManager(BaseUserManager):
     """
-    Кастомный менеджер юзера. Нужен для замены username поля на email
+    Used to make email a login field
     """
     def create_user(self, email, password, **extra_fields):
         if not email:

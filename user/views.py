@@ -7,7 +7,7 @@ from user.models import User
 
 class UserRetrieveUpdateAPIView(generics.RetrieveAPIView, generics.UpdateAPIView):
     """
-    Получает одного пользователя или обновляет его
+    Retrieves current user or updates them
     """
     serializer_class = UserSerializer
 
