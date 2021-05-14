@@ -42,10 +42,3 @@ def get_new_albums():
                 cover_url = newest['images'][0]['url']
                 cover_file = ContentFile(requests.get(cover_url).content)
                 new_album.cover.save(f'{newest["release_date"]}_{new_album.name}_cover.jpg', cover_file)
-
-                subscribers = artist.subscriptions.values_list('subscriber', flat=True)
-                video_notification = AlbumNotification.objects.create(
-                    album=new_album,
-                    release_date=new_album.release_datetime
-                )
-                video_notification.subscribers.set(subscribers)

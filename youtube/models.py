@@ -44,3 +44,4 @@ class VideoNotification(models.Model):
 
     class Meta:
         verbose_name_plural = 'Оповещения о видео'
+        ordering = ["-created_datetime"]
