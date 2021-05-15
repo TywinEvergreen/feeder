@@ -54,3 +54,4 @@ class AlbumNotification(models.Model):
 
     class Meta:
         verbose_name_plural = 'Оповещения об альбомах'
+        ordering = ["-created_datetime"]

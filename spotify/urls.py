@@ -10,7 +10,7 @@ app_name = 'spotify'
 router = routers.DefaultRouter()
 
 router.register('artist', ArtistViewSet, basename='artist')
-router.register('new-albums', NewAlbumsViewSet, basename='new-albums')
+router.register('album-notifications', NewAlbumsViewSet, basename='album-notifications')
 
 urlpatterns = [
     url('', include(router.urls))
