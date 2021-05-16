@@ -1,12 +1,9 @@
 from rest_framework import serializers
 
-from .models import Artist, Album
+from spotify.models import Artist, Album, AlbumNotification
 
 
 class ArtistSerializer(serializers.ModelSerializer):
-    """
-    Сериализует исполнителей
-    """
     spotify_id = serializers.CharField()
     name = serializers.CharField(required=False)
 
@@ -25,11 +22,16 @@ class ArtistSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    """
-    Сериализует альбомы
-    """
     artist = ArtistSerializer()
 
     class Meta:
         model = Album
+        fields = '__all__'
+
+
+class AlbumNotificationSerializer(serializers.ModelSerializer):
+    album = AlbumSerializer()
+
+    class Meta:
+        model = AlbumNotification
         fields = '__all__'

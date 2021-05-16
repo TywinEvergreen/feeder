@@ -1,9 +1,9 @@
-backend/.env
-backend/media
+.env
+media
+ci/db/
+
 .todo
 .idea
-
-a_todo.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -119,4 +119,3 @@ media/
 *.db
 *.pid
 
-ci/db/

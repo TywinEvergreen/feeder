@@ -1,13 +1,9 @@
 from rest_framework import serializers
 
-from user.models import User
 from youtube.models import Channel, Video, VideoNotification
 
 
 class ChannelSerializer(serializers.ModelSerializer):
-    """
-    Сериализует каналы
-    """
     youtube_id = serializers.CharField()
     name = serializers.CharField(required=False)
 

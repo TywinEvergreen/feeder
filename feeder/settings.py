@@ -70,6 +70,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'feeder.urls'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -175,7 +177,6 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 # Testing
-
 TESTING = 'test' in sys.argv
 
 if TESTING:

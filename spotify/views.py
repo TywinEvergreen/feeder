@@ -1,10 +1,9 @@
-from django.db.models import OuterRef
 from django.db.models.query import QuerySet
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
-from spotify.serializers import ArtistSerializer, AlbumSerializer
-from spotify.models import Album, Artist
+from spotify.serializers import ArtistSerializer, AlbumNotificationSerializer
+from spotify.models import Artist, AlbumNotification
 
 
 class ArtistViewSet(mixins.CreateModelMixin, GenericViewSet):
@@ -17,21 +16,14 @@ class ArtistViewSet(mixins.CreateModelMixin, GenericViewSet):
 
 class NewAlbumsViewSet(mixins.ListModelMixin, GenericViewSet):
     """
-    Возвращает список альбомов, на исполнителей которых подписан
-    пользователь и которые вышли после подписки на исполнителя
+    Возвращает оповещения о новых альбомах
     """
-    serializer_class = AlbumSerializer
+    serializer_class = AlbumNotificationSerializer
 
-    def get_queryset(self) -> QuerySet[Album]:
+    def get_queryset(self) -> QuerySet[AlbumNotification]:
         user = self.request.user
-        queryset = Album.objects.filter(
-            artist__in=user.artist_subscriptions.all().values('artist'),
-            # Результаты могут быть неточными, т.к.
-            # сравниваются DateField и DateTimeField
-            release_datetime__gte=user.artist_subscriptions.filter(
-                artist=OuterRef('artist')
-            ).values('datetime_committed')
-        )
+        queryset = AlbumNotification.objects.filter(received_by=user).exclude(discarded_by=user)
+
         return queryset
 
 

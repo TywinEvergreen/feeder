@@ -3,24 +3,24 @@ from rest_framework.test import APITestCase
 
 from user.tests.factories import UserFactory
 from spotify.tests.factories import ArtistFactory, AlbumFactory, AlbumNotificationFactory
-from youtube.models import Channel
+from spotify.models import Artist
 
 
-class ChannelViewSetTest(APITestCase):
+class ArtistViewSetTest(APITestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
 
     def test_create_channel(self):
         self.client.force_login(user=self.user)
-        url = reverse('youtube:channel-list')
+        url = reverse('spotify:artist-list')
         response = self.client.post(url, {
-            'youtube_id': '123',
+            'spotify_id': '123',
             'name': 'test',
         })
 
         self.assertEqual(response.status_code, 201)
         self.assertTrue(
-            Channel.objects.filter(youtube_id='123', name='test').exists()
+            Artist.objects.filter(spotify_id='123', name='test').exists()
         )
 
 
@@ -28,17 +28,17 @@ class NewVideosViewSetTest(APITestCase):
     def setUp(self) -> None:
         self.user1 = UserFactory()
         self.user2 = UserFactory()
-        self.channel = ChannelFactory()
-        self.video = VideoFactory(channel=self.channel)
+        self.artist = ArtistFactory()
+        self.album = AlbumFactory(artist=self.artist)
 
     def test_get_video_notifications(self):
-        VideoNotificationFactory(
-            video=self.video,
+        AlbumNotificationFactory(
+            album=self.album,
             received_by=[self.user1, self.user2],
             discarded_by=[self.user2]
         )
 
-        url = reverse('youtube:video-notifications-list')
+        url = reverse('spotify:album-notifications-list')
 
         self.client.force_login(self.user1)
         response1 = self.client.get(url)

@@ -1,6 +1,4 @@
-# frontend
-
-## Build Setup
+# Feeder frontend
 
 ```bash
 # install dependencies

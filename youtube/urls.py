@@ -10,7 +10,7 @@ app_name = 'youtube'
 router = routers.DefaultRouter()
 
 router.register('channel', ChannelViewSet, basename='channel')
-router.register('new-videos', VideoNotificationViewSet, basename='video-notifications')
+router.register('video-notifications', VideoNotificationViewSet, basename='video-notifications')
 
 urlpatterns = [
     url('', include(router.urls))
