@@ -1,4 +1,5 @@
 django==3.2.4
+django-redis==5.0.0
 celery==5.1.1
 python-dotenv==0.17.1
 google-api-python-client==2.9.0

@@ -161,6 +161,14 @@ DJOSER = {
     }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv('CACHE_REDIS_URL', 'redis://redis:6379/1'),
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
+}
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
