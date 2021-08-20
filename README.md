@@ -3,7 +3,7 @@
 
 Feeder project
 ================
-**Feeder** is a tool that helps you to track the latest releases from different resources by aggregating such contents as albums from *Spotify* and videos from *Youtube* into one single feed.
+**Feeder** is a tool that helps you track the latest releases from different resources by aggregating such contents as albums from *Spotify* and videos from *Youtube* into one single feed.
 
 
 ## *Then how does it work?*
