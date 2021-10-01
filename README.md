@@ -9,5 +9,5 @@ Feeder project
 ## *Then how does it work?*
 Everything is as simple as possible! All you have to do is:
 1. Register a new Feeder account
-2. Link Spotify/Google to your Feeder account or manually add desired channels/artists you'd like to get notifications about
+2. Link Spotify/Google to your Feeder account or manually add channels/artists you'd like to get notifications about
 3. Start receiving notifications
