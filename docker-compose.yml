@@ -1,0 +1,59 @@
+version: "3.7"
+
+networks:
+  backend:
+
+volumes:
+  postgres:
+  redis:
+
+services:
+  postgres:
+    image: postgres:12
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    env_file: .env
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis:/main/data
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  celery:
+    build: ./
+    command: celery -A feeder.celery worker -B -l info
+    volumes:
+      - redis:/celery/data
+    networks:
+      - backend
+    links:
+      - redis
+    depends_on:
+      - postgres
+      - redis
+    env_file: .env
+
+  app:
+    build: ./
+    command: bash -c "python manage.py migrate && uvicorn feeder.asgi:application --workers 2 --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - ./:/app
+      - /tmp/backend:/tmp
+    ports:
+      - "8000:8000"
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - redis
+      - celery
+    env_file: .env
