@@ -1,51 +1,74 @@
-# $ sudo docker-compose build
-# $ sudo docker-compose up
-# $ sudo docker-compose run web <command>
-
-version: "3.3"
-
-services:
-  db:
-    image: postgres:12
-    hostname: db
-    environment:
-        POSTGRES_DB: feeder_local_db
-        POSTGRES_PASSWORD: example
-    volumes:
-      - ./ci/db:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    restart: always
-    networks:
-      - feeder_local
-
-  redis:
-    image: redis:alpine
-    ports:
-      - 6379:6379
-    networks:
-      - feeder_local
-
-  celery:
-    build: .
-    command: celery -A feeder.celery worker -B -l info
-    volumes:
-      - .:/code
-    env_file:
-      - ./.env
-    links:
-      - redis
-    depends_on:
-      - db
-      - redis
-    networks:
-      - feeder_local
+version: "3.7"
 
 networks:
-    feeder_local:
-      external: true
+  backend:
+    driver: bridge
+
+volumes:
+  postgres:
+
+services:
+  postgres:
+    image: 'postgres:12'
+    volumes:
+      - postgres:/var/lib/postgresql/data:cached
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata/
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=hq_user
+      - POSTGRES_PASSWORD=hq_pwd
+      - POSTGRES_DB=hq_db
+
+  redis:
+    image: redis:6.0.6-alpine
+    command: redis-server
+    ports:
+      - 6379
+    networks:
+      - backend
+
+  app:
+    build: ./
+    volumes:
+      - ./:/app
+      - /tmp/hq-backend:/tmp
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - redis
+    command: bash -c "python manage.py migrate && python manage.py runserver"
+    ports:
+      - 8000:8000
+    env_file: .env
+
+  celery-queues:
+    build: ./
+    volumes:
+      - ./:/app
+      - /tmp/hq-backend:/tmp
+    networks:
+      - backend
+    depends_on:
+      - app
+      - postgres
+      - redis
+    command: bash -c "python manage.py migrate && celery -A common worker -l info"
+    env_file: .env
+
+  celery-beat:
+    build: ./
+    volumes:
+      - ./:/app
+      - /tmp/hq-backend:/tmp
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - redis
+    command: bash -c "celery -A common beat -l info"
+    env_file: .env

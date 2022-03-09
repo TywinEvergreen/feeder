@@ -20,14 +20,14 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'get-new-albums': {
         'task': 'spotify.tasks.get_new_albums',
-        'schedule': timezone.timedelta(seconds=30) # Поставить 12 часов
+        'schedule': timezone.timedelta(seconds=30)  # TODO: Поставить 12 часов
     },
     'get-new-videos': {
         'task': 'youtube.tasks.get_new_videos',
-        'schedule': timezone.timedelta(seconds=30) # Поставить 1 час
+        'schedule': timezone.timedelta(seconds=30)  # TODO: Поставить 1 час
     },
     'cleanup-unused-media': {
         'task': 'utils.tasks.cleanup_unused_media',
-        'schedule': timezone.timedelta(seconds=30)  # Поставить 1 час
+        'schedule': timezone.timedelta(seconds=30)  # TODO: Поставить 1 час
     }
 }
