@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
@@ -6,7 +6,7 @@ WORKDIR /app
 RUN apt-get -y update && apt-get install -y libzbar-dev
 
 RUN python -m pip install --upgrade pip
-RUN pip install --no-cache-dir backports.weakref poetry==1.1.11
+RUN pip install --no-cache-dir poetry==1.1.11
 
 COPY ./poetry.lock /app/poetry.lock
 COPY ./pyproject.toml /app/pyproject.toml

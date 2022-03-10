@@ -2,19 +2,16 @@ from pathlib import Path
 import os
 import sys
 
-from dotenv import load_dotenv
+from decouple import config
 from googleapiclient.discovery import build
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy
-
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 SECRET_KEY = 'dshdsfhTGgy6y520t6-$@sddwinEvdsfhdsgGGG^s-sDJK6fherg7Yt'
 
-DEBUG = os.getenv('DEBUG') == "True"
+DEBUG = config('DEBUG') == "True"
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -23,15 +20,15 @@ AUTH_USER_MODEL = 'user.User'
 # Spotify settings
 SPOTIFY = spotipy.Spotify(
     auth_manager=SpotifyClientCredentials(
-        client_id=os.getenv('SPOTIFY_CLIENT_ID'),
-        client_secret=os.getenv('SPOTIFY_CLIENT_SECRET')
+        client_id=config('SPOTIFY_CLIENT_ID'),
+        client_secret=config('SPOTIFY_CLIENT_SECRET')
     )
 )
 
 # Youtube settings
 YOUTUBE = build(
     'youtube', 'v3',
-    developerKey=os.getenv('YOUTUBE_API_KEY')
+    developerKey=config('YOUTUBE_API_KEY')
 )
 
 INSTALLED_APPS = [
@@ -91,9 +88,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'feeder.wsgi.application'
 
 DATABASES = {
-    'default': {
-        os.getenv('DATABASE_URL')
-    }
+    "default": dict(
+        config('DATABASE_URL'),
+        TEST={"SERIALIZE": False, "NAME": "test_hq_db"},
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -159,7 +157,7 @@ DJOSER = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv('CACHE_REDIS_URL'),
+        "LOCATION": config('CACHE_REDIS_URL'),
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     }
 }

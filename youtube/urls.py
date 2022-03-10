@@ -1,5 +1,3 @@
-from django.conf.urls import url
-from django.urls import include
 from rest_framework import routers
 
 from youtube.views import ChannelViewSet, VideoNotificationViewSet
@@ -12,6 +10,4 @@ router = routers.DefaultRouter()
 router.register('channel', ChannelViewSet, basename='channel')
 router.register('video-notifications', VideoNotificationViewSet, basename='video-notifications')
 
-urlpatterns = [
-    url('', include(router.urls))
-]
+urlpatterns = router.urls
