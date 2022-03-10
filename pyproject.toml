@@ -10,7 +10,6 @@ python = "^3.9"
 Django = "^4.0.3"
 django-redis = "^5.2.0"
 celery = "^5.2.3"
-python-dotenv = "^0.19.2"
 google-api-python-client = "^2.39.0"
 spotipy = "^2.19.0"
 djangorestframework = "^3.13.1"
@@ -21,6 +20,7 @@ psycopg2-binary = "^2.9.3"
 djangorestframework-jsonapi = "^5.0.0"
 Pillow = "^9.0.1"
 factory-boy = "^3.2.1"
+python-decouple = "^3.6"
 
 [tool.poetry.dev-dependencies]
 
