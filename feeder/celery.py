@@ -20,6 +20,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'get-new-albums': {
         'task': 'spotify.tasks.get_new_albums',
+<<<<<<< HEAD
         'schedule': timezone.timedelta(seconds=30)  # TODO: Поставить 12 часов
     },
     'get-new-videos': {
@@ -29,5 +30,16 @@ app.conf.beat_schedule = {
     'cleanup-unused-media': {
         'task': 'utils.tasks.cleanup_unused_media',
         'schedule': timezone.timedelta(seconds=30)  # TODO: Поставить 1 час
+=======
+        'schedule': timezone.timedelta(hours=1)
+    },
+    'get-new-videos': {
+        'task': 'youtube.tasks.get_new_videos',
+        'schedule': timezone.timedelta(hours=1)
+    },
+    'cleanup-unused-media': {
+        'task': 'utils.tasks.cleanup_unused_media',
+        'schedule': timezone.timedelta(hours=6)
+>>>>>>> 7f3a02d06ac6fb30f6465bf0cdc13b7ea96cf8ae
     }
 }

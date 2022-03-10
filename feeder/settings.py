@@ -92,12 +92,7 @@ WSGI_APPLICATION = 'feeder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME', 'feeder_local_db'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'example'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        os.getenv('DATABASE_URL')
     }
 }
 
@@ -164,7 +159,7 @@ DJOSER = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": os.getenv('CACHE_REDIS_URL', 'redis://redis:6379/1'),
+        "LOCATION": os.getenv('CACHE_REDIS_URL'),
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
     }
 }
