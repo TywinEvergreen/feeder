@@ -25,5 +25,3 @@ class NewAlbumsViewSet(mixins.ListModelMixin, GenericViewSet):
         queryset = AlbumNotification.objects.filter(received_by=user).exclude(discarded_by=user)
 
         return queryset
-
-

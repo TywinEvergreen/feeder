@@ -43,4 +43,3 @@ class VideoNotificationFactory(factory.django.DjangoModelFactory):
         if extracted:
             for user in extracted:
                 self.discarded_by.add(user)
-
