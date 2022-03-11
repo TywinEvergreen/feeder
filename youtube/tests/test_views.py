@@ -2,7 +2,11 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 
 from user.tests.factories import UserFactory
-from youtube.tests.factories import ChannelFactory, VideoFactory, VideoNotificationFactory
+from youtube.tests.factories import (
+    ChannelFactory,
+    VideoFactory,
+    VideoNotificationFactory,
+)
 from youtube.models import Channel
 
 
@@ -12,16 +16,17 @@ class ChannelViewSetTest(APITestCase):
 
     def test_create_channel(self):
         self.client.force_login(user=self.user)
-        url = reverse('youtube:channel-list')
-        response = self.client.post(url, {
-            'youtube_id': '123',
-            'name': 'test',
-        })
+        url = reverse("youtube:channel-list")
+        response = self.client.post(
+            url,
+            {
+                "youtube_id": "123",
+                "name": "test",
+            },
+        )
 
         self.assertEqual(response.status_code, 201)
-        self.assertTrue(
-            Channel.objects.filter(youtube_id='123', name='test').exists()
-        )
+        self.assertTrue(Channel.objects.filter(youtube_id="123", name="test").exists())
 
 
 class NewVideosViewSetTest(APITestCase):
@@ -35,10 +40,10 @@ class NewVideosViewSetTest(APITestCase):
         VideoNotificationFactory(
             video=self.video,
             received_by=[self.user1, self.user2],
-            discarded_by=[self.user2]
+            discarded_by=[self.user2],
         )
 
-        url = reverse('youtube:video-notifications-list')
+        url = reverse("youtube:video-notifications-list")
 
         self.client.force_login(self.user1)
         response1 = self.client.get(url)
@@ -47,6 +52,6 @@ class NewVideosViewSetTest(APITestCase):
         response2 = self.client.get(url)
 
         self.assertEqual(response1.status_code, 200)
-        self.assertEqual(response1.data['count'], 1)
+        self.assertEqual(response1.data["count"], 1)
         self.assertEqual(response2.status_code, 200)
-        self.assertEqual(response2.data['count'], 0)
+        self.assertEqual(response2.data["count"], 0)

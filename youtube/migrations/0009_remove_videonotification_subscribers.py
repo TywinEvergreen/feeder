@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0008_auto_20210511_1901'),
+        ("youtube", "0008_auto_20210511_1901"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='videonotification',
-            name='subscribers',
+            model_name="videonotification",
+            name="subscribers",
         ),
     ]

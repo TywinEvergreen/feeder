@@ -9,20 +9,40 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('youtube', '0001_initial'),
+        ("youtube", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='VideoNotification',
+            name="VideoNotification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('release_date', models.DateField(verbose_name='Дата релиза')),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='Пользователи')),
-                ('video', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='youtube.video', verbose_name='Видео')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("release_date", models.DateField(verbose_name="Дата релиза")),
+                (
+                    "users",
+                    models.ManyToManyField(
+                        to=settings.AUTH_USER_MODEL, verbose_name="Пользователи"
+                    ),
+                ),
+                (
+                    "video",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="youtube.video",
+                        verbose_name="Видео",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Оповещения о видео',
+                "verbose_name_plural": "Оповещения о видео",
             },
         ),
     ]

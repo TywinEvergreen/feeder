@@ -10,6 +10,7 @@ class ChannelViewSet(mixins.CreateModelMixin, GenericViewSet):
     """
     Создаёт канал
     """
+
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
 
@@ -18,10 +19,13 @@ class VideoNotificationViewSet(mixins.ListModelMixin, GenericViewSet):
     """
     Возвращает оповещения о новых видео
     """
+
     serializer_class = VideoNotificationSerializer
 
     def get_queryset(self) -> QuerySet[VideoNotification]:
         user = self.request.user
-        queryset = VideoNotification.objects.filter(received_by=user).exclude(discarded_by=user)
+        queryset = VideoNotification.objects.filter(received_by=user).exclude(
+            discarded_by=user
+        )
 
         return queryset

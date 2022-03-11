@@ -7,14 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('spotify', '0004_albumnotification'),
-        ('subscription', '0005_auto_20210505_2021'),
+        ("spotify", "0004_albumnotification"),
+        ("subscription", "0005_auto_20210505_2021"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='artistsubscription',
-            name='artist',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subscriptions', to='spotify.artist'),
+            model_name="artistsubscription",
+            name="artist",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="subscriptions",
+                to="spotify.artist",
+            ),
         ),
     ]

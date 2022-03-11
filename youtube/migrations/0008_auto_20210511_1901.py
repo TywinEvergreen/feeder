@@ -8,13 +8,15 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('youtube', '0007_remove_videonotification_release_datetime'),
+        ("youtube", "0007_remove_videonotification_release_datetime"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='videonotification',
-            name='subscribers',
-            field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, verbose_name='Подписчики'),
+            model_name="videonotification",
+            name="subscribers",
+            field=models.ManyToManyField(
+                blank=True, to=settings.AUTH_USER_MODEL, verbose_name="Подписчики"
+            ),
         ),
     ]

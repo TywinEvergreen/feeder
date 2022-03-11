@@ -17,14 +17,10 @@ class AlbumFactory(factory.django.DjangoModelFactory):
     spotify_id = factory.Faker("word")
     artist = factory.SubFactory(ArtistFactory)
 
-    type = factory.Faker(
-        "random_element", elements=[x[0] for x in Album.TYPE_CHOICES]
-    )
+    type = factory.Faker("random_element", elements=[x[0] for x in Album.TYPE_CHOICES])
 
     release_datetime = factory.Faker(
-        "date_time_this_decade",
-        tzinfo=timezone.get_current_timezone(),
-        after_now=True
+        "date_time_this_decade", tzinfo=timezone.get_current_timezone(), after_now=True
     )
 
     class Meta:

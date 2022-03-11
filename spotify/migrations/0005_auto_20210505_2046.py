@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('spotify', '0004_albumnotification'),
+        ("spotify", "0004_albumnotification"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='albumnotification',
-            old_name='users',
-            new_name='subscribers',
+            model_name="albumnotification",
+            old_name="users",
+            new_name="subscribers",
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0003_auto_20210505_2032'),
+        ("youtube", "0003_auto_20210505_2032"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='videonotification',
-            old_name='release_date',
-            new_name='release_datetime',
+            model_name="videonotification",
+            old_name="release_date",
+            new_name="release_datetime",
         ),
     ]

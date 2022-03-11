@@ -9,6 +9,7 @@ class UserRetrieveUpdateAPIView(generics.RetrieveAPIView, generics.UpdateAPIView
     """
     Retrieves current user or updates them
     """
+
     serializer_class = UserSerializer
 
     def get_object(self) -> QuerySet[User]:

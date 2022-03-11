@@ -10,6 +10,7 @@ class ArtistViewSet(mixins.CreateModelMixin, GenericViewSet):
     """
     Создаёт исполнителя
     """
+
     queryset = Artist.objects.all()
     serializer_class = ArtistSerializer
 
@@ -18,10 +19,13 @@ class NewAlbumsViewSet(mixins.ListModelMixin, GenericViewSet):
     """
     Возвращает оповещения о новых альбомах
     """
+
     serializer_class = AlbumNotificationSerializer
 
     def get_queryset(self) -> QuerySet[AlbumNotification]:
         user = self.request.user
-        queryset = AlbumNotification.objects.filter(received_by=user).exclude(discarded_by=user)
+        queryset = AlbumNotification.objects.filter(received_by=user).exclude(
+            discarded_by=user
+        )
 
         return queryset

@@ -8,22 +8,32 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('spotify', '0009_albumnotification_to'),
+        ("spotify", "0009_albumnotification_to"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='albumnotification',
-            name='to',
+            model_name="albumnotification",
+            name="to",
         ),
         migrations.AddField(
-            model_name='albumnotification',
-            name='discarded_by',
-            field=models.ManyToManyField(blank=True, related_name='discarded_album_notifications', to=settings.AUTH_USER_MODEL, verbose_name='Отказавшиеся от уведомления'),
+            model_name="albumnotification",
+            name="discarded_by",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="discarded_album_notifications",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Отказавшиеся от уведомления",
+            ),
         ),
         migrations.AddField(
-            model_name='albumnotification',
-            name='received_by',
-            field=models.ManyToManyField(blank=True, related_name='received_album_notifications', to=settings.AUTH_USER_MODEL, verbose_name='Получатели'),
+            model_name="albumnotification",
+            name="received_by",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="received_album_notifications",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Получатели",
+            ),
         ),
     ]

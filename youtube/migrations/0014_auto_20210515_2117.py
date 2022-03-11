@@ -6,12 +6,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0013_auto_20210513_1931'),
+        ("youtube", "0013_auto_20210513_1931"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='videonotification',
-            options={'ordering': ['-created_datetime'], 'verbose_name_plural': 'Оповещения о видео'},
+            name="videonotification",
+            options={
+                "ordering": ["-created_datetime"],
+                "verbose_name_plural": "Оповещения о видео",
+            },
         ),
     ]

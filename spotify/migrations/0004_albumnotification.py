@@ -9,20 +9,40 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('spotify', '0003_auto_20210503_2015'),
+        ("spotify", "0003_auto_20210503_2015"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='AlbumNotification',
+            name="AlbumNotification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('release_date', models.DateField(verbose_name='Дата релиза')),
-                ('album', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='spotify.album', verbose_name='Альбом')),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL, verbose_name='Пользователи')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("release_date", models.DateField(verbose_name="Дата релиза")),
+                (
+                    "album",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="spotify.album",
+                        verbose_name="Альбом",
+                    ),
+                ),
+                (
+                    "users",
+                    models.ManyToManyField(
+                        to=settings.AUTH_USER_MODEL, verbose_name="Пользователи"
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Оповещения об альбомах',
+                "verbose_name_plural": "Оповещения об альбомах",
             },
         ),
     ]

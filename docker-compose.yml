@@ -19,9 +19,9 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata/
       - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_USER=hq_user
-      - POSTGRES_PASSWORD=hq_pwd
-      - POSTGRES_DB=hq_db
+      - POSTGRES_USER=feeder_user
+      - POSTGRES_PASSWORD=feeder_pwd
+      - POSTGRES_DB=feeder_db
 
   redis:
     image: redis:6.0.6-alpine

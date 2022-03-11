@@ -2,7 +2,10 @@ from django.db.models.query import QuerySet
 from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 
-from subscription.serializers import ArtistSubscriptionSerializer, ChannelSubscriptionSerializer
+from subscription.serializers import (
+    ArtistSubscriptionSerializer,
+    ChannelSubscriptionSerializer,
+)
 from subscription.models import ArtistSubscription, ChannelSubscription
 
 
@@ -14,6 +17,7 @@ class ArtistSubscriptionViewSet(
     """
     Создает или удаляет подписку на исполнителя
     """
+
     serializer_class = ArtistSubscriptionSerializer
 
     def get_queryset(self) -> QuerySet[ArtistSubscription]:
@@ -28,6 +32,7 @@ class ChannelSubscriptionViewSet(
     """
     Создает или удаляет подписку на канал
     """
+
     serializer_class = ChannelSubscriptionSerializer
 
     def get_queryset(self) -> QuerySet[ChannelSubscription]:

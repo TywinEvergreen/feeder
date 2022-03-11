@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('spotify', '0002_auto_20210122_1741'),
+        ("spotify", "0002_auto_20210122_1741"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='album',
-            name='type',
-            field=models.CharField(choices=[('album', 'Альбом'), ('single', 'Сингл')], max_length=6),
+            model_name="album",
+            name="type",
+            field=models.CharField(
+                choices=[("album", "Альбом"), ("single", "Сингл")], max_length=6
+            ),
         ),
     ]

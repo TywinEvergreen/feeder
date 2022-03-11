@@ -10,42 +10,34 @@ class DefaultSubscription(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ['-datetime_committed']
+        ordering = ["-datetime_committed"]
 
 
 class ArtistSubscription(DefaultSubscription):
     artist = models.ForeignKey(
-        Artist,
-        on_delete=models.CASCADE,
-        related_name='subscriptions'
+        Artist, on_delete=models.CASCADE, related_name="subscriptions"
     )
     subscriber = models.ForeignKey(
-        AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='artist_subscriptions'
+        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="artist_subscriptions"
     )
 
     def __str__(self):
-        return f'Subscription from {self.subscriber} to {self.artist}'
+        return f"Subscription from {self.subscriber} to {self.artist}"
 
     class Meta:
-        unique_together = ('artist', 'subscriber')
+        unique_together = ("artist", "subscriber")
 
 
 class ChannelSubscription(DefaultSubscription):
     channel = models.ForeignKey(
-        Channel,
-        on_delete=models.CASCADE,
-        related_name='subscriptions'
+        Channel, on_delete=models.CASCADE, related_name="subscriptions"
     )
     subscriber = models.ForeignKey(
-        AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='channel_subscriptions'
+        AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="channel_subscriptions"
     )
 
     def __str__(self):
-        return f'Subscription from {self.subscriber} to {self.channel}'
+        return f"Subscription from {self.subscriber} to {self.channel}"
 
     class Meta:
-        unique_together = ('channel', 'subscriber')
+        unique_together = ("channel", "subscriber")

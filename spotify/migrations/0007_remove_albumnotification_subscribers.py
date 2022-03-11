@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('spotify', '0006_remove_albumnotification_release_date'),
+        ("spotify", "0006_remove_albumnotification_release_date"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='albumnotification',
-            name='subscribers',
+            model_name="albumnotification",
+            name="subscribers",
         ),
     ]

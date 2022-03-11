@@ -8,30 +8,54 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Channel',
+            name="Channel",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256)),
-                ('youtube_id', models.CharField(max_length=256, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=256)),
+                ("youtube_id", models.CharField(max_length=256, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Video',
+            name="Video",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256)),
-                ('youtube_id', models.CharField(max_length=256, unique=True)),
-                ('cover', models.ImageField(blank=True, null=True, upload_to='video_covers')),
-                ('release_datetime', models.DateTimeField()),
-                ('channel', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='youtube.channel')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=256)),
+                ("youtube_id", models.CharField(max_length=256, unique=True)),
+                (
+                    "cover",
+                    models.ImageField(blank=True, null=True, upload_to="video_covers"),
+                ),
+                ("release_datetime", models.DateTimeField()),
+                (
+                    "channel",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="youtube.channel",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-release_datetime'],
+                "ordering": ["-release_datetime"],
             },
         ),
     ]

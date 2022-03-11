@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0009_remove_videonotification_subscribers'),
+        ("youtube", "0009_remove_videonotification_subscribers"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='videonotification',
-            name='created_datetime',
+            model_name="videonotification",
+            name="created_datetime",
             field=models.DateTimeField(auto_now=True),
         ),
     ]

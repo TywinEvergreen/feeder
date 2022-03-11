@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0005_auto_20210509_2017'),
+        ("youtube", "0005_auto_20210509_2017"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='video',
-            name='release_datetime',
+            model_name="video",
+            name="release_datetime",
             field=models.DateTimeField(),
         ),
     ]

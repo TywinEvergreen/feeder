@@ -7,9 +7,10 @@ class CustomUserManager(BaseUserManager):
     """
     Used to make email a login field
     """
+
     def create_user(self, email, password, **extra_fields):
         if not email:
-            raise ValueError('Введите email')
+            raise ValueError("Введите email")
         email = self.normalize_email(email)
         user = self.model(email=email, password=password, **extra_fields)
         user.set_password(password)
@@ -17,14 +18,14 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Суперпользователь должен иметь is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Суперпользователь должен иметь is_superuser=True.')
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Суперпользователь должен иметь is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Суперпользователь должен иметь is_superuser=True.")
         return self.create_user(email, password, **extra_fields)
 
 
@@ -34,14 +35,14 @@ class User(AbstractUser):
     last_name = None
     email = models.EmailField(unique=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
 
     def __str__(self):
-        return f'{self.email}, #{self.id}'
+        return f"{self.email}, #{self.id}"
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"

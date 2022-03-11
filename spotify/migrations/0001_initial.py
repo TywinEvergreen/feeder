@@ -8,31 +8,59 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Artist',
+            name="Artist",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256)),
-                ('spotify_id', models.CharField(max_length=256, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=256)),
+                ("spotify_id", models.CharField(max_length=256, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Album',
+            name="Album",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=256)),
-                ('spotify_id', models.CharField(max_length=256, unique=True)),
-                ('cover', models.ImageField(blank=True, null=True, upload_to='album_covers')),
-                ('type', models.CharField(choices=[('album', 'album'), ('single', 'single')], max_length=6)),
-                ('release_date', models.DateField()),
-                ('artist', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='spotify.artist')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=256)),
+                ("spotify_id", models.CharField(max_length=256, unique=True)),
+                (
+                    "cover",
+                    models.ImageField(blank=True, null=True, upload_to="album_covers"),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[("album", "album"), ("single", "single")], max_length=6
+                    ),
+                ),
+                ("release_date", models.DateField()),
+                (
+                    "artist",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to="spotify.artist"
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-release_date'],
+                "ordering": ["-release_date"],
             },
         ),
     ]

@@ -6,12 +6,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('spotify', '0010_auto_20210513_1931'),
+        ("spotify", "0010_auto_20210513_1931"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='albumnotification',
-            options={'ordering': ['-created_datetime'], 'verbose_name_plural': 'Оповещения об альбомах'},
+            name="albumnotification",
+            options={
+                "ordering": ["-created_datetime"],
+                "verbose_name_plural": "Оповещения об альбомах",
+            },
         ),
     ]

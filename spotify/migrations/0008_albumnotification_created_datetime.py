@@ -7,14 +7,16 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('spotify', '0007_remove_albumnotification_subscribers'),
+        ("spotify", "0007_remove_albumnotification_subscribers"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='albumnotification',
-            name='created_datetime',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="albumnotification",
+            name="created_datetime",
+            field=models.DateTimeField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
     ]

@@ -7,14 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0002_videonotification'),
-        ('subscription', '0004_auto_20210505_2021'),
+        ("youtube", "0002_videonotification"),
+        ("subscription", "0004_auto_20210505_2021"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='channelsubscription',
-            name='channel',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='subscriptions', to='youtube.channel'),
+            model_name="channelsubscription",
+            name="channel",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="subscriptions",
+                to="youtube.channel",
+            ),
         ),
     ]

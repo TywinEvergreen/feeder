@@ -7,27 +7,27 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('youtube', '0001_initial'),
-        ('spotify', '0002_auto_20210122_1741'),
+        ("youtube", "0001_initial"),
+        ("spotify", "0002_auto_20210122_1741"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('subscription', '0002_auto_20210121_1745'),
+        ("subscription", "0002_auto_20210121_1745"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='artistsubscription',
+            name="artistsubscription",
             options={},
         ),
         migrations.AlterModelOptions(
-            name='channelsubscription',
+            name="channelsubscription",
             options={},
         ),
         migrations.AlterUniqueTogether(
-            name='artistsubscription',
-            unique_together={('artist', 'subscriber')},
+            name="artistsubscription",
+            unique_together={("artist", "subscriber")},
         ),
         migrations.AlterUniqueTogether(
-            name='channelsubscription',
-            unique_together={('channel', 'subscriber')},
+            name="channelsubscription",
+            unique_together={("channel", "subscriber")},
         ),
     ]

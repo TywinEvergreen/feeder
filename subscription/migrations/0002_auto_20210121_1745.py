@@ -11,24 +11,34 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('spotify', '0001_initial'),
-        ('subscription', '0001_initial'),
+        ("spotify", "0001_initial"),
+        ("subscription", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='channelsubscription',
-            name='subscriber',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='channel_subscriptions', to=settings.AUTH_USER_MODEL),
+            model_name="channelsubscription",
+            name="subscriber",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="channel_subscriptions",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='artistsubscription',
-            name='artist',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='spotify.artist'),
+            model_name="artistsubscription",
+            name="artist",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="spotify.artist"
+            ),
         ),
         migrations.AddField(
-            model_name='artistsubscription',
-            name='subscriber',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='artist_subscriptions', to=settings.AUTH_USER_MODEL),
+            model_name="artistsubscription",
+            name="subscriber",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="artist_subscriptions",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

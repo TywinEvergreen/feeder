@@ -10,19 +10,22 @@ class ArtistSubscriptionSerializer(serializers.ModelSerializer):
     """
     Сериализует подписки на исполнителей
     """
+
     subscriber = serializers.StringRelatedField()
 
     class Meta:
         model = ArtistSubscription
-        fields = '__all__'
+        fields = "__all__"
 
     def create(self, validated_data) -> ArtistSubscription:
-        user = self.context.get('request').user
-        subscription, _ = ArtistSubscription.objects.get_or_create(**validated_data, subscriber=user)
+        user = self.context.get("request").user
+        subscription, _ = ArtistSubscription.objects.get_or_create(
+            **validated_data, subscriber=user
+        )
         return subscription
 
     def to_representation(self, instance):
-        self.fields['artist'] = ArtistSerializer()
+        self.fields["artist"] = ArtistSerializer()
         return super().to_representation(instance)
 
 
@@ -30,17 +33,21 @@ class ChannelSubscriptionSerializer(serializers.ModelSerializer):
     """
     Сериализует подписки на каналы
     """
+
     subscriber = serializers.StringRelatedField()
 
     class Meta:
         model = ChannelSubscription
-        fields = '__all__'
-#
+        fields = "__all__"
+
+    #
     def create(self, validated_data) -> ChannelSubscription:
-        user = self.context.get('request').user
-        subscription, _ = ChannelSubscription.objects.get_or_create(**validated_data, subscriber=user)
+        user = self.context.get("request").user
+        subscription, _ = ChannelSubscription.objects.get_or_create(
+            **validated_data, subscriber=user
+        )
         return subscription
 
     def to_representation(self, instance):
-        self.fields['channel'] = ChannelSerializer()
+        self.fields["channel"] = ChannelSerializer()
         return super().to_representation(instance)
