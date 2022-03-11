@@ -1,14 +1,7 @@
 from django.db import models
 
 from user.models import User
-
-
-class Artist(models.Model):
-    name = models.CharField(max_length=256)
-    spotify_id = models.CharField(max_length=256, unique=True)
-
-    def __str__(self):
-        return f"Artist, {self.name}, #{self.pk}"
+from spotify.models import Artist
 
 
 class Album(models.Model):

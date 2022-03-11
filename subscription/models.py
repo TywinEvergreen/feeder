@@ -22,10 +22,12 @@ class ArtistSubscription(DefaultSubscription):
     )
 
     def __str__(self):
-        return f"Subscription from {self.subscriber} to {self.artist}"
+        return f"Subscription of user #{self.subscriber.id} to artist #{self.artist.id}"
 
     class Meta:
-        unique_together = ("artist", "subscriber")
+        verbose_name = "Artist subscription"
+        verbose_name_plural = "Artist subscriptions"
+        unique_together = ["artist", "subscriber"]
 
 
 class ChannelSubscription(DefaultSubscription):
@@ -37,7 +39,9 @@ class ChannelSubscription(DefaultSubscription):
     )
 
     def __str__(self):
-        return f"Subscription from {self.subscriber} to {self.channel}"
+        return f"Subscription of user #{self.subscriber.id} to channel #{self.channel.id}"
 
     class Meta:
-        unique_together = ("channel", "subscriber")
+        verbose_name = "Channel subscription"
+        verbose_name_plural = "Channel subscription"
+        unique_together = ["channel", "subscriber"]
