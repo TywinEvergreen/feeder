@@ -1,0 +1,2 @@
+from subscription.admin.artist import ArtistSubscriptionAdmin
+from subscription.admin.channel import ChannelSubscriptionAdmin

@@ -1,0 +1,2 @@
+from subscription.views.artist import ArtistSubscriptionViewSet
+from subscription.views.channel import ChannelSubscriptionViewSet

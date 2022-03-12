@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from spotify.models import Album, AlbumNotification
-from spotify.serializers import ArtistSerializer
+from spotify.serializers.artist import ArtistSerializer
 
 
 class AlbumSerializer(serializers.ModelSerializer):
