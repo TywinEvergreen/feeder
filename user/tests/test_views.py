@@ -10,10 +10,8 @@ class TestUser(APITestCase):
 
     def test_user_update(self):
         self.client.force_login(self.user)
-        url = reverse('user:detail')
-        response = self.client.patch(url, {
-            'email': 'test@gmail.com'
-        })
+        url = reverse("user:detail")
+        response = self.client.patch(url, {"email": "test@gmail.com"})
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['email'], 'test@gmail.com')
+        self.assertEqual(response.data["email"], "test@gmail.com")

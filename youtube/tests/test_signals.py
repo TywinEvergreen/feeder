@@ -11,11 +11,12 @@ class SignalTest(TestCase):
     def setUp(self) -> None:
         self.user = UserFactory()
         self.channel = ChannelFactory()
-        self.subscription = ChannelSubscriptionFactory(channel=self.channel, subscriber=self.user)
+        self.subscription = ChannelSubscriptionFactory(
+            channel=self.channel, subscriber=self.user
+        )
 
-    @signal_decorator('youtube.signals.create_video_notifications')
+    @signal_decorator("youtube.signals.create_video_notifications")
     def test_notification_is_created_after_video_creation(self):
         VideoFactory(channel=self.channel)
         notifications = VideoNotification.objects.filter(received_by=self.user)
-
         self.assertEqual(notifications.count(), 1)

@@ -7,14 +7,17 @@ def signal_decorator(path):
     """
     Imports signal by given path into the function
     """
+
     def inner(func):
         def wrapper(*args, **kwargs):
             signal = import_string(path)
 
             # Proceed only if imported signal takes all parameters needed
-            signal_parameters = ['sender', 'instance', 'created', 'kwargs']
+            signal_parameters = ["sender", "instance", "created", "kwargs"]
 
-            if all(arg in inspect.signature(signal).parameters for arg in signal_parameters):
+            if all(
+                arg in inspect.signature(signal).parameters for arg in signal_parameters
+            ):
                 func(*args, **kwargs)
             else:
                 raise RuntimeError(
@@ -26,4 +29,5 @@ def signal_decorator(path):
                 )
 
         return wrapper
+
     return inner

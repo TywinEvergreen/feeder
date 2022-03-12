@@ -8,4 +8,4 @@ def cleanup_unused_media():
     """
     Очищает неисползуемые файлы
     """
-    management.call_command('cleanup_unused_media', '--noinput')
+    management.call_command("cleanup_unused_media", "--noinput")
