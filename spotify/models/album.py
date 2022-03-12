@@ -1,7 +1,7 @@
 from django.db import models
 
 from user.models import User
-from spotify.models import Artist
+from spotify.models.artist import Artist
 
 
 class Album(models.Model):
