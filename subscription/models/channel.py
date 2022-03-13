@@ -14,7 +14,9 @@ class ChannelSubscription(DefaultSubscription):
     )
 
     def __str__(self):
-        return f"Subscription of user #{self.subscriber.id} to channel #{self.channel.id}"
+        return (
+            f"Subscription of user #{self.subscriber.id} to channel #{self.channel.id}"
+        )
 
     class Meta:
         verbose_name = "Channel subscription"
