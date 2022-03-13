@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from spotify.models import Album, AlbumNotification
 
+
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
     list_display = ["name", "spotify_id", "artist", "release_datetime"]

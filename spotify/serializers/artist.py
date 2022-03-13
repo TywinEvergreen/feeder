@@ -17,4 +17,3 @@ class ArtistSerializer(serializers.ModelSerializer):
             defaults={"name": validated_data.get("name")},
         )
         return artist
-

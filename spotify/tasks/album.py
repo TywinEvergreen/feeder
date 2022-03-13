@@ -31,13 +31,13 @@ def get_new_albums():
             newest = min(
                 releases,
                 key=lambda x: datetime.datetime.now().date()
-                              - parse(x["release_date"]).date(),
+                - parse(x["release_date"]).date(),
             )
 
             if (
-                    not hasattr(artist, "album")
-                    or artist.album.release_datetime.date()
-                    < parse(newest["release_date"]).date()
+                not hasattr(artist, "album")
+                or artist.album.release_datetime.date()
+                < parse(newest["release_date"]).date()
             ):
                 if hasattr(artist, "album"):
                     artist.album.delete()

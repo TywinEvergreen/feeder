@@ -18,17 +18,6 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 AUTH_USER_MODEL = "user.User"
 
-# Spotify settings
-SPOTIFY = spotipy.Spotify(
-    auth_manager=SpotifyClientCredentials(
-        client_id=config("SPOTIFY_CLIENT_ID"),
-        client_secret=config("SPOTIFY_CLIENT_SECRET"),
-    )
-)
-
-# Youtube settings
-YOUTUBE = build("youtube", "v3", developerKey=config("YOUTUBE_API_KEY"))
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -120,6 +109,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.MultiPartParser",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
@@ -160,6 +150,22 @@ CELERY_RESULT_BACKEND = "redis://redis:6379/0"
 
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
+
+# Spotify settings
+SPOTIFY_CLIENT_ID = config("SPOTIFY_CLIENT_ID")
+SPOTIFY_CLIENT_SECRET = config("SPOTIFY_CLIENT_SECRET")
+SPOTIFY_REDIRECT_URI = config("SPOTIFY_REDIRECT_URI")
+
+SPOTIFY = spotipy.Spotify(
+    auth_manager=SpotifyClientCredentials(
+        client_id=SPOTIFY_CLIENT_ID,
+        client_secret=SPOTIFY_CLIENT_SECRET,
+    )
+)
+
+# Youtube settings
+YOUTUBE_API_KEY = config("YOUTUBE_API_KEY")
+YOUTUBE = build("youtube", "v3", developerKey=YOUTUBE_API_KEY)
 
 # Testing
 TESTING = "test" in sys.argv

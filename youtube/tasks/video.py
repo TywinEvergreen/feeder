@@ -17,14 +17,14 @@ def get_new_videos():
     for channel in Channel.objects.all():
         newest = (
             YOUTUBE.search()
-                .list(
+            .list(
                 channelId=channel.youtube_id, maxResults=1, part="snippet", order="date"
             )
-                .execute()["items"][0]["snippet"]
+            .execute()["items"][0]["snippet"]
         )
 
         if not hasattr(channel, "video") or channel.video.release_datetime < parse(
-                newest["publishedAt"]
+            newest["publishedAt"]
         ):
 
             if hasattr(channel, "video"):
